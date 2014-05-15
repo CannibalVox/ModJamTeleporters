@@ -70,9 +70,9 @@ public class BlockTeleporterPad extends Block {
 
         int index = 0;
         if (doesConnect(world, x, y, z, positiveX))
-            index |= 1;
-        if (doesConnect(world, x, y, z, negativeX))
             index |= 2;
+        if (doesConnect(world, x, y, z, negativeX))
+            index |= 1;
 
         return index;
     }
@@ -138,8 +138,75 @@ public class BlockTeleporterPad extends Block {
 
     private int getIndexFromEightWayCtmCode(int connectionCode) {
         switch(connectionCode) {
-            case 0:
-                return 0;
+            case 0x46:
+                return 13;
+            case 0xCE:
+                return 14;
+            case 0x8A:
+                return 15;
+            case 0x1F:
+                return 8;
+            case 0x4F:
+                return 9;
+            case 0xAF:
+                return 10;
+            case 0x3F:
+                return 11;
+            case 0x2F:
+                return 20;
+            case 0x8F:
+                return 21;
+            case 0xCF:
+                return 22;
+            case 0x5F:
+                return 23;
+            case 0x37:
+                return 25;
+//            case 0xDF:
+//                return 26;
+            case 0xAB:
+                return 27;
+            case 0x47:
+                return 28;
+            case 0x8E:
+                return 29;
+            case 0x17:
+                return 30;
+            case 0x4E:
+                return 31;
+            case 0xBF:
+                return 32;
+            case 0x7F:
+                return 33;
+            case 0x9F:
+                return 34;
+            case 0x6F:
+                return 35;
+            case 0x15:
+                return 37;
+            case 0x3D:
+                return 38;
+            case 0x29:
+                return 39;
+            case 0x1D:
+                return 40;
+            case 0x2B:
+                return 41;
+            case 0x2D:
+                return 42;
+            case 0x8B:
+                return 43;
+            case 0xEF:
+                return 44;
+            case 0xDF:
+                return 45;
+            case 0xFF:
+                return 47;
+        }
+
+        connectionCode &= 0xF;
+
+        switch(connectionCode) {
             case 4:
                 return 1;
             case 12:
@@ -150,92 +217,28 @@ public class BlockTeleporterPad extends Block {
                 return 4;
             case 10:
                 return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
-            case 10:
-                return 5;
+            case 7:
+                return 6;
+            case 14:
+                return 7;
+            case 2:
+                return 12;
+            case 5:
+                return 16;
+            case 9:
+                return 17;
+            case 0xD:
+                return 18;
+            case 0xB:
+                return 19;
+            case 3:
+                return 24;
+            case 1:
+                return 36;
+            case 15:
+                return 46;
+            default:
+                return 0;
         }
     }
 }
