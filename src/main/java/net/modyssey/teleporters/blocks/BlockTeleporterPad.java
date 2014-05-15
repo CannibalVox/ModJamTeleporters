@@ -97,17 +97,18 @@ public class BlockTeleporterPad extends Block {
         //West
         if (doesConnect(world, x, y, z, negativeX))
             connectionCode |= 8;
+
         //Northeast
-        if (doesConnect(world, x, y, z, negativeY, positiveX))
+        if ((connectionCode & 5) == 5 && doesConnect(world, x, y, z, negativeY, positiveX))
             connectionCode |= 0x10;
         //Northwest
-        if (doesConnect(world, x, y, z, negativeY, negativeX))
+        if ((connectionCode & 9) == 9 && doesConnect(world, x, y, z, negativeY, negativeX))
             connectionCode |= 0x20;
         //Southeast
-        if (doesConnect(world, x, y, z, positiveY, positiveX))
+        if ((connectionCode & 6) == 6 && doesConnect(world, x, y, z, positiveY, positiveX))
             connectionCode |= 0x40;
         //Southwest
-        if (doesConnect(world, x, y, z, positiveY, negativeX))
+        if ((connectionCode & 10) == 10 && doesConnect(world, x, y, z, positiveY, negativeX))
             connectionCode |= 0x80;
 
         return getIndexFromEightWayCtmCode(connectionCode);
@@ -138,12 +139,22 @@ public class BlockTeleporterPad extends Block {
 
     private int getIndexFromEightWayCtmCode(int connectionCode) {
         switch(connectionCode) {
-            case 0x46:
-                return 13;
-            case 0xCE:
-                return 14;
-            case 0x8A:
-                return 15;
+            case 0:
+                return 0;
+            case 4:
+                return 1;
+            case 12:
+                return 2;
+            case 8:
+                return 3;
+            case 6:
+                return 4;
+            case 10:
+                return 5;
+            case 7:
+                return 6;
+            case 14:
+                return 7;
             case 0x1F:
                 return 8;
             case 0x4F:
@@ -152,6 +163,22 @@ public class BlockTeleporterPad extends Block {
                 return 10;
             case 0x3F:
                 return 11;
+            case 2:
+                return 12;
+            case 0x46:
+                return 13;
+            case 0xCE:
+                return 14;
+            case 0x8A:
+                return 15;
+            case 5:
+                return 16;
+            case 9:
+                return 17;
+            case 0xD:
+                return 18;
+            case 0xB:
+                return 19;
             case 0x2F:
                 return 20;
             case 0x8F:
@@ -160,7 +187,9 @@ public class BlockTeleporterPad extends Block {
                 return 22;
             case 0x5F:
                 return 23;
-            case 0x37:
+            case 3:
+                return 24;
+            case 0x57:
                 return 25;
 //            case 0xDF:
 //                return 26;
@@ -182,6 +211,8 @@ public class BlockTeleporterPad extends Block {
                 return 34;
             case 0x6F:
                 return 35;
+            case 1:
+                return 36;
             case 0x15:
                 return 37;
             case 0x3D:
@@ -200,43 +231,10 @@ public class BlockTeleporterPad extends Block {
                 return 44;
             case 0xDF:
                 return 45;
-            case 0xFF:
-                return 47;
-        }
-
-        connectionCode &= 0xF;
-
-        switch(connectionCode) {
-            case 4:
-                return 1;
-            case 12:
-                return 2;
-            case 8:
-                return 3;
-            case 6:
-                return 4;
-            case 10:
-                return 5;
-            case 7:
-                return 6;
-            case 14:
-                return 7;
-            case 2:
-                return 12;
-            case 5:
-                return 16;
-            case 9:
-                return 17;
-            case 0xD:
-                return 18;
-            case 0xB:
-                return 19;
-            case 3:
-                return 24;
-            case 1:
-                return 36;
             case 15:
                 return 46;
+            case 0xFF:
+                return 47;
             default:
                 return 0;
         }
