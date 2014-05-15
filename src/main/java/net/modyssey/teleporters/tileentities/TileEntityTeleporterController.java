@@ -14,7 +14,6 @@ public class TileEntityTeleporterController extends TileEntity {
 
     private ArrayList<PadLocation> padLocations = new ArrayList<PadLocation>();
 
-    @Override
     public boolean canInteractWith(EntityPlayer player) {
         if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
         {

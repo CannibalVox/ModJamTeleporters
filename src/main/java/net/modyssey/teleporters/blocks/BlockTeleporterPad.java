@@ -31,6 +31,7 @@ public class BlockTeleporterPad extends Block {
 
         for (int i = 0; i < 48; i++) {
             topIconsActive[i] = registry.registerIcon("modysseyteleporters:teleporter_pad_top/"+Integer.toString(i));
+            topIconsInactive[i] = registry.registerIcon("modysseyteleporters:teleporter_pad_top_off/"+Integer.toString(i));
         }
     }
 
@@ -42,8 +43,13 @@ public class BlockTeleporterPad extends Block {
         if (dir == ForgeDirection.DOWN)
             return bottomIcon;
 
-        if (dir == ForgeDirection.UP)
-            return topIconsActive[calcEightWayCtm(world, x, y, z, dir)];
+        if (dir == ForgeDirection.UP) {
+            int topIconIndex = calcEightWayCtm(world, x, y, z, dir);
+            if (world.getBlockMetadata(x, y, z) == 0)
+                return topIconsInactive[topIconIndex];
+            else
+                return topIconsActive[topIconIndex];
+        }
 
         int sideIndex = calcHorizontalCtm(world, x, y, z, dir);
         return sideIcons[sideIndex];
