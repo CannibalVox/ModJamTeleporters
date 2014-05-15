@@ -3,6 +3,7 @@ package net.modyssey.teleporters;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -27,6 +28,11 @@ public class ModysseyTeleporters {
 
     public static Item teleportCircuit;
 
+    public static int TeleportControllerRenderId;
+
+    @SidedProxy(clientSide = "net.modyssey.teleporters.client.ClientProxy", serverSide = "net.modyssey.teleporters.CommonProxy")
+    public static CommonProxy proxy;
+
     @Mod.Instance
     public static ModysseyTeleporters instance;
 
@@ -45,6 +51,9 @@ public class ModysseyTeleporters {
 
         //Register items
         GameRegistry.registerItem(teleportCircuit, "circuit");
+
+        //Register renderer ID's
+        proxy.registerRendererIds();
     }
 
     @Mod.EventHandler
@@ -56,7 +65,9 @@ public class ModysseyTeleporters {
         GameRegistry.registerTileEntity(TileEntityTeleporterController.class, "TileEntityTeleporterController");
 
         //Register tile entity renderers
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTeleporterController.class, new RenderTeleporterController("modysseyteleporters:models/Station.tcn", "modysseyteleporters:textures/models/Station.png"));
+        proxy.registerBlockRenderers();
+
+        proxy.registerTileEntityRenderers();
 
         //Register recipes
         GameRegistry.addRecipe(new ShapedOreRecipe(teleportCircuit, "XOX","PPP", 'X', "dustGlowstone", 'O', "gemDiamond", 'P', "plankWood" ));
