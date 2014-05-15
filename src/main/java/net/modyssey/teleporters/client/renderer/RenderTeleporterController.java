@@ -3,6 +3,7 @@ package net.modyssey.teleporters.client.renderer;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -27,10 +28,15 @@ public class RenderTeleporterController extends TileEntitySpecialRenderer implem
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float angle) {
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture( controllerTex );
-        controllerModel.renderAll();
         GL11.glRotatef(angle, 0, 1.0f, 0);
-
+        GL11.glScaled(0.0625, 0.0625, 0.0625);
+        GL11.glMatrixMode(GL11.GL_TEXTURE);
+        GL11.glPushMatrix();
+        GL11.glScaled(0.0625, 0.0625, 0.0625);
+        Minecraft.getMinecraft().renderEngine.bindTexture(controllerTex);
+        controllerModel.renderAll();
+        GL11.glPopMatrix();
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glPopMatrix();
     }
 
@@ -39,10 +45,15 @@ public class RenderTeleporterController extends TileEntitySpecialRenderer implem
         GL11.glPushMatrix();
         //GL11.glTranslated(x, y, z);
         GL11.glScaled(0.25, 0.25, 0.25);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture( controllerTex );
+        GL11.glMatrixMode(GL11.GL_TEXTURE);
+        GL11.glPushMatrix();
+        GL11.glScalef(4, 4, 4);
+        Minecraft.getMinecraft().renderEngine.bindTexture(controllerTex);
         controllerModel.renderAll();
         //GL11.glRotatef(angle, 0, 1.0f, 0);
 
+        GL11.glPopMatrix();
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glPopMatrix();
     }
 
