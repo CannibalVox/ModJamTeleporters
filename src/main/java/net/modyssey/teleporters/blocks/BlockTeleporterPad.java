@@ -5,16 +5,73 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.modyssey.teleporters.ModysseyTeleporters;
+import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 
 public class BlockTeleporterPad extends Block {
     public BlockTeleporterPad() {
         super(Material.anvil);
     }
 
-    
+    protected void searchForStation(World world, int x, int y, int z) {
+        ForgeDirection dir = ForgeDirection.EAST;
+
+        for (int i = 0; i < 4; i++) {
+            TileEntityTeleporterController controller = checkRegisterStationRecurse(world, x, y, z, dir);
+
+            if (controller != null) {
+                controller.registerPad(x, y, z);
+                world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 2);
+                return;
+            }
+
+            dir = dir.getRotation(ForgeDirection.UP);
+        }
+
+
+    }
+
+    private TileEntityTeleporterController checkRegisterStationRecurse(World world, int x, int y, int z, ForgeDirection dir) {
+        int outX = x + dir.offsetX;
+        int outY = y + dir.offsetY;
+        int outZ = z + dir.offsetZ;
+
+        if (world.checkChunksExist(outX, outY, outZ, outX, outY, outZ)) {
+            Block block = world.getBlock(outX, outY, outZ);
+
+            if (block == ModysseyTeleporters.teleporterController) {
+                return (TileEntityTeleporterController)world.getTileEntity(outX, outY, outZ);
+            } else if (block == ModysseyTeleporters.teleporterPad) {
+                int metadata = world.getBlockMetadata(outX, outY, outZ);
+
+                if (metadata == 0)
+                    return null;
+
+                ForgeDirection newDir = ForgeDirection.VALID_DIRECTIONS[metadata];
+                return checkRegisterStationRecurse(world, outX, outY, outZ, newDir);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
+    {
+        return metadata;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item) {
+        searchForStation(world, x, y, z);
+    }
 
     //VISUAL ASPECTS
     private IIcon bottomIcon;
