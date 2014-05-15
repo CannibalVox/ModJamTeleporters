@@ -14,6 +14,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.modyssey.teleporters.ModysseyTeleporters;
+import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
 
 public class BlockTeleporterPad extends BlockContainer {
@@ -35,10 +37,58 @@ public class BlockTeleporterPad extends BlockContainer {
 
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor) {
-        TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
-        pad.deregister();
+        deregister(world, x, y, z);
 
         searchForStation(world, x, y, z);
+    }
+
+    @Override
+    public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {
+        super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
+
+    }
+
+    protected void deregister(World world, int x, int y, int z) {
+        TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
+        pad.deregister();
+    }
+
+    protected void searchForStation(World world, int x, int y, int z) {
+        ForgeDirection dir = ForgeDirection.EAST;
+
+        for (int i = 0; i < 4; i++) {
+            Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+
+            if (block == ModysseyTeleporters.teleporterController) {
+                registerStation(world, dir, x, y, z);
+                return;
+            } else if (block == this) {
+                int metadata = world.getBlockMetadata(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+
+                if (metadata != 0 && metadata != ForgeDirection.OPPOSITES[dir.ordinal()]) {
+                    registerPad(world, dir, x, y, z);
+                    return;
+                }
+            }
+
+            dir = dir.getRotation(ForgeDirection.UP);
+        }
+
+        world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+    }
+
+    private void registerStation(World world, ForgeDirection dir, int x, int y, int z) {
+        TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
+
+        pad.registerStation(x+dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+        world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+    }
+
+    private void registerPad(World world, ForgeDirection dir, int x, int y, int z) {
+        TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
+
+        pad.registerSameAs(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+        world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
     }
 
     @Override
