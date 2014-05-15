@@ -33,6 +33,19 @@ public class TileEntityTeleporterController extends TileEntity {
         padLocations.add(location);
     }
 
+    public void deregisterAllPads() {
+        while (padLocations.size() > 0) {
+            PadLocation padLocation = padLocations.get(0);
+
+            TileEntity pad = getWorldObj().getTileEntity(padLocation.x, padLocation.y, padLocation.z);
+
+            if (pad != null && pad instanceof  TileEntityTeleporterPad) {
+                ((TileEntityTeleporterPad)pad).deregister();
+                getWorldObj().setBlockMetadataWithNotify(padLocation.x, padLocation.y, padLocation.z, 0, 3);
+            }
+        }
+    }
+
     public void deregisterPad(int x, int y, int z) {
         for (int i = padLocations.size() - 1; i >= 0; i--) {
             PadLocation loc = padLocations.get(i);

@@ -23,6 +23,14 @@ public class BlockTeleporterController extends BlockContainer {
     }
 
     @Override
+    public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
+        super.onBlockPreDestroy(world, x, y, z, meta);
+
+        TileEntityTeleporterController controller = (TileEntityTeleporterController)world.getTileEntity(x, y, z);
+        controller.deregisterAllPads();
+    }
+
+    @Override
     public TileEntity createNewTileEntity(World var1, int var2) {
         return new TileEntityTeleporterController();
     }

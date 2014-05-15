@@ -55,12 +55,16 @@ public class BlockTeleporterPad extends BlockContainer {
         ForgeDirection dir = ForgeDirection.EAST;
 
         for (int i = 0; i < 4; i++) {
-            Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+            Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ);
 
             if (block == ModysseyTeleporters.teleporterController) {
                 if (registerStation(world, dir, x, y, z))
                     return;
-            } else if (block == this) {
+            }
+
+            block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+
+            if (block == this) {
                 int metadata = world.getBlockMetadata(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
                 if (metadata != 0 && metadata != ForgeDirection.OPPOSITES[dir.ordinal()]) {
@@ -78,7 +82,7 @@ public class BlockTeleporterPad extends BlockContainer {
     private boolean registerStation(World world, ForgeDirection dir, int x, int y, int z) {
         TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
 
-        if (pad.registerStation(x+dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
+        if (pad.registerStation(x+dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ)) {
             world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
             return true;
         }
