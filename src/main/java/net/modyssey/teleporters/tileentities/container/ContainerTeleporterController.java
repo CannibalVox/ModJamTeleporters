@@ -14,6 +14,6 @@ public class ContainerTeleporterController extends Container {
 
     @Override
     public boolean canInteractWith(EntityPlayer var1) {
-        return false;
+        return controller.canInteractWith(var1);
     }
 }
