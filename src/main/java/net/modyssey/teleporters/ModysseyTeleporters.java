@@ -5,6 +5,9 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.modyssey.teleporters.blocks.BlockTeleporterBeacon;
 import net.modyssey.teleporters.blocks.BlockTeleporterController;
 import net.modyssey.teleporters.blocks.BlockTeleporterPad;
@@ -17,21 +20,33 @@ public class ModysseyTeleporters {
     public static Block teleporterController;
     public static Block teleporterBeacon;
 
+    public static Item teleportCircuit;
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         //Init blocks
         teleporterPad = new BlockTeleporterPad().setBlockName("modysseyteleporter.pad").setStepSound(Block.soundTypeMetal);
         teleporterController = new BlockTeleporterController().setBlockName("modysseyteleporter.controller").setStepSound(Block.soundTypeMetal);
         teleporterBeacon = new BlockTeleporterBeacon().setBlockName("modysseyteleporter.beacon").setStepSound(Block.soundTypeMetal);
+
+        //Init items
+        teleportCircuit = new Item().setUnlocalizedName("modysseyteleporter.circuit");
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         //Register blocks
-        GameRegistry.registerBlock(teleporterPad, "modysseyteleporters:pad");
-        GameRegistry.registerBlock(teleporterController, "modysseyteleporters:controller");
-        GameRegistry.registerBlock(teleporterBeacon, "modysseyteleporters:beacon");
+        GameRegistry.registerBlock(teleporterPad, "pad");
+        GameRegistry.registerBlock(teleporterController, "controller");
+        GameRegistry.registerBlock(teleporterBeacon, "beacon");
+
+        //Register items
+        GameRegistry.registerItem(teleportCircuit, "circuit");
 
         //Register recipes
+        GameRegistry.addRecipe(new ShapedOreRecipe(teleportCircuit, "XOX","PPP", 'X', "dustGlowstone", 'O', "gemDiamond", 'P', "plankWood" ));
+        GameRegistry.addRecipe(new ShapedOreRecipe(teleporterController, "XXX", "XOX", "XXX", 'X', "gemDiamond", 'O', teleportCircuit));
+        GameRegistry.addRecipe(new ShapedOreRecipe(teleporterPad, "XXX", "XOX", "XXX", 'X', Items.iron_ingot, 'O', teleportCircuit));
+        GameRegistry.addRecipe(new ShapedOreRecipe(teleporterBeacon, "XXX", "XOX", "XXX", 'X', Items.gold_ingot, 'O', teleportCircuit));
     }
 }
