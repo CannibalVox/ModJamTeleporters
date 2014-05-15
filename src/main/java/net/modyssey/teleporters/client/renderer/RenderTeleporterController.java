@@ -1,5 +1,6 @@
 package net.modyssey.teleporters.client.renderer;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -14,19 +15,19 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderTeleporterController extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler {
 
-    private String controllerTex;
+    private ResourceLocation controllerTex;
     private IModelCustom controllerModel;
 
     public RenderTeleporterController(String controllerModel, String controllerTex) {
-        this.controllerTex = controllerTex;
+        this.controllerTex = new ResourceLocation(controllerTex);
         this.controllerModel = AdvancedModelLoader.loadModel(new ResourceLocation(controllerModel));
     }
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float angle) {
         GL11.glPushMatrix();
-        bindTexture(new ResourceLocation(controllerTex));
         GL11.glTranslated(x, y, z);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture( controllerTex );
         controllerModel.renderAll();
         GL11.glRotatef(angle, 0, 1.0f, 0);
 
@@ -36,8 +37,9 @@ public class RenderTeleporterController extends TileEntitySpecialRenderer implem
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
-        bindTexture(new ResourceLocation(controllerTex));
         //GL11.glTranslated(x, y, z);
+        GL11.glScaled(0.25, 0.25, 0.25);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture( controllerTex );
         controllerModel.renderAll();
         //GL11.glRotatef(angle, 0, 1.0f, 0);
 
