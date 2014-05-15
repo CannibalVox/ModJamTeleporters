@@ -43,9 +43,9 @@ public class BlockTeleporterPad extends BlockContainer {
     }
 
     @Override
-    public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {
-        super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
-
+    public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
+        super.onBlockPreDestroy(world, x, y, z, meta);
+        deregister(world, x, y, z);
     }
 
     protected void deregister(World world, int x, int y, int z) {
@@ -60,14 +60,14 @@ public class BlockTeleporterPad extends BlockContainer {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
             if (block == ModysseyTeleporters.teleporterController) {
-                registerStation(world, dir, x, y, z);
-                return;
+                if (registerStation(world, dir, x, y, z))
+                    return;
             } else if (block == this) {
                 int metadata = world.getBlockMetadata(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
                 if (metadata != 0 && metadata != ForgeDirection.OPPOSITES[dir.ordinal()]) {
-                    registerPad(world, dir, x, y, z);
-                    return;
+                    if (registerPad(world, dir, x, y, z))
+                        return;
                 }
             }
 
@@ -77,18 +77,26 @@ public class BlockTeleporterPad extends BlockContainer {
         world.setBlockMetadataWithNotify(x, y, z, 0, 3);
     }
 
-    private void registerStation(World world, ForgeDirection dir, int x, int y, int z) {
+    private boolean registerStation(World world, ForgeDirection dir, int x, int y, int z) {
         TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
 
-        pad.registerStation(x+dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-        world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+        if (pad.registerStation(x+dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
+            world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+            return true;
+        }
+
+        return false;
     }
 
-    private void registerPad(World world, ForgeDirection dir, int x, int y, int z) {
+    private boolean registerPad(World world, ForgeDirection dir, int x, int y, int z) {
         TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
 
-        pad.registerSameAs(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-        world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+        if (pad.registerSameAs(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
+            world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
