@@ -4,6 +4,7 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.modyssey.teleporters.blocks.BlockTeleporterController;
+import net.modyssey.teleporters.client.gui.GuiTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 

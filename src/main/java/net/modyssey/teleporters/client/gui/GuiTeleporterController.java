@@ -4,10 +4,10 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 
-public class GuiTeleporterContainer extends GuiContainer {
+public class GuiTeleporterController extends GuiContainer {
     private TileEntityTeleporterController controller;
 
-    public GuiTeleporterContainer(TileEntityTeleporterController controller) {
+    public GuiTeleporterController(TileEntityTeleporterController controller) {
         super(new ContainerTeleporterController(controller));
 
         this.controller = controller;
