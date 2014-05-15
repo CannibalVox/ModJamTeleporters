@@ -6,11 +6,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
 
 public class BlockTeleporterPad extends BlockContainer {
     public BlockTeleporterPad() {
@@ -18,8 +22,28 @@ public class BlockTeleporterPad extends BlockContainer {
     }
 
     @Override
+    public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
+    {
+        return metadata;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item)
+    {
+        searchForStation(world, x, y, z);
+    }
+
+    @Override
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor) {
+        TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
+        pad.deregister();
+
+        searchForStation(world, x, y, z);
+    }
+
+    @Override
     public TileEntity createNewTileEntity(World var1, int var2) {
-        return null;
+        return new TileEntityTeleporterPad();
     }
 
     //VISUAL ASPECTS

@@ -35,7 +35,15 @@ public class TileEntityTeleporterPad extends TileEntity {
 
         World world = getWorldObj();
 
-        
+        TileEntity station = world.getTileEntity(registeredStationX, registeredStationY, registeredStationZ);
+
+        if (station != null && station instanceof TileEntityTeleporterController)
+            ((TileEntityTeleporterController)station).deregisterPad(xCoord, yCoord, zCoord);
+
+        registeredStationX = 0;
+        registeredStationY = 0;
+        registeredStationZ = 0;
+        isRegistered = false;
     }
 
     public boolean registerSameAs(int x, int y, int z) {
