@@ -1,5 +1,6 @@
 package net.modyssey.teleporters.blocks;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -7,6 +8,9 @@ import net.minecraft.world.World;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterBeacon;
 
 public class BlockTeleporterBeacon extends BlockContainer {
+
+    public static final int GUI_ID = 0;
+
     public BlockTeleporterBeacon() {
         super(Material.anvil);
     }

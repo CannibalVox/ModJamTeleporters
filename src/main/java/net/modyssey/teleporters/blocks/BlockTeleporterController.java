@@ -7,6 +7,9 @@ import net.minecraft.world.World;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 
 public class BlockTeleporterController extends BlockContainer {
+
+    public static final int GUI_ID = 1;
+
     public BlockTeleporterController() {
         super(Material.anvil);
     }
