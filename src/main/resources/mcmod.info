@@ -1,0 +1,16 @@
+[
+{
+  "modid": "modysseyteleporters",
+  "name": "Modyssey Teleporters",
+  "description": "Thing movers for the people!.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authors": ["TheSMP", "CannibalVox"],
+  "credits": "SMP & CanVox, Team Modyssey",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
