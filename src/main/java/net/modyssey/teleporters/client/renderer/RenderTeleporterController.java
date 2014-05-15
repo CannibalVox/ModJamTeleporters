@@ -1,5 +1,6 @@
 package net.modyssey.teleporters.client.renderer;
 
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -18,12 +19,13 @@ public class RenderTeleporterController extends TileEntitySpecialRenderer {
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity var1, double var2, double var4, double var6, float var8) {
+    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float angle) {
         GL11.glPushMatrix();
         bindTexture(new ResourceLocation(controllerTex));
-        GL11.glRotatef(var8, 0, 1.0f, 0);
-        GL11.glTranslated(var2, var4, var6);
+        GL11.glTranslated(x, y, z);
         controllerModel.renderAll();
+        GL11.glRotatef(angle, 0, 1.0f, 0);
+
         GL11.glPopMatrix();
     }
 }
