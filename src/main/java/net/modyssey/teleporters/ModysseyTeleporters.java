@@ -43,7 +43,7 @@ public class ModysseyTeleporters {
         teleporterController = new BlockTeleporterController().setBlockName("modysseyteleporter.controller").setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabAllSearch.tabTransport);
 
         //Init items
-        teleportCircuit = new Item().setUnlocalizedName("modysseyteleporter.circuit").setCreativeTab(CreativeTabs.tabMaterials);
+        teleportCircuit = new Item().setUnlocalizedName("modysseyteleporter.circuit").setTextureName("modysseyteleporters:circuitboard").setCreativeTab(CreativeTabs.tabMaterials);
 
         //Register blocks
         GameRegistry.registerBlock(teleporterPad, "pad");
