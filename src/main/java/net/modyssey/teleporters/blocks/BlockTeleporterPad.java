@@ -69,9 +69,9 @@ public class BlockTeleporterPad extends Block {
         ForgeDirection negativeX = ForgeDirection.VALID_DIRECTIONS[ForgeDirection.OPPOSITES[positiveX.ordinal()]];
 
         int index = 0;
-        if (world.getBlock(x + positiveX.offsetX, y + positiveX.offsetY, z + positiveX.offsetZ) == this)
+        if (doesConnect(world, x, y, z, positiveX))
             index |= 1;
-        if (world.getBlock(x + negativeX.offsetX, y + negativeX.offsetY, z + negativeX.offsetZ) == this)
+        if (doesConnect(world, x, y, z, negativeX))
             index |= 2;
 
         return index;
@@ -82,6 +82,43 @@ public class BlockTeleporterPad extends Block {
         ForgeDirection positiveY = ForgeDirection.VALID_DIRECTIONS[ForgeDirection.OPPOSITES[negativeY.ordinal()]];
         ForgeDirection positiveX = getPositiveXAxis(dir);
         ForgeDirection negativeX = ForgeDirection.VALID_DIRECTIONS[ForgeDirection.OPPOSITES[positiveX.ordinal()]];
+
+        int connectionCode = 0;
+
+        //North check
+        if (doesConnect(world, x, y, z, negativeY))
+            connectionCode |= 1;
+        //South
+        if (doesConnect(world, x, y, z, positiveY))
+            connectionCode |= 2;
+        //East
+        if (doesConnect(world, x, y, z, positiveX))
+            connectionCode |= 4;
+        //West
+        if (doesConnect(world, x, y, z, negativeX))
+            connectionCode |= 8;
+        //Northeast
+        if (doesConnect(world, x, y, z, negativeY, positiveX))
+            connectionCode |= 0x10;
+        //Northwest
+        if (doesConnect(world, x, y, z, negativeY, negativeX))
+            connectionCode |= 0x20;
+        //Southeast
+        if (doesConnect(world, x, y, z, positiveY, positiveX))
+            connectionCode |= 0x40;
+        //Southwest
+        if (doesConnect(world, x, y, z, positiveY, negativeX))
+            connectionCode |= 0x80;
+
+        return getIndexFromEightWayCtmCode(connectionCode);
+    }
+
+    private boolean doesConnect(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
+        return doesConnect(world, x, y, z, dir, ForgeDirection.UNKNOWN);
+    }
+
+    private boolean doesConnect(IBlockAccess world, int x, int y, int z, ForgeDirection dir1, ForgeDirection dir2) {
+        return world.getBlock(x + dir1.offsetX + dir2.offsetX, y + dir1.offsetY + dir2.offsetY, z + dir1.offsetZ + dir2.offsetZ) == this;
     }
 
     private ForgeDirection getNegativeYAxis(ForgeDirection dir) {
@@ -97,5 +134,108 @@ public class BlockTeleporterPad extends Block {
 
     private ForgeDirection getPositiveXAxis(ForgeDirection dir) {
         return getNegativeYAxis(dir).getRotation(dir);
+    }
+
+    private int getIndexFromEightWayCtmCode(int connectionCode) {
+        switch(connectionCode) {
+            case 0:
+                return 0;
+            case 4:
+                return 1;
+            case 12:
+                return 2;
+            case 8:
+                return 3;
+            case 6:
+                return 4;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+            case 10:
+                return 5;
+        }
     }
 }
