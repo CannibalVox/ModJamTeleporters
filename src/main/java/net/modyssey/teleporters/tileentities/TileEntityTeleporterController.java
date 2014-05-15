@@ -1,6 +1,7 @@
 package net.modyssey.teleporters.tileentities;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -42,6 +43,7 @@ public class TileEntityTeleporterController extends TileEntity {
         }
     }
 
+    @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound) {
         super.writeToNBT(nbtTagCompound);
 
@@ -56,5 +58,22 @@ public class TileEntityTeleporterController extends TileEntity {
             locationTags.appendTag(location);
         }
         nbtTagCompound.setTag("locations", locationTags);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbtTagCompound) {
+        super.readFromNBT(nbtTagCompound);
+
+        NBTTagList locations = nbtTagCompound.getTagList("locations", 10);
+
+        for(int i = 0; i < locations.tagCount(); i++) {
+            NBTTagCompound locTag = locations.getCompoundTagAt(i);
+
+            PadLocation location = new PadLocation();
+            location.x = locTag.getInteger("locX");
+            location.y = locTag.getInteger("locY");
+            location.z = locTag.getInteger("locZ");
+            padLocations.add(location);
+        }
     }
 }

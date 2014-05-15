@@ -1,5 +1,6 @@
 package net.modyssey.teleporters.tileentities;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -59,5 +60,21 @@ public class TileEntityTeleporterPad extends TileEntity {
             return false;
 
         return registerStation(padObj.getRegisteredStationX(), padObj.getRegisteredStationY(), padObj.getRegisteredStationZ());
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbtTagCompound) {
+        nbtTagCompound.setInteger("stationX", registeredStationX);
+        nbtTagCompound.setInteger("stationY", registeredStationY);
+        nbtTagCompound.setInteger("stationZ", registeredStationZ);
+        nbtTagCompound.setBoolean("isRegistered", isRegistered);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbtTagCompound) {
+        registeredStationX = nbtTagCompound.getInteger("stationX");
+        registeredStationY = nbtTagCompound.getInteger("stationY");
+        registeredStationZ = nbtTagCompound.getInteger("stationZ");
+        isRegistered = nbtTagCompound.getBoolean("isRegistered");
     }
 }

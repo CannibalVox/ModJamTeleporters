@@ -111,7 +111,7 @@ public class BlockTeleporterPad extends BlockContainer {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerBlockIcons(IIconRegister registry) {
-        bottomIcon = registry.registerIcon("modysseyteleporters:pad_bottom");
+        bottomIcon = registry.registerIcon("modysseyteleporters:teleporter_pad_bottom");
         sideIcons[0] = registry.registerIcon("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_single");
         sideIcons[1] = registry.registerIcon("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_left");
         sideIcons[2] = registry.registerIcon("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_right");
