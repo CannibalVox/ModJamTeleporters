@@ -23,10 +23,13 @@ public class RenderTeleporterController extends TileEntitySpecialRenderer implem
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float angle) {
+
+        int rotations = tileEntity.getBlockMetadata();
+
         GL11.glPushMatrix();
         GL11.glTranslated(x+0.5, y+1.5, z+0.5);
         GL11.glRotatef(180, 0, 0, 1);
-        GL11.glRotatef(180, 0, 1, 0);
+        GL11.glRotatef(180 + (rotations * 90), 0, 1, 0);
         Minecraft.getMinecraft().renderEngine.bindTexture(controllerTex);
         controllerModel.render(0.0625f);
         GL11.glPopMatrix();
