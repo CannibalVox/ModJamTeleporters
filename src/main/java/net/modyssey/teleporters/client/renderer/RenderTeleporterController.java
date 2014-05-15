@@ -24,8 +24,9 @@ public class RenderTeleporterController extends TileEntitySpecialRenderer implem
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float angle) {
         GL11.glPushMatrix();
-        GL11.glTranslated(x+0.5, y+0.5, z+0.5);
-        //GL11.glRotatef(angle, 0, 1.0f, 0);
+        GL11.glTranslated(x+0.5, y+1.5, z+0.5);
+        GL11.glRotatef(180, 0, 0, 1);
+        GL11.glRotatef(180, 0, 1, 0);
         Minecraft.getMinecraft().renderEngine.bindTexture(controllerTex);
         controllerModel.render(0.0625f);
         GL11.glPopMatrix();
@@ -34,8 +35,9 @@ public class RenderTeleporterController extends TileEntitySpecialRenderer implem
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         GL11.glPushMatrix();
-        //GL11.glTranslated(x, y, z);
-        //GL11.glRotatef(angle, 0, 1.0f, 0);
+        GL11.glTranslated(0, 0.5, 0);
+        GL11.glRotatef(180, 0, 0, 1);
+        GL11.glScaled(0.7, 0.7, 0.7);
 
         Minecraft.getMinecraft().renderEngine.bindTexture(controllerTex);
         controllerModel.render(0.0625f);
