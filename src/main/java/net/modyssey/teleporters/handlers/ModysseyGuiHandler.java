@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.modyssey.teleporters.blocks.BlockTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
+import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 
 public class ModysseyGuiHandler implements IGuiHandler {
     @Override
@@ -12,7 +13,7 @@ public class ModysseyGuiHandler implements IGuiHandler {
 
         switch (ID) {
             case BlockTeleporterController.GUI_ID:
-                return new ContainerTeleporterController(player.inventory, (TileEntityTeleporterController)world.getTileEntity(x, y, z));
+                return new ContainerTeleporterController((TileEntityTeleporterController)world.getTileEntity(x, y, z));
             default:
                 return null;
         }
@@ -23,7 +24,7 @@ public class ModysseyGuiHandler implements IGuiHandler {
 
         switch (ID) {
             case BlockTeleporterController.GUI_ID:
-                return new GuiTeleporterController(player.inventory, (TileEntityTeleporterController) world.getTileEntity(x, y, z));
+                return new GuiTeleporterController((TileEntityTeleporterController) world.getTileEntity(x, y, z));
             default:
                 return null;
         }

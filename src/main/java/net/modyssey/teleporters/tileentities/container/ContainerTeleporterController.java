@@ -8,7 +8,7 @@ import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 public class ContainerTeleporterController extends Container {
     private TileEntityTeleporterController controller;
 
-    public ContainerTeleporterController(InventoryPlayer inventory, TileEntityTeleporterController controller) {
+    public ContainerTeleporterController(TileEntityTeleporterController controller) {
         this.controller = controller;
     }
 
