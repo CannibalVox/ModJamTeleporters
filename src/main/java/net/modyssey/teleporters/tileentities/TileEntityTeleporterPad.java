@@ -14,7 +14,8 @@ public class TileEntityTeleporterPad extends TileEntity {
     public int getRegisteredStationZ() { return registeredStationZ; }
     public boolean isRegistered() { return isRegistered; }
 
-    public boolean registerStation(World world, int x, int y, int z) {
+    public boolean registerStation(int x, int y, int z) {
+        World world = getWorldObj();
         TileEntity station = world.getTileEntity(x, y, z);
 
         if (station == null || !(station instanceof  TileEntityTeleporterController))
@@ -28,7 +29,17 @@ public class TileEntityTeleporterPad extends TileEntity {
         return true;
     }
 
-    public boolean registerSameAs(World world, int x, int y, int z) {
+    public void deregister() {
+        if (!isRegistered)
+            return;
+
+        World world = getWorldObj();
+
+        
+    }
+
+    public boolean registerSameAs(int x, int y, int z) {
+        World world = getWorldObj();
         TileEntity pad = world.getTileEntity(x, y, z);
 
         if (pad == null || !(pad instanceof TileEntityTeleporterPad))
@@ -39,6 +50,6 @@ public class TileEntityTeleporterPad extends TileEntity {
         if (!padObj.isRegistered())
             return false;
 
-        return registerStation(world, padObj.getRegisteredStationX(), padObj.getRegisteredStationY(), padObj.getRegisteredStationZ());
+        return registerStation(padObj.getRegisteredStationX(), padObj.getRegisteredStationY(), padObj.getRegisteredStationZ());
     }
 }
