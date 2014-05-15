@@ -9,7 +9,7 @@ import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 
 public class ClientProxy extends CommonProxy {
 
-    private RenderTeleporterController teleporterController = new RenderTeleporterController("modysseyteleporters:models/Station.tcn", "modysseyteleporters:textures/models/Station.png");
+    private RenderTeleporterController teleporterController = new RenderTeleporterController("modysseyteleporters:textures/models/Station.png");
 
     @Override
     public void registerRendererIds() {
