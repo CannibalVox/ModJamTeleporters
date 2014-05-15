@@ -71,9 +71,9 @@ public class BlockTeleporterPad extends Block {
 
         int index = 0;
         if (doesConnect(world, x, y, z, positiveX))
-            index |= 2;
-        if (doesConnect(world, x, y, z, negativeX))
             index |= 1;
+        if (doesConnect(world, x, y, z, negativeX))
+            index |= 2;
 
         return index;
     }
