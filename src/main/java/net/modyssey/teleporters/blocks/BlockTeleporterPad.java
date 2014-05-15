@@ -43,7 +43,8 @@ public class BlockTeleporterPad extends Block {
         if (dir == ForgeDirection.UP)
             return topIcons[calcEightWayCtm(world, x, y, z, dir)];
 
-        return sideIcons[calcHorizontalCtm(world, x, y, z, dir)];
+        int sideIndex = calcHorizontalCtm(world, x, y, z, dir);
+        return sideIcons[sideIndex];
     }
 
     /**
