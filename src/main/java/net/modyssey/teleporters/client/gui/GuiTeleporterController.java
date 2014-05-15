@@ -18,9 +18,9 @@ public class GuiTeleporterController extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        mc.renderEngine.bindTexture(new ResourceLocation("modysseyteleporters:gui/StarMallBack.png"));
-        int l = (width - xSize) / 2;
-        int i1 = (height - ySize) / 2;
-        drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
+        mc.renderEngine.bindTexture(new ResourceLocation("modysseyteleporters:textures/gui/station.png"));
+        int l = (width - 195) / 2;
+        int i1 = ((height - 256) / 2) - 5;
+        drawTexturedModalRect(l, i1, 0, 0, 195, 256);
     }
 }
