@@ -5,6 +5,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -25,16 +26,13 @@ public class ModysseyTeleporters {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         //Init blocks
-        teleporterPad = new BlockTeleporterPad().setBlockName("modysseyteleporter.pad").setStepSound(Block.soundTypeMetal);
-        teleporterController = new BlockTeleporterController().setBlockName("modysseyteleporter.controller").setStepSound(Block.soundTypeMetal);
-        teleporterBeacon = new BlockTeleporterBeacon().setBlockName("modysseyteleporter.beacon").setStepSound(Block.soundTypeMetal);
+        teleporterPad = new BlockTeleporterPad().setBlockName("modysseyteleporter.pad").setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabTransport);
+        teleporterController = new BlockTeleporterController().setBlockName("modysseyteleporter.controller").setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabAllSearch.tabTransport);
+        teleporterBeacon = new BlockTeleporterBeacon().setBlockName("modysseyteleporter.beacon").setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabTransport);
 
         //Init items
-        teleportCircuit = new Item().setUnlocalizedName("modysseyteleporter.circuit");
-    }
+        teleportCircuit = new Item().setUnlocalizedName("modysseyteleporter.circuit").setCreativeTab(CreativeTabs.tabMaterials);
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
         //Register blocks
         GameRegistry.registerBlock(teleporterPad, "pad");
         GameRegistry.registerBlock(teleporterController, "controller");
@@ -42,7 +40,10 @@ public class ModysseyTeleporters {
 
         //Register items
         GameRegistry.registerItem(teleportCircuit, "circuit");
+    }
 
+    @Mod.EventHandler
+    public void init(FMLInitializationEvent event) {
         //Register recipes
         GameRegistry.addRecipe(new ShapedOreRecipe(teleportCircuit, "XOX","PPP", 'X', "dustGlowstone", 'O', "gemDiamond", 'P', "plankWood" ));
         GameRegistry.addRecipe(new ShapedOreRecipe(teleporterController, "XXX", "XOX", "XXX", 'X', "gemDiamond", 'O', teleportCircuit));
