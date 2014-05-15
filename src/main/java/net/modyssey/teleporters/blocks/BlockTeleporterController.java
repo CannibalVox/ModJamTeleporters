@@ -42,4 +42,7 @@ public class BlockTeleporterController extends BlockContainer {
     {
         return false;
     }
+
+    @Override
+    public int getRenderType() { return ModysseyTeleporters.TeleportControllerRenderId; }
 }

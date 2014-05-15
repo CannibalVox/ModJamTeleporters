@@ -8,6 +8,9 @@ import net.modyssey.teleporters.client.renderer.RenderTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 
 public class ClientProxy extends CommonProxy {
+
+    private RenderTeleporterController teleporterController = new RenderTeleporterController("modysseyteleporters:models/Station.tcn", "modysseyteleporters:textures/models/Station.png");
+
     @Override
     public void registerRendererIds() {
         ModysseyTeleporters.TeleportControllerRenderId = RenderingRegistry.getNextAvailableRenderId();
@@ -15,11 +18,11 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void registerBlockRenderers() {
-
+        RenderingRegistry.registerBlockHandler(ModysseyTeleporters.TeleportControllerRenderId, teleporterController);
     }
 
     @Override
     public void registerTileEntityRenderers() {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTeleporterController.class, new RenderTeleporterController("modysseyteleporters:models/Station.tcn", "modysseyteleporters:textures/models/Station.png"));
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTeleporterController.class, teleporterController);
     }
 }
