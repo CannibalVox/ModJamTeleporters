@@ -25,6 +25,9 @@ public class ModysseyTeleporters {
 
     public static Item teleportCircuit;
 
+    @Mod.Instance
+    public static ModysseyTeleporters instance;
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         //Init blocks
