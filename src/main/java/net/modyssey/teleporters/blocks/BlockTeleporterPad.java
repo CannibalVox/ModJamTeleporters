@@ -14,6 +14,9 @@ public class BlockTeleporterPad extends Block {
         super(Material.anvil);
     }
 
+    
+
+    //VISUAL ASPECTS
     private IIcon bottomIcon;
     private IIcon[] sideIcons = new IIcon[4];
     private IIcon[] topIcons = new IIcon[48];
