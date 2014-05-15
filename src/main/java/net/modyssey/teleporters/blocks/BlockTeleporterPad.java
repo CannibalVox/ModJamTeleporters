@@ -75,6 +75,14 @@ public class BlockTeleporterPad extends Block {
         if (doesConnect(world, x, y, z, negativeX))
             index |= 2;
 
+        //HACK: in 1.7.2 the east and north faces have their icons reversed
+        if (dir == ForgeDirection.NORTH || dir == ForgeDirection.EAST) {
+            if (index == 1)
+                index = 2;
+            else if (index == 2)
+                index = 1;
+        }
+
         return index;
     }
 
