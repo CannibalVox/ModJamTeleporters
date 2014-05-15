@@ -11,7 +11,7 @@ import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 
 public class BlockTeleporterController extends BlockContainer {
 
-    public static final int GUI_ID = 1;
+    public static final int GUI_ID = 0;
 
     public BlockTeleporterController() {
         super(Material.anvil);
