@@ -18,8 +18,8 @@ public class StarMallMarket implements IMarket {
     }
 
     @Override
-    public String getMarketLogo() {
-        return "modysseyteleporters:textures/gui/station_title_starmall.png";
+    public ResourceLocation getMarketLogo() {
+        return new ResourceLocation("modysseyteleporters:textures/gui/station_title_starmall.png");
     }
 
     @Override

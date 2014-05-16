@@ -17,6 +17,11 @@ import net.modyssey.teleporters.blocks.BlockTeleporterController;
 import net.modyssey.teleporters.blocks.BlockTeleporterPad;
 import net.modyssey.teleporters.client.renderer.RenderTeleporterController;
 import net.modyssey.teleporters.handlers.ModysseyGuiHandler;
+import net.modyssey.teleporters.markets.IMarket;
+import net.modyssey.teleporters.markets.IMarketFactory;
+import net.modyssey.teleporters.markets.pawnshop.PawnShopMarketFactory;
+import net.modyssey.teleporters.markets.starmall.StarMallMarketFactory;
+import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
 
@@ -59,8 +64,17 @@ public class ModysseyTeleporters {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+
+        StockList starmallStock = new StockList();
+        StockList pawnshopStock = new StockList();
+
+        IMarketFactory starmall = new StarMallMarketFactory(starmallStock);
+        IMarketFactory pawnshop = new PawnShopMarketFactory(pawnshopStock);
+
+        IMarketFactory markets[] = { starmall, pawnshop };
+
         //Register handlers
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModysseyGuiHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModysseyGuiHandler(markets));
 
         //Register tile entities
         GameRegistry.registerTileEntity(TileEntityTeleporterController.class, "TileEntityTeleporterController");

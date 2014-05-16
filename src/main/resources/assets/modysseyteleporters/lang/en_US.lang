@@ -5,3 +5,4 @@ tile.modysseyteleporter.beacon.name=Teleporter Beacon
 item.modysseyteleporter.circuit.name=Teleporter Circuit
 
 gui.modysseyteleporters.stock=Stock
+gui.modysseyteleporters.priceguide=Price Guide

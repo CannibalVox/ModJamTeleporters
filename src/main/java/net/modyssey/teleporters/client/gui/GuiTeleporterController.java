@@ -3,24 +3,27 @@ package net.modyssey.teleporters.client.gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
+import net.modyssey.teleporters.markets.IMarket;
+import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 import org.lwjgl.opengl.GL11;
 
 public class GuiTeleporterController extends GuiContainer {
     private TileEntityTeleporterController controller;
+    private IMarket[] markets;
 
     private int marketIndex = 0;
-    private static final int MARKET_COUNT = 2;
-    private static final String[] MARKET_ICONS = {
-            "modysseyteleporters:textures/gui/station_title_starmall.png",
-            "modysseyteleporters:textures/gui/station_title_starmall.png"
-    };
 
-    public GuiTeleporterController(TileEntityTeleporterController controller) {
+    public GuiTeleporterController(TileEntityTeleporterController controller, IMarketFactory[] marketFactories) {
         super(new ContainerTeleporterController(controller));
 
         this.controller = controller;
+        this.markets = new IMarket[marketFactories.length];
+
+        for (int i = 0; i < marketFactories.length; i++) {
+            this.markets[i] = marketFactories[i].createMarket();
+        }
     }
 
     @Override
@@ -44,10 +47,10 @@ public class GuiTeleporterController extends GuiContainer {
             int leftTabBound = (int)(x - 44.1);
             int topTabBound = (int)(y + 45);
             int rightTabBound = (int)x;
-            int bottomTabBound = (int)(y + 45 + (MARKET_COUNT * 25.2));
+            int bottomTabBound = (int)(y + 45 + (markets.length * 25.2));
 
             if (mouseX >= leftTabBound && mouseX <= rightTabBound && mouseY >= topTabBound && mouseY <= bottomTabBound) {
-                int selectedMarket = (mouseY - 1 - topTabBound)/((bottomTabBound - topTabBound)/MARKET_COUNT);
+                int selectedMarket = (mouseY - 1 - topTabBound)/((bottomTabBound - topTabBound)/markets.length);
 
                 if (selectedMarket != marketIndex) {
                     marketIndex = selectedMarket;
@@ -81,7 +84,7 @@ public class GuiTeleporterController extends GuiContainer {
         tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
 
         double physicalY = 45;
-        for (int i = 0; i < MARKET_COUNT; i++) {
+        for (int i = 0; i < markets.length; i++) {
             if (i == marketIndex) {
                 tessellator.addVertexWithUV(x - 47.7, y + physicalY + 25.2, (double) this.zLevel, 195 * f, 52 * f1);
                 tessellator.addVertexWithUV(x, y + physicalY + 25.2, (double) this.zLevel, 248 * f, 52 * f1);
@@ -99,7 +102,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         tessellator.draw();
 
-        mc.renderEngine.bindTexture(new ResourceLocation(MARKET_ICONS[marketIndex]));
+        mc.renderEngine.bindTexture(markets[marketIndex].getMarketLogo());
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV(x, y + 30.6, (double)this.zLevel, 0, 1);
         tessellator.addVertexWithUV(x + 118.8, y + 30.6, (double)this.zLevel, 1, 1);
