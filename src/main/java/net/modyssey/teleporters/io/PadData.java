@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 
 import java.util.LinkedList;
 
@@ -128,6 +129,26 @@ public class PadData {
         return itemsToRemove;
     }
 
+    public ItemStack attemptAddItems(World world, ItemStack itemsStackToAdd) {
+        Block block = world.getBlock(padXCoord, padYCoord+1, padZCoord);
+
+        if (block instanceof BlockContainer) {
+            TileEntity tileEntity = world.getTileEntity(padXCoord, padYCoord+1, padZCoord);
+
+            if (tileEntity != null && tileEntity instanceof IInventory) {
+                IInventory inventory = (IInventory)tileEntity;
+
+                for (int i = 0; i < inventory.getSizeInventory(); i++) {
+                    ItemStack stack = inventory.getStackInSlot(i);
+
+                    if (stack != null) {
+                        
+                    }
+                }
+            }
+        }
+    }
+
     private boolean canItemstacksStack(ItemStack itemStack1, ItemStack itemStack2) {
         if (itemStack1.getItem() != itemStack2.getItem())
         {
@@ -149,21 +170,8 @@ public class PadData {
         {
             return false;
         }
-        else if (itemstack1.stackSize < itemstack.stackSize)
-        {
-            return par1EntityItem.combineItems(this);
-        }
-        else if (itemstack1.stackSize + itemstack.stackSize > itemstack1.getMaxStackSize())
-        {
-            return false;
-        }
         else
         {
-            itemstack1.stackSize += itemstack.stackSize;
-            par1EntityItem.delayBeforeCanPickup = Math.max(par1EntityItem.delayBeforeCanPickup, this.delayBeforeCanPickup);
-            par1EntityItem.age = Math.min(par1EntityItem.age, this.age);
-            par1EntityItem.setEntityItemStack(itemstack1);
-            this.setDead();
             return true;
         }
     }
