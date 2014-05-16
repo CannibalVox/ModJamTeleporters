@@ -141,11 +141,48 @@ public class PadData {
                 for (int i = 0; i < inventory.getSizeInventory(); i++) {
                     ItemStack stack = inventory.getStackInSlot(i);
 
-                    if (stack != null) {
-                        
+                    if (stack != null && canItemstacksStack(itemsStackToAdd, stack)) {
+                        int maxStackSize = Math.min(stack.getMaxStackSize(), inventory.getInventoryStackLimit());
+                        int fillAmount = maxStackSize - stack.stackSize;
+                        if (fillAmount <= 0)
+                            continue;
+
+                        if (fillAmount >= itemsStackToAdd.stackSize) {
+                            stack.stackSize += itemsStackToAdd.stackSize;
+                            inventory.setInventorySlotContents(i, stack);
+                            return null;
+                        } else {
+                            stack.stackSize += fillAmount;
+                            itemsStackToAdd.stackSize -= fillAmount;
+                            inventory.setInventorySlotContents(i, stack);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < inventory.getSizeInventory(); i++) {
+                    if (inventory.getStackInSlot(i) == null) {
+                        int maxStackSize = Math.min(itemsStackToAdd.getMaxStackSize(), inventory.getInventoryStackLimit());
+                        if (maxStackSize >= itemsStackToAdd.stackSize) {
+                            inventory.setInventorySlotContents(i, itemsStackToAdd);
+                            return null;
+                        } else {
+                            ItemStack fillStack = new ItemStack(itemsStackToAdd.getItem(), maxStackSize, itemsStackToAdd.getItemDamage());
+                            itemsStackToAdd.stackSize -= maxStackSize;
+                            inventory.setInventorySlotContents(i, fillStack);
+                        }
                     }
                 }
             }
+        }
+
+        return itemsStackToAdd;
+    }
+
+    public ItemStack dropItemsOnFloor(World world, ItemStack itemStackToDrop, boolean forceStackDrop) {
+        int maxStackSize = itemStackToDrop.getMaxStackSize();
+
+        if  forceStackDrop) {
+
         }
     }
 
