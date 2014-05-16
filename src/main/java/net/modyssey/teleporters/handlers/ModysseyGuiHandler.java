@@ -13,8 +13,9 @@ public class ModysseyGuiHandler implements IGuiHandler {
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 
         switch (ID) {
-            case BlockTeleporterController.GUI_ID:
-                return new ContainerTeleporterController((TileEntityTeleporterController)world.getTileEntity(x, y, z));
+            case BlockTeleporterController.GUI_ID: {
+                return new ContainerTeleporterController((TileEntityTeleporterController) world.getTileEntity(x, y, z));
+            }
             default:
                 return null;
         }

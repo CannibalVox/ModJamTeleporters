@@ -66,8 +66,21 @@ public class BlockTeleporterController extends BlockContainer {
     public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
         super.onBlockPreDestroy(world, x, y, z, meta);
 
+        if ((meta & 4) != 0)
+            return;
+
         TileEntityTeleporterController controller = (TileEntityTeleporterController)world.getTileEntity(x, y, z);
         controller.deregisterAllPads();
+    }
+
+    public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+        if ((meta & 4) != 0)
+            y--;
+        else
+            y++;
+
+        if (world.getBlock(x, y, z) == this)
+            world.setBlockToAir(x, y, z);
     }
 
     @Override
@@ -75,7 +88,7 @@ public class BlockTeleporterController extends BlockContainer {
 
         if ((var2 & 4) != 0)
             return null;
-        
+
         return new TileEntityTeleporterController();
     }
 
@@ -85,7 +98,7 @@ public class BlockTeleporterController extends BlockContainer {
         if (!world.isRemote) {
             int meta = world.getBlockMetadata(x, y, z);
 
-            if ((meta & 4) == 0)
+            if ((meta & 4) != 0)
                 y--;
 
             FMLNetworkHandler.openGui(player, ModysseyTeleporters.instance, GUI_ID, world, x, y, z);
@@ -114,6 +127,7 @@ public class BlockTeleporterController extends BlockContainer {
         int quartile = MathHelper.floor_double((double) (player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
         world.setBlockMetadataWithNotify(x, y, z, quartile, 2);
+        world.setBlock(x, y+1, z, this, quartile | 4, 2);
 
         checkForPad(world, x, y, z, ForgeDirection.EAST);
         checkForPad(world, x, y, z, ForgeDirection.WEST);

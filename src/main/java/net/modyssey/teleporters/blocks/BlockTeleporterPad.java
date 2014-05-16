@@ -170,7 +170,7 @@ public class BlockTeleporterPad extends BlockContainer {
         sideIcons[2] = registry.registerIcon("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_right");
         sideIcons[3] = registry.registerIcon("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_middle");
 
-        for (int i = 0; i < 48; i++) {
+        for (int i = 0; i < 47; i++) {
             topIconsActive[i] = registry.registerIcon("modysseyteleporters:teleporter_pad_top/"+Integer.toString(i));
             topIconsInactive[i] = registry.registerIcon("modysseyteleporters:teleporter_pad_top_off/"+Integer.toString(i));
         }
