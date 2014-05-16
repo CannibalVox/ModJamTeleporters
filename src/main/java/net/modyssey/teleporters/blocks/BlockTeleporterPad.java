@@ -114,9 +114,7 @@ public class BlockTeleporterPad extends BlockContainer {
         TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
 
         if (pad.registerStation(x+dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ)) {
-
-            if (oldMetadata != dir.ordinal())
-                world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+            world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
             return true;
         }
 
@@ -127,9 +125,7 @@ public class BlockTeleporterPad extends BlockContainer {
         TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
 
         if (pad.registerSameAs(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
-
-            if (oldMetadata != dir.ordinal())
-                world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+            world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
             return true;
         }
 
