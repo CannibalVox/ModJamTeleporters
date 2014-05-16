@@ -14,7 +14,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.modyssey.teleporters.ModysseyTeleporters;
-import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
 
 import java.util.LinkedList;
@@ -70,7 +69,7 @@ public class BlockTeleporterPad extends BlockContainer {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ);
 
             if (block == ModysseyTeleporters.teleporterController) {
-                if (registerStation(world, dir, x, y, z)) {
+                if (registerStation(world, dir, x, y, z, oldMetadata)) {
                     return;
                 }
             }
@@ -105,28 +104,46 @@ public class BlockTeleporterPad extends BlockContainer {
         }
 
         if (bestDirection != ForgeDirection.UNKNOWN) {
-            registerPad(world, bestDirection, x, y, z, oldMetadata);
+            registerPad(world, bestDirection, x, y, z, bestDjikstraNumber+1,  oldMetadata);
         } else if (oldMetadata != 0) {
             world.setBlockMetadataWithNotify(x, y, z, 0, 3);
         }
     }
 
-    private boolean registerStation(World world, ForgeDirection dir, int x, int y, int z) {
+    private boolean registerStation(World world, ForgeDirection dir, int x, int y, int z, int oldMetadata) {
         TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
 
+        boolean forceBlockUpdate = false;
+
+        if (!pad.isRegistered() || pad.getRegisteredStationX() != x+dir.offsetX || pad.getRegisteredStationY() != y+dir.offsetY+1 || pad.getRegisteredStationZ() != z+dir.offsetZ)
+            forceBlockUpdate = true;
+
         if (pad.registerStation(x+dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ)) {
-            world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+            if (oldMetadata != dir.ordinal())
+                world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+            else if (forceBlockUpdate)
+                world.notifyBlockChange(x, y, z, this);
+
             return true;
         }
 
         return false;
     }
 
-    private boolean registerPad(World world, ForgeDirection dir, int x, int y, int z) {
+    private boolean registerPad(World world, ForgeDirection dir, int x, int y, int z, int newDjikstra, int oldMetadata) {
         TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
 
+        boolean forceBlockUpdate = false;
+        if (!pad.isRegistered() || pad.getDjikstraNumber() != newDjikstra) {
+            forceBlockUpdate = true;
+        }
+
         if (pad.registerSameAs(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
-            world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+            if (oldMetadata != dir.ordinal())
+                world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+            else if (forceBlockUpdate)
+                world.notifyBlockChange(x, y, z, this);
+
             return true;
         }
 

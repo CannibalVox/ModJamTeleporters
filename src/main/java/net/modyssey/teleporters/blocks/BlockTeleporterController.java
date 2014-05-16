@@ -1,6 +1,7 @@
 package net.modyssey.teleporters.blocks;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,8 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.modyssey.teleporters.ModysseyTeleporters;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
+import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
 
 public class BlockTeleporterController extends BlockContainer {
 
@@ -63,11 +66,37 @@ public class BlockTeleporterController extends BlockContainer {
         int quartile = MathHelper.floor_double((double) (player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
         world.setBlockMetadataWithNotify(x, y, z, quartile, 2);
+
+        checkForPad(world, x, y, z, ForgeDirection.EAST);
+        checkForPad(world, x, y, z, ForgeDirection.WEST);
+        checkForPad(world, x, y, z, ForgeDirection.NORTH);
+        checkForPad(world, x, y, z, ForgeDirection.SOUTH);
     }
 
     @Override
     public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
     {
         return metadata;
+    }
+
+    protected void checkForPad(World world, int stationX, int stationY, int stationZ, ForgeDirection direction) {
+        int x = stationX + direction.offsetX;
+        int y = stationY + direction.offsetY - 1;
+        int z = stationZ + direction.offsetZ;
+
+        Block block = world.getBlock(x, y, z);
+
+        if (block == ModysseyTeleporters.teleporterPad) {
+            TileEntity padEntity = world.getTileEntity(x, y, z);
+
+            if (padEntity != null && padEntity instanceof TileEntityTeleporterPad) {
+                TileEntityTeleporterPad pad = (TileEntityTeleporterPad)padEntity;
+
+                if (!pad.isRegistered() || pad.getDjikstraNumber() > 1) {
+                    pad.registerStation(stationX, stationY, stationZ);
+                    world.setBlockMetadataWithNotify(x, y, z, ForgeDirection.OPPOSITES[direction.ordinal()], 3);
+                }
+            }
+        }
     }
 }
