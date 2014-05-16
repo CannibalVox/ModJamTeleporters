@@ -17,6 +17,20 @@ public class GuiTeleporterController extends GuiContainer {
     }
 
     @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        double uvW = 195;
+        double uvH = 256;
+
+        double h = uvH * 0.9;
+        double w = uvW * 0.9;
+
+        double x = (width - w) / 2;
+        double y = ((height - h) / 2);
+
+        drawString(fontRendererObj, "Farts", (int)x + 96, (int)y + 5, 0);
+    }
+
+    @Override
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         mc.renderEngine.bindTexture(new ResourceLocation("modysseyteleporters:textures/gui/station.png"));

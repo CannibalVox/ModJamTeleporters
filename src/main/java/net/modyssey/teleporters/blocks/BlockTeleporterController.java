@@ -73,14 +73,23 @@ public class BlockTeleporterController extends BlockContainer {
         controller.deregisterAllPads();
     }
 
+    @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
         if ((meta & 4) != 0)
             y--;
         else
             y++;
 
-        if (world.getBlock(x, y, z) == this)
+        if (world.getBlock(x, y, z) == this) {
             world.setBlockToAir(x, y, z);
+
+            if ((meta & 4) != 0) {
+                if (!world.isRemote)
+                {
+                    this.dropBlockAsItem(world, x, y, z, meta, 0);
+                }
+            }
+        }
     }
 
     @Override
