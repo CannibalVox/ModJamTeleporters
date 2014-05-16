@@ -24,7 +24,6 @@ public class GuiTeleporterController extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        mc.renderEngine.bindTexture(new ResourceLocation("modysseyteleporters:textures/gui/station.png"));
         double uvW = 195;
         double uvH = 256;
 
@@ -36,7 +35,22 @@ public class GuiTeleporterController extends GuiContainer {
 
         double f = 0.00390625;
         double f1 = 0.00390625;
+        mc.renderEngine.bindTexture(new ResourceLocation("modysseyteleporters:textures/gui/station_title_starmall.png"));
         Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV(x, y + h, (double)this.zLevel, 0, uvH * f1);
+        tessellator.addVertexWithUV(x + w, y + h, (double)this.zLevel, uvW * f, uvH * f1);
+        tessellator.addVertexWithUV(x + w, y, (double)this.zLevel, uvW * f, 0);
+        tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
+        tessellator.draw();
+
+        uvW = 266;
+        uvH = 70;
+
+        h = uvH * 0.9;
+        w = uvW * 0.9;
+
+        mc.renderEngine.bindTexture(new ResourceLocation("modysseyteleporters:textures/gui/station_title_starmall.png"));
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV(x, y + h, (double)this.zLevel, 0, uvH * f1);
         tessellator.addVertexWithUV(x + w, y + h, (double)this.zLevel, uvW * f, uvH * f1);
