@@ -29,7 +29,7 @@ public class PadData {
             if (topBlock instanceof BlockContainer) {
                 TileEntity tileEntity = world.getTileEntity(padXCoord, padYCoord + 1, padZCoord);
 
-                if (tileEntity != null && tileEntity instanceof IInventory)) {
+                if (tileEntity != null && tileEntity instanceof IInventory) {
                     IInventory inventory = (IInventory)tileEntity;
 
                     for (int i = 0; i < inventory.getSizeInventory(); i++) {
@@ -106,8 +106,70 @@ public class PadData {
         return itemsToRemove;
     }
 
+    public ItemStack attemptRemoveBlock(World world, ItemStack itemsToRemove, boolean checkItemDamage) {
+        Block topBlock = world.getBlock(padXCoord, padYCoord + 1, padZCoord);
+
+        Item topItem = Item.getItemFromBlock(topBlock);
+
+        if (topItem == null)
+            return itemsToRemove;
+
+        int damage = topBlock.getDamageValue(world, padXCoord, padYCoord + 1, padZCoord);
+        ItemStack blockStack = new ItemStack(topItem, 1, damage);
+
+        if (itemMatches(blockStack, itemsToRemove, checkItemDamage)) {
+            itemsToRemove.stackSize--;
+            world.setBlockToAir(padXCoord, padYCoord + 1, padZCoord);
+
+            if (itemsToRemove.stackSize == 0)
+                return null;
+        }
+
+        return itemsToRemove;
+    }
+
+    private boolean canItemstacksStack(ItemStack itemStack1, ItemStack itemStack2) {
+        if (itemStack1.getItem() != itemStack2.getItem())
+        {
+            return false;
+        }
+        else if (itemStack1.hasTagCompound() ^ itemStack2.hasTagCompound())
+        {
+            return false;
+        }
+        else if (itemStack1.hasTagCompound() && !itemStack2.getTagCompound().equals(itemStack1.getTagCompound()))
+        {
+            return false;
+        }
+        else if (itemStack1.getItem() == null)
+        {
+            return false;
+        }
+        else if (itemStack1.getItem().getHasSubtypes() && itemStack1.getItemDamage() != itemStack2.getItemDamage())
+        {
+            return false;
+        }
+        else if (itemstack1.stackSize < itemstack.stackSize)
+        {
+            return par1EntityItem.combineItems(this);
+        }
+        else if (itemstack1.stackSize + itemstack.stackSize > itemstack1.getMaxStackSize())
+        {
+            return false;
+        }
+        else
+        {
+            itemstack1.stackSize += itemstack.stackSize;
+            par1EntityItem.delayBeforeCanPickup = Math.max(par1EntityItem.delayBeforeCanPickup, this.delayBeforeCanPickup);
+            par1EntityItem.age = Math.min(par1EntityItem.age, this.age);
+            par1EntityItem.setEntityItemStack(itemstack1);
+            this.setDead();
+            return true;
+        }
+    }
+
     private boolean itemMatches(ItemStack itemStack1, ItemStack itemStack2, boolean checkItemDamage) {
-        if (Item.itemRegistry.getIDForObject(itemStack1.getItem()) != Item.itemRegistry.getIDForObject(itemStack2.getItem()))
+        if (itemStack1.getItem() != itemStack2.getItem())
             return false;
 
         if (checkItemDamage && itemStack1.getItemDamage() != itemStack2.getItemDamage())
