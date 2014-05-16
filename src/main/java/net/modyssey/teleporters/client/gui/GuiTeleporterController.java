@@ -28,8 +28,34 @@ public class GuiTeleporterController extends GuiContainer {
         drawString(fontRendererObj, "Pads Registered: " + Integer.toString(controller.getPadCount()), 8, 4, 0xFFFFFF);
     }
 
-    protected void mouseClicked(int par1, int par2, int par3) {
-        super.mouseClicked(par1, par2, par3);
+    protected void mouseClicked(int mouseX, int mouseY, int par3) {
+        super.mouseClicked(mouseX, mouseY, par3);
+
+        double uvW = 195;
+        double uvH = 256;
+
+        double h = uvH * 0.9;
+        double w = uvW * 0.9;
+
+        double x = (width - w) / 2;
+        double y = ((height - h) / 2);
+
+        if (par3 == 0) {
+            int leftTabBound = (int)(x - 44.1);
+            int topTabBound = (int)(y + 45);
+            int rightTabBound = (int)x;
+            int bottomTabBound = (int)(y + 45 + (MARKET_COUNT * 25.2));
+
+            if (mouseX >= leftTabBound && mouseX <= rightTabBound && mouseY >= topTabBound && mouseY <= bottomTabBound) {
+                int selectedMarket = (mouseY - 1 - topTabBound)/((bottomTabBound - topTabBound)/MARKET_COUNT);
+
+                if (selectedMarket != marketIndex) {
+                    marketIndex = selectedMarket;
+                }
+
+                return;
+            }
+        }
     }
 
     @Override
