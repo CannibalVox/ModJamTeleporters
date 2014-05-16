@@ -92,7 +92,7 @@ public class BlockTeleporterPad extends BlockContainer {
                     if (padEntity != null && padEntity instanceof  TileEntityTeleporterPad) {
                         int djikstra = ((TileEntityTeleporterPad)padEntity).getDjikstraNumber();
 
-                        if (bestDjikstraNumber == 0 || djikstra < bestDjikstraNumber) {
+                        if (djikstra < 16 && (bestDjikstraNumber == 0 || djikstra < bestDjikstraNumber)) {
                             bestDjikstraNumber = djikstra;
                             bestDirection = dir;
                         }
