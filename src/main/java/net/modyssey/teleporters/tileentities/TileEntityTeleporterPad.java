@@ -65,8 +65,9 @@ public class TileEntityTeleporterPad extends TileEntity {
 
         boolean returnVal = registerStation(padObj.getRegisteredStationX(), padObj.getRegisteredStationY(), padObj.getRegisteredStationZ());
 
-        if (returnVal)
+        if (returnVal) {
             djikstraNumber = padObj.getDjikstraNumber() + 1;
+        }
 
         return returnVal;
     }

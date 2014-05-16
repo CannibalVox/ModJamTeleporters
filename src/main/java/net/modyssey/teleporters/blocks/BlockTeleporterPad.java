@@ -70,8 +70,9 @@ public class BlockTeleporterPad extends BlockContainer {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ);
 
             if (block == ModysseyTeleporters.teleporterController) {
-                if (registerStation(world, dir, x, y, z, oldMetadata))
+                if (registerStation(world, dir, x, y, z)) {
                     return;
+                }
             }
 
             dir = dir.getRotation(ForgeDirection.UP);
@@ -110,7 +111,7 @@ public class BlockTeleporterPad extends BlockContainer {
         }
     }
 
-    private boolean registerStation(World world, ForgeDirection dir, int x, int y, int z, int oldMetadata) {
+    private boolean registerStation(World world, ForgeDirection dir, int x, int y, int z) {
         TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
 
         if (pad.registerStation(x+dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ)) {
@@ -121,7 +122,7 @@ public class BlockTeleporterPad extends BlockContainer {
         return false;
     }
 
-    private boolean registerPad(World world, ForgeDirection dir, int x, int y, int z, int oldMetadata) {
+    private boolean registerPad(World world, ForgeDirection dir, int x, int y, int z) {
         TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
 
         if (pad.registerSameAs(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
