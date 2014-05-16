@@ -19,7 +19,6 @@ public class BlockTeleporterController extends BlockContainer {
     public BlockTeleporterController() {
         super(Material.anvil);
 
-        setBlockBounds(0, 0, 0, 1, 1.625f, 1);
     }
 
     @Override
