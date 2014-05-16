@@ -8,16 +8,12 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.modyssey.teleporters.io.PadData;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class TileEntityTeleporterController extends TileEntity {
-    private class PadLocation {
-        public int x;
-        public int y;
-        public int z;
-    }
-
     public TileEntityTeleporterController() {
         this.isActive = true;
     }
@@ -26,7 +22,9 @@ public class TileEntityTeleporterController extends TileEntity {
         this.isActive = active;
     }
 
-    private ArrayList<PadLocation> padLocations = new ArrayList<PadLocation>();
+    private ArrayList<PadData> padLocations = new ArrayList<PadData>();
+    private UUID locationUUID = UUID.randomUUID();
+    private int credits = 0;
     private boolean isActive;
 
     public boolean canInteractWith(EntityPlayer player) {
@@ -45,17 +43,9 @@ public class TileEntityTeleporterController extends TileEntity {
         if (getWorldObj().isRemote)
             return;
 
-        for (int i = 0; i < padLocations.size(); i++) {
-            PadLocation loc = padLocations.get(i);
+        deregisterPad(x, y, z);
 
-            if (loc.x == x && loc.y == y && loc.z == z)
-                return;
-        }
-
-        PadLocation location = new PadLocation();
-        location.x = x;
-        location.y = y;
-        location.z = z;
+        PadData location = new PadData(x, y, z);
         padLocations.add(location);
         getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
     }
@@ -66,13 +56,13 @@ public class TileEntityTeleporterController extends TileEntity {
             return;
 
         while (padLocations.size() > 0) {
-            PadLocation padLocation = padLocations.get(0);
+            PadData padLocation = padLocations.get(0);
 
-            TileEntity pad = getWorldObj().getTileEntity(padLocation.x, padLocation.y, padLocation.z);
+            TileEntity pad = getWorldObj().getTileEntity(padLocation.getPadXCoord(), padLocation.getPadYCoord(), padLocation.getPadZCoord());
 
             if (pad != null && pad instanceof  TileEntityTeleporterPad) {
                 ((TileEntityTeleporterPad)pad).deregister();
-                getWorldObj().setBlockMetadataWithNotify(padLocation.x, padLocation.y, padLocation.z, 0, 3);
+                getWorldObj().setBlockMetadataWithNotify(padLocation.getPadXCoord(), padLocation.getPadYCoord(), padLocation.getPadZCoord(), 0, 3);
             }
         }
 
@@ -85,13 +75,21 @@ public class TileEntityTeleporterController extends TileEntity {
             return;
 
         for (int i = padLocations.size() - 1; i >= 0; i--) {
-            PadLocation loc = padLocations.get(i);
+            PadData loc = padLocations.get(i);
 
-            if (loc.x == x && loc.y == y && loc.z == z) {
+            if (loc.getPadXCoord() == x && loc.getPadYCoord() == y && loc.getPadZCoord() == z) {
                 padLocations.remove(i);
             }
         }
 
+        getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+    public void adjustCreditAmount(int amount) {
+        if (worldObj.isRemote)
+            return;
+
+        credits += amount;
         getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
@@ -118,14 +116,16 @@ public class TileEntityTeleporterController extends TileEntity {
 
         for (int i = 0; i < padLocations.size(); i++) {
             NBTTagCompound location = new NBTTagCompound();
-            PadLocation locObj = padLocations.get(i);
-            location.setInteger("locX", locObj.x);
-            location.setInteger("locY", locObj.y);
-            location.setInteger("locZ", locObj.z);
+            PadData locObj = padLocations.get(i);
+            location.setInteger("locX", locObj.getPadXCoord());
+            location.setInteger("locY", locObj.getPadYCoord());
+            location.setInteger("locZ", locObj.getPadZCoord());
             locationTags.appendTag(location);
         }
         nbtTagCompound.setTag("locations", locationTags);
         nbtTagCompound.setBoolean("isActive", isActive);
+        nbtTagCompound.setInteger("credits", credits);
+        nbtTagCompound.setString("uuid", locationUUID.toString());
     }
 
     @Override
@@ -133,6 +133,8 @@ public class TileEntityTeleporterController extends TileEntity {
         super.readFromNBT(nbtTagCompound);
 
         isActive = nbtTagCompound.getBoolean("isActive");
+        credits = nbtTagCompound.getInteger("credits");
+        locationUUID = UUID.fromString(nbtTagCompound.getString("uuid"));
         NBTTagList locations = nbtTagCompound.getTagList("locations", 10);
 
         padLocations.clear();
@@ -140,10 +142,12 @@ public class TileEntityTeleporterController extends TileEntity {
         for(int i = 0; i < locations.tagCount(); i++) {
             NBTTagCompound locTag = locations.getCompoundTagAt(i);
 
-            PadLocation location = new PadLocation();
-            location.x = locTag.getInteger("locX");
-            location.y = locTag.getInteger("locY");
-            location.z = locTag.getInteger("locZ");
+            int x = locTag.getInteger("locX");
+            int y = locTag.getInteger("locY");
+            int z = locTag.getInteger("locZ");
+
+            PadData location = new PadData(x, y, z);
+
             padLocations.add(location);
         }
     }

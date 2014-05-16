@@ -18,6 +18,16 @@ public class PadData {
     private int padYCoord;
     private int padZCoord;
 
+    public PadData(int x, int y, int z) {
+        this.padXCoord = x;
+        this.padYCoord = y;
+        this.padZCoord = z;
+    }
+
+    public int getPadXCoord() { return padXCoord; }
+    public int getPadYCoord() { return padYCoord; }
+    public int getPadZCoord() { return padZCoord; }
+
     public Iterable<ItemStack> getPadItems(World world) {
         LinkedList<ItemStack> allItems = new LinkedList<ItemStack>();
         Block topBlock = world.getBlock(padXCoord, padYCoord + 1, padZCoord);
@@ -182,32 +192,36 @@ public class PadData {
         int maxStackSize = itemStackToDrop.getMaxStackSize();
 
         if (forceStackDrop) {
-            ItemStack dropStack = new ItemStack(itemStackToDrop.getItem(), maxStackSize, itemStackToDrop.getItemDamage());
-
-            if (itemStackToDrop.stackSize <= maxStackSize) {
-                dropStack.stackSize = itemStackToDrop.stackSize;
-            }
-
-            itemStackToDrop.stackSize -= dropStack.stackSize;
-
-            EntityItem item = new EntityItem(world, (float)padXCoord + 0.5f, (float)padYCoord + 1.5f, (float)padZCoord + 0.5f, dropStack);
-            world.spawnEntityInWorld(item);
-
-            if (itemStackToDrop.stackSize == 0)
-                return null;
-            else
-                return itemStackToDrop;
+            return dropSingleStack(world, itemStackToDrop, maxStackSize);
         }
 
         if (world.isAirBlock(padXCoord, padYCoord + 1, padZCoord)) {
-            while (itemStackToDrop.stackSize != 0) {
-
+            while (itemStackToDrop != null) {
+                itemStackToDrop = dropSingleStack(world, itemStackToDrop, maxStackSize);
             }
 
             return null;
         }
 
         return itemStackToDrop;
+    }
+
+    private ItemStack dropSingleStack(World world, ItemStack itemStackToDrop, int maxStackSize) {
+        ItemStack dropStack = new ItemStack(itemStackToDrop.getItem(), maxStackSize, itemStackToDrop.getItemDamage());
+
+        if (itemStackToDrop.stackSize < maxStackSize) {
+            dropStack.stackSize = itemStackToDrop.stackSize;
+        }
+
+        itemStackToDrop.stackSize -= dropStack.stackSize;
+
+        EntityItem item = new EntityItem(world, (float)padXCoord + 0.5f, (float)padYCoord + 1.5f, (float)padZCoord + 0.5f, dropStack);
+        world.spawnEntityInWorld(item);
+
+        if (itemStackToDrop.stackSize == 0)
+            return null;
+        else
+            return itemStackToDrop;
     }
 
     private boolean canItemstacksStack(ItemStack itemStack1, ItemStack itemStack2) {
