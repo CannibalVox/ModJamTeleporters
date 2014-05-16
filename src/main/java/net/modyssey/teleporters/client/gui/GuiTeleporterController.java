@@ -18,16 +18,7 @@ public class GuiTeleporterController extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        double uvW = 195;
-        double uvH = 256;
-
-        double h = uvH * 0.9;
-        double w = uvW * 0.9;
-
-        double x = (width - w) / 2;
-        double y = ((height - h) / 2);
-
-        drawString(fontRendererObj, "Farts", (int)x + 96, (int)y + 5, 0);
+        drawString(fontRendererObj, "Pads Registered: " + Integer.toString(controller.getPadCount()), 8, 4, 0xFFFFFF);
     }
 
     @Override

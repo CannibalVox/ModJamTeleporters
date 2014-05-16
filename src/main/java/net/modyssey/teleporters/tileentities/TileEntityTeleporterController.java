@@ -25,6 +25,8 @@ public class TileEntityTeleporterController extends TileEntity {
         return player.getDistanceSq((double)xCoord + 0.5D, (double)yCoord + 0.5D, (double)zCoord + 0.5D) <= 64D;
     }
 
+    public int getPadCount() { return padLocations.size(); }
+
     public void registerPad(int x, int y, int z) {
         PadLocation location = new PadLocation();
         location.x = x;
