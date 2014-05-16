@@ -78,6 +78,8 @@ public class TileEntityTeleporterPad extends TileEntity {
 
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound) {
+        super.writeToNBT(nbtTagCompound);
+
         nbtTagCompound.setInteger("stationX", registeredStationX);
         nbtTagCompound.setInteger("stationY", registeredStationY);
         nbtTagCompound.setInteger("stationZ", registeredStationZ);
@@ -87,6 +89,8 @@ public class TileEntityTeleporterPad extends TileEntity {
 
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
+        super.readFromNBT(nbtTagCompound);
+
         registeredStationX = nbtTagCompound.getInteger("stationX");
         registeredStationY = nbtTagCompound.getInteger("stationY");
         registeredStationZ = nbtTagCompound.getInteger("stationZ");

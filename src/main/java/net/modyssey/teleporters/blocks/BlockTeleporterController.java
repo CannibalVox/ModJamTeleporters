@@ -136,10 +136,12 @@ public class BlockTeleporterController extends BlockContainer {
         world.setBlockMetadataWithNotify(x, y, z, quartile, 2);
         world.setBlock(x, y+1, z, this, quartile | 4, 2);
 
-        checkForPad(world, x, y, z, ForgeDirection.EAST);
-        checkForPad(world, x, y, z, ForgeDirection.WEST);
-        checkForPad(world, x, y, z, ForgeDirection.NORTH);
-        checkForPad(world, x, y, z, ForgeDirection.SOUTH);
+        if (!world.isRemote) {
+            checkForPad(world, x, y, z, ForgeDirection.EAST);
+            checkForPad(world, x, y, z, ForgeDirection.WEST);
+            checkForPad(world, x, y, z, ForgeDirection.NORTH);
+            checkForPad(world, x, y, z, ForgeDirection.SOUTH);
+        }
     }
 
     @Override

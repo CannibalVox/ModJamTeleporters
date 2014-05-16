@@ -18,6 +18,7 @@ import net.modyssey.teleporters.blocks.BlockTeleporterPad;
 import net.modyssey.teleporters.client.renderer.RenderTeleporterController;
 import net.modyssey.teleporters.handlers.ModysseyGuiHandler;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
+import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
 
 @Mod(modid = "modysseyteleporters", version = ModysseyTeleporters.VERSION)
 public class ModysseyTeleporters {
@@ -63,6 +64,7 @@ public class ModysseyTeleporters {
 
         //Register tile entities
         GameRegistry.registerTileEntity(TileEntityTeleporterController.class, "TileEntityTeleporterController");
+        GameRegistry.registerTileEntity(TileEntityTeleporterPad.class, "TileEntityTeleporterPad");
 
         //Register tile entity renderers
         proxy.registerBlockRenderers();
