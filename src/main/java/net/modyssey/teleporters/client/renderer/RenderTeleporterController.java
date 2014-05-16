@@ -26,6 +26,11 @@ public class RenderTeleporterController extends TileEntitySpecialRenderer implem
 
         int rotations = tileEntity.getBlockMetadata();
 
+        if ((rotations & 4) != 0)
+            return;
+
+        rotations &= 3;
+
         GL11.glPushMatrix();
         GL11.glTranslated(x+0.5, y+1.5, z+0.5);
         GL11.glRotatef(180, 0, 0, 1);

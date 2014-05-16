@@ -15,7 +15,12 @@ public class TileEntityTeleporterController extends TileEntity {
         public int z;
     }
 
+    public TileEntityTeleporterController(boolean active) {
+        this.isActive = active;
+    }
+
     private ArrayList<PadLocation> padLocations = new ArrayList<PadLocation>();
+    private boolean isActive;
 
     public boolean canInteractWith(EntityPlayer player) {
         if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
@@ -26,6 +31,7 @@ public class TileEntityTeleporterController extends TileEntity {
     }
 
     public int getPadCount() { return padLocations.size(); }
+    public boolean isActive() { return isActive; }
 
     public void registerPad(int x, int y, int z) {
         PadLocation location = new PadLocation();

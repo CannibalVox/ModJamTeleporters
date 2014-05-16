@@ -75,6 +75,8 @@ public class BlockTeleporterController extends BlockContainer {
 
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+        super.breakBlock(world, x, y, z, block, meta);
+
         if ((meta & 4) != 0)
             y--;
         else
@@ -94,11 +96,7 @@ public class BlockTeleporterController extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(World var1, int var2) {
-
-        if ((var2 & 4) != 0)
-            return null;
-
-        return new TileEntityTeleporterController();
+        return new TileEntityTeleporterController((var2 & 4) == 0);
     }
 
     @Override

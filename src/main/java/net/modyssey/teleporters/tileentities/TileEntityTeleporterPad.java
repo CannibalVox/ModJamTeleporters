@@ -21,7 +21,7 @@ public class TileEntityTeleporterPad extends TileEntity {
         World world = getWorldObj();
         TileEntity station = world.getTileEntity(x, y, z);
 
-        if (station == null || !(station instanceof  TileEntityTeleporterController))
+        if (station == null || !(station instanceof TileEntityTeleporterController) || !((TileEntityTeleporterController)station).isActive())
             return false;
 
         ((TileEntityTeleporterController)station).registerPad(this.xCoord, this.yCoord, this.zCoord);
@@ -41,7 +41,7 @@ public class TileEntityTeleporterPad extends TileEntity {
 
         TileEntity station = world.getTileEntity(registeredStationX, registeredStationY, registeredStationZ);
 
-        if (station != null && station instanceof TileEntityTeleporterController)
+        if (station != null && station instanceof TileEntityTeleporterController && ((TileEntityTeleporterController)station).isActive())
             ((TileEntityTeleporterController)station).deregisterPad(xCoord, yCoord, zCoord);
 
         registeredStationX = 0;
