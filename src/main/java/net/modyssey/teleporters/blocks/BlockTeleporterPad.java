@@ -79,19 +79,34 @@ public class BlockTeleporterPad extends BlockContainer {
 
         dir = ForgeDirection.EAST;
 
+        int bestDjikstraNumber = 0;
+        ForgeDirection bestDirection = ForgeDirection.UNKNOWN;
         for (int i = 0; i < 4; i++) {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-            LinkedList<>
 
             if (block == this) {
                 int metadata = world.getBlockMetadata(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
                 if (metadata != 0 && metadata != ForgeDirection.OPPOSITES[dir.ordinal()]) {
-                    validPadDirections.add(dir);
+                    TileEntity padEntity = world.getTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+                    if (padEntity != null && padEntity instanceof  TileEntityTeleporterPad) {
+                        int djikstra = ((TileEntityTeleporterPad)padEntity).getDjikstraNumber();
+
+                        if (bestDjikstraNumber == 0 || djikstra < bestDjikstraNumber) {
+                            bestDjikstraNumber = djikstra;
+                            bestDirection = dir;
+                        }
+                    }
                 }
             }
 
             dir = dir.getRotation(ForgeDirection.UP);
+        }
+
+        if (bestDirection != ForgeDirection.UNKNOWN) {
+            registerPad(world, bestDirection, x, y, z, oldMetadata);
+        } else if (oldMetadata != 0) {
+            world.setBlockMetadataWithNotify(x, y, z, 0, 3);
         }
     }
 

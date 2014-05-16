@@ -9,11 +9,13 @@ public class TileEntityTeleporterPad extends TileEntity {
     private int registeredStationY = 0;
     private int registeredStationZ = 0;
     private boolean isRegistered = false;
+    private int djikstraNumber = 0;
 
     public int getRegisteredStationX() { return registeredStationX; }
     public int getRegisteredStationY() { return registeredStationY; }
     public int getRegisteredStationZ() { return registeredStationZ; }
     public boolean isRegistered() { return isRegistered; }
+    public int getDjikstraNumber() { return djikstraNumber; }
 
     public boolean registerStation(int x, int y, int z) {
         World world = getWorldObj();
@@ -27,6 +29,7 @@ public class TileEntityTeleporterPad extends TileEntity {
         registeredStationY = y;
         registeredStationZ = z;
         isRegistered = true;
+        djikstraNumber = 1;
         return true;
     }
 
@@ -44,6 +47,7 @@ public class TileEntityTeleporterPad extends TileEntity {
         registeredStationX = 0;
         registeredStationY = 0;
         registeredStationZ = 0;
+        djikstraNumber = 0;
         isRegistered = false;
     }
 
@@ -59,7 +63,12 @@ public class TileEntityTeleporterPad extends TileEntity {
         if (!padObj.isRegistered())
             return false;
 
-        return registerStation(padObj.getRegisteredStationX(), padObj.getRegisteredStationY(), padObj.getRegisteredStationZ());
+        boolean returnVal = registerStation(padObj.getRegisteredStationX(), padObj.getRegisteredStationY(), padObj.getRegisteredStationZ());
+
+        if (returnVal)
+            djikstraNumber = padObj.getDjikstraNumber() + 1;
+
+        return returnVal;
     }
 
     @Override
@@ -68,6 +77,7 @@ public class TileEntityTeleporterPad extends TileEntity {
         nbtTagCompound.setInteger("stationY", registeredStationY);
         nbtTagCompound.setInteger("stationZ", registeredStationZ);
         nbtTagCompound.setBoolean("isRegistered", isRegistered);
+        nbtTagCompound.setInteger("djikstraNumber", djikstraNumber);
     }
 
     @Override
@@ -76,5 +86,6 @@ public class TileEntityTeleporterPad extends TileEntity {
         registeredStationY = nbtTagCompound.getInteger("stationY");
         registeredStationZ = nbtTagCompound.getInteger("stationZ");
         isRegistered = nbtTagCompound.getBoolean("isRegistered");
+        djikstraNumber = nbtTagCompound.getInteger("djikstraNumber");
     }
 }
