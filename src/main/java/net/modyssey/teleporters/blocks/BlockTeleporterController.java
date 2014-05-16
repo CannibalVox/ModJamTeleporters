@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.modyssey.teleporters.ModysseyTeleporters;
@@ -21,7 +22,44 @@ public class BlockTeleporterController extends BlockContainer {
 
     public BlockTeleporterController() {
         super(Material.anvil);
+    }
 
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+        int meta = world.getBlockMetadata(x, y, z);
+
+        boolean isTopBlock = (meta & 4) != 0;
+        meta &= 3;
+
+        ForgeDirection dir = ForgeDirection.SOUTH;
+
+        for (int i = 0; i < meta; i++) {
+            dir = dir.getRotation(ForgeDirection.UP);
+        }
+
+        float minX = 0;
+        float minZ = 0;
+        float maxX = 1;
+        float maxZ = 1;
+
+        if (dir.offsetX < 0)
+            minX -= 0.0625f;
+        if (dir.offsetX > 0)
+            maxX += 0.0625f;
+        if (dir.offsetZ < 0)
+            minZ -= 0.0625f;
+        if (dir.offsetZ > 0)
+            maxZ += 0.0625f;
+
+        float minY = 0;
+        float maxY = 1.625f;
+
+        if (isTopBlock) {
+            minY -= 1.0f;
+            maxY -= 1.0f;
+        }
+
+        setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
     @Override
@@ -34,14 +72,24 @@ public class BlockTeleporterController extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(World var1, int var2) {
+
+        if ((var2 & 4) != 0)
+            return null;
+        
         return new TileEntityTeleporterController();
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
-        if (!world.isRemote)
+        if (!world.isRemote) {
+            int meta = world.getBlockMetadata(x, y, z);
+
+            if ((meta & 4) == 0)
+                y--;
+
             FMLNetworkHandler.openGui(player, ModysseyTeleporters.instance, GUI_ID, world, x, y, z);
+        }
 
         return true;
     }
