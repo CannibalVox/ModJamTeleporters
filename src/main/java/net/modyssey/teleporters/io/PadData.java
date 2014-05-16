@@ -52,5 +52,67 @@ public class PadData {
         return allItems;
     }
 
+    public ItemStack attemptRemoveItems(World world, ItemStack itemsToRemove, boolean checkItemDamage) {
+        for (Object item : world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getAABBPool().getAABB(padXCoord, padYCoord + 1, padZCoord, padXCoord + 1, padYCoord + 2, padZCoord + 1))) {
+            EntityItem entity = (EntityItem) item;
+            if (!entity.isDead) {
+                ItemStack stack = entity.getEntityItem();
 
+                if (itemMatches(stack, itemsToRemove, checkItemDamage)) {
+                    if (stack.stackSize >= itemsToRemove.stackSize) {
+                        if (stack.stackSize > itemsToRemove.stackSize) {
+                            stack.stackSize -= itemsToRemove.stackSize;
+                            entity.setEntityItemStack(stack);
+                        } else
+                            entity.setDead();
+
+                        return null;
+                    } else {
+                        itemsToRemove.stackSize -= stack.stackSize;
+                        entity.setDead();
+                    }
+                }
+            }
+        }
+
+        Block topBlock = world.getBlock(padXCoord, padYCoord + 1, padZCoord);
+
+        if (topBlock instanceof BlockContainer) {
+            TileEntity tileEntity = world.getTileEntity(padXCoord, padYCoord + 1, padZCoord);
+
+            if (tileEntity != null && tileEntity instanceof IInventory) {
+                IInventory inventory = (IInventory) tileEntity;
+
+                for (int i = 0; i < inventory.getSizeInventory(); i++) {
+                    ItemStack item = inventory.getStackInSlot(i);
+
+                    if (itemMatches(item, itemsToRemove, checkItemDamage)) {
+                        if (item.stackSize <= itemsToRemove.stackSize) {
+                            itemsToRemove.stackSize -= item.stackSize;
+                            inventory.setInventorySlotContents(i, null);
+                        } else {
+                            item.stackSize -= itemsToRemove.stackSize;
+                            itemsToRemove.stackSize = 0;
+                            inventory.setInventorySlotContents(i, item);
+                        }
+
+                        if (itemsToRemove.stackSize == 0)
+                            return null;
+                    }
+                }
+            }
+        }
+
+        return itemsToRemove;
+    }
+
+    private boolean itemMatches(ItemStack itemStack1, ItemStack itemStack2, boolean checkItemDamage) {
+        if (Item.itemRegistry.getIDForObject(itemStack1.getItem()) != Item.itemRegistry.getIDForObject(itemStack2.getItem()))
+            return false;
+
+        if (checkItemDamage && itemStack1.getItemDamage() != itemStack2.getItemDamage())
+            return false;
+
+        return true;
+    }
 }
