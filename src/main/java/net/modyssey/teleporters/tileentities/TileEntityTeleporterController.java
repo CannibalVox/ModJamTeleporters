@@ -15,6 +15,10 @@ public class TileEntityTeleporterController extends TileEntity {
         public int z;
     }
 
+    public TileEntityTeleporterController() {
+        this.isActive = true;
+    }
+
     public TileEntityTeleporterController(boolean active) {
         this.isActive = active;
     }
@@ -79,12 +83,14 @@ public class TileEntityTeleporterController extends TileEntity {
             locationTags.appendTag(location);
         }
         nbtTagCompound.setTag("locations", locationTags);
+        nbtTagCompound.setBoolean("isActive", isActive);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
 
+        isActive = nbtTagCompound.getBoolean("isActive");
         NBTTagList locations = nbtTagCompound.getTagList("locations", 10);
 
         for(int i = 0; i < locations.tagCount(); i++) {

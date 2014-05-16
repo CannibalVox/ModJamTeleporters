@@ -17,6 +17,10 @@ public class TileEntityTeleporterPad extends TileEntity {
     public boolean isRegistered() { return isRegistered; }
     public int getDjikstraNumber() { return djikstraNumber; }
 
+    public TileEntityTeleporterPad() {
+
+    }
+
     public boolean registerStation(int x, int y, int z) {
         World world = getWorldObj();
         TileEntity station = world.getTileEntity(x, y, z);
