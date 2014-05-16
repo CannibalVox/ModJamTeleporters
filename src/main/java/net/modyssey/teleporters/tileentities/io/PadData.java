@@ -1,4 +1,4 @@
-package net.modyssey.teleporters.io;
+package net.modyssey.teleporters.tileentities.io;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 
 import java.util.LinkedList;
 
