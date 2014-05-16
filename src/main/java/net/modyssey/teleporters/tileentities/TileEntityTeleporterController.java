@@ -41,6 +41,17 @@ public class TileEntityTeleporterController extends TileEntity {
     public boolean isActive() { return isActive; }
 
     public void registerPad(int x, int y, int z) {
+
+        if (getWorldObj().isRemote)
+            return;
+
+        for (int i = 0; i < padLocations.size(); i++) {
+            PadLocation loc = padLocations.get(i);
+
+            if (loc.x == x && loc.y == y && loc.z == z)
+                return;
+        }
+
         PadLocation location = new PadLocation();
         location.x = x;
         location.y = y;
@@ -50,6 +61,10 @@ public class TileEntityTeleporterController extends TileEntity {
     }
 
     public void deregisterAllPads() {
+
+        if (worldObj.isRemote)
+            return;
+
         while (padLocations.size() > 0) {
             PadLocation padLocation = padLocations.get(0);
 
@@ -65,6 +80,10 @@ public class TileEntityTeleporterController extends TileEntity {
     }
 
     public void deregisterPad(int x, int y, int z) {
+
+        if (worldObj.isRemote)
+            return;
+
         for (int i = padLocations.size() - 1; i >= 0; i--) {
             PadLocation loc = padLocations.get(i);
 
@@ -115,6 +134,8 @@ public class TileEntityTeleporterController extends TileEntity {
 
         isActive = nbtTagCompound.getBoolean("isActive");
         NBTTagList locations = nbtTagCompound.getTagList("locations", 10);
+
+        padLocations.clear();
 
         for(int i = 0; i < locations.tagCount(); i++) {
             NBTTagCompound locTag = locations.getCompoundTagAt(i);
