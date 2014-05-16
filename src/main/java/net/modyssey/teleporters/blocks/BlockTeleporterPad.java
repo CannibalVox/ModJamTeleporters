@@ -18,6 +18,7 @@ import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 public class BlockTeleporterPad extends BlockContainer {
     public BlockTeleporterPad() {
@@ -33,11 +34,16 @@ public class BlockTeleporterPad extends BlockContainer {
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item)
     {
-        searchForStation(world, x, y, z);
+        world.scheduleBlockUpdate(x, y, z, this, 1);
     }
 
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor) {
+        world.scheduleBlockUpdate(x, y, z, this, 1);
+    }
+
+    @Override
+    public void updateTick(World world, int x, int y, int z, Random random) {
         deregister(world, x, y, z);
 
         searchForStation(world, x, y, z);
@@ -58,11 +64,13 @@ public class BlockTeleporterPad extends BlockContainer {
         ForgeDirection dir = ForgeDirection.EAST;
         LinkedList<ForgeDirection> validPadDirections = new LinkedList<ForgeDirection>();
 
+        int oldMetadata = world.getBlockMetadata(x, y, z);
+
         for (int i = 0; i < 4; i++) {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ);
 
             if (block == ModysseyTeleporters.teleporterController) {
-                if (registerStation(world, dir, x, y, z))
+                if (registerStation(world, dir, x, y, z, oldMetadata))
                     return;
             }
 
@@ -109,30 +117,34 @@ public class BlockTeleporterPad extends BlockContainer {
         }
 
         if (bestTaxiCab == 0) {
-            world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+            if (oldMetadata != 0)
+                world.setBlockMetadataWithNotify(x, y, z, 0, 3);
             return;
         }
 
-        registerPad(world, bestDir, x, y, z);
-        world.setBlockMetadataWithNotify(x, y, z, bestDir.ordinal(), 3);
+        registerPad(world, bestDir, x, y, z, oldMetadata);
     }
 
-    private boolean registerStation(World world, ForgeDirection dir, int x, int y, int z) {
+    private boolean registerStation(World world, ForgeDirection dir, int x, int y, int z, int oldMetadata) {
         TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
 
         if (pad.registerStation(x+dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ)) {
-            world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+
+            if (oldMetadata != dir.ordinal())
+                world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
             return true;
         }
 
         return false;
     }
 
-    private boolean registerPad(World world, ForgeDirection dir, int x, int y, int z) {
+    private boolean registerPad(World world, ForgeDirection dir, int x, int y, int z, int oldMetadata) {
         TileEntityTeleporterPad pad = (TileEntityTeleporterPad)world.getTileEntity(x, y, z);
 
         if (pad.registerSameAs(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
-            world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+
+            if (oldMetadata != dir.ordinal())
+                world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
             return true;
         }
 
