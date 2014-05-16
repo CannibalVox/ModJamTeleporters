@@ -74,7 +74,14 @@ public class BlockTeleporterPad extends BlockContainer {
                     return;
             }
 
-            block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+            dir = dir.getRotation(ForgeDirection.UP);
+        }
+
+        dir = ForgeDirection.EAST;
+
+        for (int i = 0; i < 4; i++) {
+            Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+            LinkedList<>
 
             if (block == this) {
                 int metadata = world.getBlockMetadata(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
@@ -86,43 +93,6 @@ public class BlockTeleporterPad extends BlockContainer {
 
             dir = dir.getRotation(ForgeDirection.UP);
         }
-
-        int bestTaxiCab = 0;
-        ForgeDirection bestDir = ForgeDirection.UNKNOWN;
-        for(ForgeDirection validDir : validPadDirections) {
-            TileEntity padEntity = world.getTileEntity(x + validDir.offsetX, y + validDir.offsetY, z + validDir.offsetZ);
-
-            if (padEntity == null || !(padEntity instanceof TileEntityTeleporterPad))
-                continue;
-
-            TileEntityTeleporterPad pad = (TileEntityTeleporterPad)padEntity;
-
-            if (!pad.isRegistered())
-                continue;
-
-            TileEntity controllerEntity = world.getTileEntity(pad.getRegisteredStationX(), pad.getRegisteredStationY(), pad.getRegisteredStationZ());
-
-            if (controllerEntity == null || !(controllerEntity instanceof TileEntityTeleporterController))
-                continue;
-
-            int xDist = Math.abs(pad.getRegisteredStationX() - (x + validDir.offsetX));
-            int zDist = Math.abs(pad.getRegisteredStationZ() - (z + validDir.offsetZ));
-
-            int taxiCab = xDist+zDist;
-
-            if (bestTaxiCab == 0 || taxiCab < bestTaxiCab) {
-                bestTaxiCab = taxiCab;
-                bestDir = validDir;
-            }
-        }
-
-        if (bestTaxiCab == 0) {
-            if (oldMetadata != 0)
-                world.setBlockMetadataWithNotify(x, y, z, 0, 3);
-            return;
-        }
-
-        registerPad(world, bestDir, x, y, z, oldMetadata);
     }
 
     private boolean registerStation(World world, ForgeDirection dir, int x, int y, int z, int oldMetadata) {
