@@ -14,7 +14,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.modyssey.teleporters.ModysseyTeleporters;
+import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
+
+import java.util.LinkedList;
 
 public class BlockTeleporterPad extends BlockContainer {
     public BlockTeleporterPad() {
@@ -53,6 +56,7 @@ public class BlockTeleporterPad extends BlockContainer {
 
     protected void searchForStation(World world, int x, int y, int z) {
         ForgeDirection dir = ForgeDirection.EAST;
+        LinkedList<ForgeDirection> validPadDirections = new LinkedList<ForgeDirection>();
 
         for (int i = 0; i < 4; i++) {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ);
@@ -68,15 +72,49 @@ public class BlockTeleporterPad extends BlockContainer {
                 int metadata = world.getBlockMetadata(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
                 if (metadata != 0 && metadata != ForgeDirection.OPPOSITES[dir.ordinal()]) {
-                    if (registerPad(world, dir, x, y, z))
-                        return;
+                    validPadDirections.add(dir);
                 }
             }
 
             dir = dir.getRotation(ForgeDirection.UP);
         }
 
-        world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+        int bestTaxiCab = 0;
+        ForgeDirection bestDir = ForgeDirection.UNKNOWN;
+        for(ForgeDirection validDir : validPadDirections) {
+            TileEntity padEntity = world.getTileEntity(x + validDir.offsetX, y + validDir.offsetY, z + validDir.offsetZ);
+
+            if (padEntity == null || !(padEntity instanceof TileEntityTeleporterPad))
+                continue;
+
+            TileEntityTeleporterPad pad = (TileEntityTeleporterPad)padEntity;
+
+            if (!pad.isRegistered())
+                continue;
+
+            TileEntity controllerEntity = world.getTileEntity(pad.getRegisteredStationX(), pad.getRegisteredStationY(), pad.getRegisteredStationZ());
+
+            if (controllerEntity == null || !(controllerEntity instanceof TileEntityTeleporterController))
+                continue;
+
+            int xDist = Math.abs(pad.getRegisteredStationX() - (x + validDir.offsetX));
+            int zDist = Math.abs(pad.getRegisteredStationZ() - (z + validDir.offsetZ));
+
+            int taxiCab = xDist+zDist;
+
+            if (bestTaxiCab == 0 || taxiCab < bestTaxiCab) {
+                bestTaxiCab = taxiCab;
+                bestDir = validDir;
+            }
+        }
+
+        if (bestTaxiCab == 0) {
+            world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+            return;
+        }
+
+        registerPad(world, bestDir, x, y, z);
+        world.setBlockMetadataWithNotify(x, y, z, bestDir.ordinal(), 3);
     }
 
     private boolean registerStation(World world, ForgeDirection dir, int x, int y, int z) {
