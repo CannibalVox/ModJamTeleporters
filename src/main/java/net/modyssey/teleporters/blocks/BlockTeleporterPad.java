@@ -42,6 +42,14 @@ public class BlockTeleporterPad extends BlockContainer {
     }
 
     @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z) {
+        if (world.getBlockMetadata(x, y, z) == 0)
+            return 0;
+        else
+            return 15;
+    }
+
+    @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
         deregister(world, x, y, z);
 
