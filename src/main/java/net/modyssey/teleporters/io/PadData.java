@@ -141,7 +141,7 @@ public class PadData {
                 for (int i = 0; i < inventory.getSizeInventory(); i++) {
                     ItemStack stack = inventory.getStackInSlot(i);
 
-                    if (stack != null && canItemstacksStack(itemsStackToAdd, stack)) {
+                    if (stack != null && inventory.isItemValidForSlot(i, itemsStackToAdd) && canItemstacksStack(itemsStackToAdd, stack)) {
                         int maxStackSize = Math.min(stack.getMaxStackSize(), inventory.getInventoryStackLimit());
                         int fillAmount = maxStackSize - stack.stackSize;
                         if (fillAmount <= 0)
@@ -160,7 +160,7 @@ public class PadData {
                 }
 
                 for (int i = 0; i < inventory.getSizeInventory(); i++) {
-                    if (inventory.getStackInSlot(i) == null) {
+                    if (inventory.getStackInSlot(i) == null && inventory.isItemValidForSlot(i, itemsStackToAdd)) {
                         int maxStackSize = Math.min(itemsStackToAdd.getMaxStackSize(), inventory.getInventoryStackLimit());
                         if (maxStackSize >= itemsStackToAdd.stackSize) {
                             inventory.setInventorySlotContents(i, itemsStackToAdd);
@@ -181,9 +181,33 @@ public class PadData {
     public ItemStack dropItemsOnFloor(World world, ItemStack itemStackToDrop, boolean forceStackDrop) {
         int maxStackSize = itemStackToDrop.getMaxStackSize();
 
-        if  forceStackDrop) {
+        if (forceStackDrop) {
+            ItemStack dropStack = new ItemStack(itemStackToDrop.getItem(), maxStackSize, itemStackToDrop.getItemDamage());
 
+            if (itemStackToDrop.stackSize <= maxStackSize) {
+                dropStack.stackSize = itemStackToDrop.stackSize;
+            }
+
+            itemStackToDrop.stackSize -= dropStack.stackSize;
+
+            EntityItem item = new EntityItem(world, (float)padXCoord + 0.5f, (float)padYCoord + 1.5f, (float)padZCoord + 0.5f, dropStack);
+            world.spawnEntityInWorld(item);
+
+            if (itemStackToDrop.stackSize == 0)
+                return null;
+            else
+                return itemStackToDrop;
         }
+
+        if (world.isAirBlock(padXCoord, padYCoord + 1, padZCoord)) {
+            while (itemStackToDrop.stackSize != 0) {
+
+            }
+
+            return null;
+        }
+
+        return itemStackToDrop;
     }
 
     private boolean canItemstacksStack(ItemStack itemStack1, ItemStack itemStack2) {
