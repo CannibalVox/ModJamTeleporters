@@ -55,7 +55,9 @@ public class PadData {
         for(Object item : world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getAABBPool().getAABB(padXCoord, padYCoord + 1, padZCoord, padXCoord + 1, padYCoord + 2, padZCoord + 1))) {
             EntityItem entity = (EntityItem)item;
             if (!entity.isDead) {
-                allItems.add(entity.getEntityItem());
+                ItemStack entityStack = entity.getEntityItem();
+                ItemStack outStack = new ItemStack(entityStack.getItem(), entityStack.stackSize, entityStack.getItemDamage());
+                allItems.add(outStack);
             }
         }
 
