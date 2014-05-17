@@ -45,8 +45,10 @@ public class PadData {
                     for (int i = 0; i < inventory.getSizeInventory(); i++) {
                         ItemStack item = inventory.getStackInSlot(i);
 
-                        if (item != null)
-                            allItems.add(item);
+                        if (item != null) {
+                            ItemStack outStack = new ItemStack(item.getItem(), item.stackSize, item.getItemDamage());
+                            allItems.add(outStack);
+                        }
                     }
                 }
             }
