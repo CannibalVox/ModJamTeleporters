@@ -3,7 +3,6 @@ package net.modyssey.teleporters.client.gui;
 import net.minecraft.util.ResourceLocation;
 import net.modyssey.teleporters.client.gui.components.ScrollingList;
 import net.modyssey.teleporters.markets.IMarket;
-import net.modyssey.teleporters.markets.stock.StockCategory;
 
 import java.awt.geom.Rectangle2D;
 

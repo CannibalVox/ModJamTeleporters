@@ -1,7 +1,6 @@
 package net.modyssey.teleporters.tileentities.container;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.modyssey.teleporters.markets.IMarket;
 import net.modyssey.teleporters.markets.IMarketFactory;
@@ -27,7 +26,9 @@ public class ContainerTeleporterController extends Container {
 
         for (int i = 0; i < marketFactories.length; i++) {
             this.markets[i] = marketFactories[i].createMarket();
-            this.markets[i].initializeCart(controller);
+
+            if (!controller.getWorldObj().isRemote)
+                this.markets[i].initializeCart(controller);
         }
     }
 
