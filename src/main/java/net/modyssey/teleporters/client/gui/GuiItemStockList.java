@@ -12,7 +12,7 @@ public class GuiItemStockList extends ScrollingList {
     private GuiTeleporterController parent;
 
     public GuiItemStockList(GuiTeleporterController parent) {
-        super(new Rectangle2D.Double(63,28,55,111), 20);
+        super(new Rectangle2D.Double(63,28,55,110), 20);
 
         this.parent = parent;
     }
@@ -43,7 +43,7 @@ public class GuiItemStockList extends ScrollingList {
 
     @Override
     protected Rectangle2D getScrollTrackBounds() {
-        return new Rectangle2D.Double(119, 28, 6, 111);
+        return new Rectangle2D.Double(118, 28, 6, 111);
     }
 
     @Override
@@ -61,6 +61,6 @@ public class GuiItemStockList extends ScrollingList {
 
     @Override
     protected void handleMouseInput(int mouseX, int mouseY) {
-        super.handleMouseInput(mouseX + 54, mouseY - 25);
+        super.handleMouseInput(mouseX - 9, mouseY - 25);
     }
 }

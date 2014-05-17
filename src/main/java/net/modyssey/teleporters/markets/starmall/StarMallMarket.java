@@ -33,7 +33,7 @@ public class StarMallMarket implements IMarket {
     }
 
     @Override
-    public void InitializeCart(TileEntityTeleporterController controller) {
+    public void initializeCart(TileEntityTeleporterController controller) {
 
     }
 

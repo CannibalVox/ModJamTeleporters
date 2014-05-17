@@ -11,7 +11,7 @@ public class GuiCategoryList extends ScrollingList {
     private GuiTeleporterController parent;
 
     public GuiCategoryList(GuiTeleporterController parent) {
-        super(new Rectangle2D.Double(0,28,55,111), 20);
+        super(new Rectangle2D.Double(0,28,55,110), 20);
 
         this.parent = parent;
     }

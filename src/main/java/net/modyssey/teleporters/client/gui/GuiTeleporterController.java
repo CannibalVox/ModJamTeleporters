@@ -27,6 +27,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         for (int i = 0; i < marketFactories.length; i++) {
             this.markets[i] = marketFactories[i].createMarket();
+            this.markets[i].InitializeCart(controller);
         }
     }
 
