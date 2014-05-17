@@ -98,6 +98,17 @@ public abstract class ScrollingList extends Gui {
         int bottomCap = getScrollGripBottomCap();
 
         Minecraft.getMinecraft().renderEngine.bindTexture(getScrollGripTexture());
+
+        //Draw top cap
+        drawTexturedModalRect(trackX, trackY, gripX, gripY, gripNativeWidth, topCap);
+        //Draw bottom cap
+        drawTexturedModalRect(trackX, trackY + gripHeight - bottomCap, gripX, gripY + gripNativeHeight - bottomCap, gripNativeWidth, bottomCap);
+
+        trackY += topCap;
+        gripY += topCap;
+        gripHeight -= (bottomCap + topCap);
+        gripNativeHeight -= (bottomCap + topCap);
+
         while (gripHeight > gripNativeHeight) {
             drawTexturedModalRect(trackX, trackY, gripX, gripY, gripNativeWidth, gripNativeHeight);
             trackY += gripNativeHeight;

@@ -31,6 +31,16 @@ public class GuiCategoryList extends ScrollingList {
     }
 
     @Override
+    protected int getScrollGripTopCap() {
+        return 2;
+    }
+
+    @Override
+    protected int getScrollGripBottomCap() {
+        return 1;
+    }
+
+    @Override
     protected Rectangle2D getScrollTrackBounds() {
         return new Rectangle2D.Double(56, 28, 6, 111);
     }

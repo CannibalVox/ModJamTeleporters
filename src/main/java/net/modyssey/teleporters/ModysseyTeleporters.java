@@ -67,11 +67,14 @@ public class ModysseyTeleporters {
     public void init(FMLInitializationEvent event) {
 
         StockList starmallStock = new StockList();
-        starmallStock.addCategory(new StockCategory("A", null));
-        starmallStock.addCategory(new StockCategory("B", null));
-
         StockList pawnshopStock = new StockList();
-        pawnshopStock.addCategory(new StockCategory("C", null));
+
+        for (int i = 0; i < 20; i++) {
+            starmallStock.addCategory(new StockCategory("A", null));
+            starmallStock.addCategory(new StockCategory("B", null));
+
+            pawnshopStock.addCategory(new StockCategory("C", null));
+        }
 
         IMarketFactory starmall = new StarMallMarketFactory(starmallStock);
         IMarketFactory pawnshop = new PawnShopMarketFactory(pawnshopStock);
