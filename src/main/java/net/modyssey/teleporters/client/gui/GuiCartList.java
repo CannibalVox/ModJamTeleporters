@@ -43,7 +43,7 @@ public class GuiCartList extends ScrollingList {
 
     @Override
     protected Rectangle2D getScrollTrackBounds() {
-        return new Rectangle2D.Double(186, 28, 6, 111);
+        return new Rectangle2D.Double(172, 28, 6, 111);
     }
 
     @Override

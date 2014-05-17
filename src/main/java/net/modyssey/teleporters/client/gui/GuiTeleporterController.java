@@ -65,6 +65,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         categories.drawList(mouseX - x, mouseY - y);
         stockItems.drawList(mouseX - x, mouseY - y);
+        cart.drawList(mouseX - x, mouseY - y);
         drawTabLabels();
 
         fontRendererObj.drawString(StatCollector.translateToLocal(markets[marketIndex].getStockTitle()), 2, 17, 0x404040, false);
