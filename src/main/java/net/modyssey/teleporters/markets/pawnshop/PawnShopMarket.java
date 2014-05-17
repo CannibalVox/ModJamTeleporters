@@ -18,6 +18,11 @@ public class PawnShopMarket implements IMarket {
     }
 
     @Override
+    public String getMarketTitle() {
+        return "gui.modysseyteleporters.pawnshop";
+    }
+
+    @Override
     public ResourceLocation getMarketLogo() {
         return new ResourceLocation("modysseyteleporters:textures/gui/station_title_starmall.png");
     }

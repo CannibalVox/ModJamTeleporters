@@ -7,6 +7,7 @@ import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 
 public interface IMarket {
     String getStockTitle();
+    String getMarketTitle();
     ResourceLocation getMarketLogo();
     StockList getStockList();
     void InitializeCart(TileEntityTeleporterController controller);

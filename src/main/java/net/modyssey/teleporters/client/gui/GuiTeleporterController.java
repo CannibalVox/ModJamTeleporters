@@ -3,6 +3,7 @@ package net.modyssey.teleporters.client.gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import net.modyssey.teleporters.markets.IMarket;
 import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
@@ -28,7 +29,14 @@ public class GuiTeleporterController extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        int titleY = 52;
+        for (int i = 0; i < markets.length; i++) {
+            String title = StatCollector.translateToLocal(markets[i].getMarketTitle());
 
+            drawString(fontRendererObj, title, -45, titleY, 0xFFFFFF);
+
+            titleY += 28;
+        }
     }
 
     protected void mouseClicked(int mouseX, int mouseY, int par3) {
@@ -95,7 +103,6 @@ public class GuiTeleporterController extends GuiContainer {
 
         tessellator.draw();
 
-        GL11.glmi
         mc.renderEngine.bindTexture(markets[marketIndex].getMarketLogo());
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV(x, y + 34, (double)this.zLevel, 0, 1);
