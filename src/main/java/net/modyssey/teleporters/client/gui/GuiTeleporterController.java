@@ -18,6 +18,7 @@ public class GuiTeleporterController extends GuiContainer {
 
     private GuiCategoryList categories;
     private GuiItemStockList stockItems;
+    private GuiCartList cart;
 
     public GuiTeleporterController(TileEntityTeleporterController controller, IMarketFactory[] marketFactories) {
         super(new ContainerTeleporterController(controller));
@@ -27,7 +28,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         for (int i = 0; i < marketFactories.length; i++) {
             this.markets[i] = marketFactories[i].createMarket();
-            this.markets[i].InitializeCart(controller);
+            this.markets[i].initializeCart(controller);
         }
     }
 
@@ -49,6 +50,9 @@ public class GuiTeleporterController extends GuiContainer {
 
         stockItems = new GuiItemStockList(this);
         stockItems.setStockCategory(markets[marketIndex].getStockList().getCategory(0));
+
+        cart = new GuiCartList(this);
+        cart.setMarket(markets[marketIndex]);
     }
 
     @Override
@@ -104,6 +108,8 @@ public class GuiTeleporterController extends GuiContainer {
                 if (selectedMarket != marketIndex) {
                     marketIndex = selectedMarket;
                     categories.setStockList(markets[marketIndex].getStockList());
+                    stockItems.setStockCategory(markets[marketIndex].getStockList().getCategory(0));
+                    cart.setMarket(markets[marketIndex]);
                 }
 
                 return;

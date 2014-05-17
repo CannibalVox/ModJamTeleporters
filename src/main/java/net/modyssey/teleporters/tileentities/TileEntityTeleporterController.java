@@ -43,8 +43,23 @@ public class TileEntityTeleporterController extends TileEntity {
         LinkedList<ItemStack> contents = new LinkedList<ItemStack>();
 
         for(PadData pad : padLocations) {
-
+            for(ItemStack contentItem : pad.getPadItems(getWorldObj())) {
+                addItemCompact(contents, contentItem);
+            }
         }
+
+        return contents;
+    }
+
+    private void addItemCompact(LinkedList<ItemStack> items, ItemStack item) {
+        for (ItemStack candidate : items) {
+            if (PadData.canItemstacksStack(candidate, item)) {
+                candidate.stackSize += item.stackSize;
+                return;
+            }
+        }
+
+        items.add(item);
     }
 
     public void registerPad(int x, int y, int z) {
