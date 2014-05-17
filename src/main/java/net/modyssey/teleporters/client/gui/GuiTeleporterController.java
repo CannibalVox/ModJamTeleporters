@@ -30,19 +30,24 @@ public class GuiTeleporterController extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         drawTabLabels();
+        drawCreditLine();
 
-        drawString(fontRendererObj, StatCollector.translateToLocal(markets[marketIndex].getStockTitle()), 2, 17, 0xFFFFFF);
+        fontRendererObj.drawString(StatCollector.translateToLocal(markets[marketIndex].getStockTitle()), 2, 17, 0x404040, false);
+        fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.cart"), 50, 17, 0x404040, false);
 
+    }
+
+    private void drawCreditLine() {
         int credits = controller.getCredits();
         String creditLine = StatCollector.translateToLocal("gui.modysseyteleporters.credits") + ": $" + Integer.toString(999999);
 
         GL11.glPushMatrix();
-        GL11.glTranslatef(105.6f, 2.5f, 0);
+        GL11.glTranslatef(105.5f, 4.5f, 0);
         GL11.glScaled(0.9, 0.9, 1);
         fontRendererObj.drawString(creditLine, 0, 0, 0x000000, false);
         GL11.glPopMatrix();
         GL11.glPushMatrix();
-        GL11.glTranslatef(105, 2, 0);
+        GL11.glTranslatef(105, 4, 0);
         GL11.glScaled(0.9, 0.9, 1);
         fontRendererObj.drawString(creditLine, 0, 0, 0xFFFFFF, false);
         GL11.glPopMatrix();
