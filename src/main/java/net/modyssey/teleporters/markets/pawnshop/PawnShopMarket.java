@@ -12,7 +12,7 @@ import java.util.List;
 
 public class PawnShopMarket implements IMarket {
     private StockList stockList;
-    private LinkedList<ItemStack> cart;
+    private LinkedList<ItemStack> cart = new LinkedList<ItemStack>();
 
     public PawnShopMarket(StockList stockList) {
         this.stockList = stockList;
@@ -70,5 +70,15 @@ public class PawnShopMarket implements IMarket {
         for (int i = 0; i < stock.getCategoryCount(); i++) {
             stockList.addCategory(stock.getCategory(i));
         }
+    }
+
+    @Override
+    public void clearCart() {
+        cart.clear();
+    }
+
+    @Override
+    public void directAddToCart(ItemStack stack) {
+        cart.add(stack);
     }
 }

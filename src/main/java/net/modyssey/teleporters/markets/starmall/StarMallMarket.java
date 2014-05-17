@@ -3,13 +3,11 @@ package net.modyssey.teleporters.markets.starmall;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.modyssey.teleporters.markets.IMarket;
-import net.modyssey.teleporters.markets.stock.StockCategory;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.io.PadData;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class StarMallMarket implements IMarket {
     private StockList stockList;
@@ -80,5 +78,15 @@ public class StarMallMarket implements IMarket {
         for (int i = 0; i < stock.getCategoryCount(); i++) {
             stockList.addCategory(stock.getCategory(i));
         }
+    }
+
+    @Override
+    public void clearCart() {
+        cart.clear();
+    }
+
+    @Override
+    public void directAddToCart(ItemStack stack) {
+        cart.add(stack);
     }
 }

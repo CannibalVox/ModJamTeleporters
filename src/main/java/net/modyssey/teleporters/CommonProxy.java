@@ -8,5 +8,4 @@ public class CommonProxy {
     public void registerRendererIds() {}
     public void registerBlockRenderers() {}
     public void registerTileEntityRenderers() {}
-    public void updateCurrentStarmallGui(List<StockList> allMarkets) {}
 }

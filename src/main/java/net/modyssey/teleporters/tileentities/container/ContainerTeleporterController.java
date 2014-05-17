@@ -1,10 +1,15 @@
 package net.modyssey.teleporters.tileentities.container;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.item.ItemStack;
 import net.modyssey.teleporters.markets.IMarket;
 import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.markets.stock.StockList;
+import net.modyssey.teleporters.network.ModysseyNetwork;
+import net.modyssey.teleporters.network.TransmitFullCartPacket;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 
 import java.util.List;
@@ -54,7 +59,37 @@ public class ContainerTeleporterController extends Container {
         }
     }
 
+    @Override
+    public void addCraftingToCrafters(ICrafting par1ICrafting) {
+        if (!controller.getWorldObj().isRemote && par1ICrafting instanceof EntityPlayerMP)
+            requestFullCart((EntityPlayerMP)par1ICrafting);
+    }
+
     public IMarket getCurrentMarket() {
         return markets[marketIndex];
+    }
+
+    public void receiveFullCart(List<List<ItemStack>> carts) {
+        for (int i = 0; i < markets.length; i++) {
+            if (carts.size() <= i)
+                break;
+
+            List<ItemStack> cart = carts.get(i);
+            markets[i].clearCart();
+
+            for (int j = 0; j < cart.size(); j++) {
+                markets[i].directAddToCart(cart.get(j));
+            }
+        }
+    }
+
+    public void requestFullCart(EntityPlayerMP player) {
+        TransmitFullCartPacket packet = new TransmitFullCartPacket(this.windowId);
+
+        for (int i = 0; i < markets.length; i++) {
+            packet.addCart(markets[i]);
+        }
+
+        ModysseyNetwork.sendToPlayer(packet, player);
     }
 }

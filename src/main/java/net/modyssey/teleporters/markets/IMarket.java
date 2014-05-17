@@ -20,4 +20,7 @@ public interface IMarket {
     ItemStack getCartContent(int index);
     void addFromStock(ItemStack item);
     void updateStock(StockList stock);
+
+    void clearCart();
+    void directAddToCart(ItemStack stack);
 }

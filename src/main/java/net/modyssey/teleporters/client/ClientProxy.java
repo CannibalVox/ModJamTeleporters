@@ -30,11 +30,4 @@ public class ClientProxy extends CommonProxy {
     public void registerTileEntityRenderers() {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTeleporterController.class, teleporterController);
     }
-
-    @Override
-    public void updateCurrentStarmallGui(List<StockList> allMarkets) {
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiTeleporterController) {
-            ((GuiTeleporterController)Minecraft.getMinecraft().currentScreen).updateMarketData(allMarkets);
-        }
-    }
 }

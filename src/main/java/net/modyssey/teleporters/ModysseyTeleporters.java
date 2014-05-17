@@ -124,8 +124,6 @@ public class ModysseyTeleporters {
 
             markets[i].setStockData(allMarketData.get(i));
         }
-
-        proxy.updateCurrentStarmallGui(allMarketData);
     }
 
     public FullMarketDataPacket getMarketDataPacket() {

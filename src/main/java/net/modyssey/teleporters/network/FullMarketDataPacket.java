@@ -2,15 +2,18 @@ package net.modyssey.teleporters.network;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.modyssey.teleporters.ModysseyTeleporters;
+import net.modyssey.teleporters.client.gui.GuiTeleporterController;
 import net.modyssey.teleporters.markets.stock.StockCategory;
 import net.modyssey.teleporters.markets.stock.StockItem;
 import net.modyssey.teleporters.markets.stock.StockList;
+import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,10 @@ import java.util.List;
 public class FullMarketDataPacket extends ModysseyPacket {
 
     List<StockList> allMarkets = new ArrayList<StockList>();
+
+    public FullMarketDataPacket() {
+
+    }
 
     public void addMarket(StockList stockList) {
         allMarkets.add(stockList);
@@ -89,6 +96,9 @@ public class FullMarketDataPacket extends ModysseyPacket {
     @Override
     public void handleClient(World world, EntityPlayer player) {
         ModysseyTeleporters.instance.setMarketData(allMarkets);
+
+        if (player.openContainer != null && player.openContainer instanceof ContainerTeleporterController)
+            ((ContainerTeleporterController)player.openContainer).updateMarketData(allMarkets);
     }
 
     @Override
