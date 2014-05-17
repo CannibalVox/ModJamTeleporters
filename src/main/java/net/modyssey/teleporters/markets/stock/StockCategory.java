@@ -1,16 +1,16 @@
 package net.modyssey.teleporters.markets.stock;
 
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
 
 public class StockCategory {
     private String unlocalizedCategoryName;
-    private Item iconItem;
+    private ItemStack iconItem;
 
     private ArrayList<StockItem> categoryItems = new ArrayList<StockItem>();
 
-    public StockCategory(String categoryName, Item iconItem) {
+    public StockCategory(String categoryName, ItemStack iconItem) {
         this.unlocalizedCategoryName = categoryName;
         this.iconItem = iconItem;
     }
@@ -19,7 +19,7 @@ public class StockCategory {
         return unlocalizedCategoryName;
     }
 
-    public Item getIconItem() {
+    public ItemStack getIconItem() {
         return iconItem;
     }
 
