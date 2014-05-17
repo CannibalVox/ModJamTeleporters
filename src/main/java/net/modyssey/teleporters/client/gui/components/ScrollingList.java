@@ -67,9 +67,9 @@ public abstract class ScrollingList extends Gui {
             int gripPos = calculateVisibleGripPosition();
             int gripHeight = calculateVisibleGripHeight();
 
-            if (y < gripPos)
+            if (y < (int)getScrollTrackBounds().getY() + gripPos)
                 return TOP_SCROLL_TRACK;
-            else if (y >= gripPos + gripHeight)
+            else if (y >= (int)getScrollTrackBounds().getY() + gripPos + gripHeight)
                 return BOTTOM_SCROLL_TRACK;
             else
                 return SCROLL_GRIP;
@@ -120,7 +120,7 @@ public abstract class ScrollingList extends Gui {
             } else if (mouseOverElement == mouseDownElement) {
                 mouseClickOn(mouseOverElement);
             }
-        } else if (mouseCurrentlyDown && mouseOverElement == SCROLL_GRIP) {
+        } else if (mouseCurrentlyDown && mouseDownElement == SCROLL_GRIP) {
             dragGrip(mouseY - lastMouseY);
         } else if (!mouseCurrentlyDown) {
             if (mouseOverElement >= 0 || mouseOverElement == NOTHING) {
@@ -139,7 +139,7 @@ public abstract class ScrollingList extends Gui {
                             j1 = 1;
                         }
 
-                        this.viewportTopPosition += (float)(j1 * 10);
+                        this.viewportTopPosition += (float)(j1 * 20);
                     }
                 }
             }

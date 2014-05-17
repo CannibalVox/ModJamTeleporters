@@ -57,4 +57,9 @@ public class GuiCategoryList extends ScrollingList {
 
         drawRect(rectX, rectY, rectX + getWidth() - 2, rectY + getEntryHeight() - 2, 0xFFFFFFFF);
     }
+
+    @Override
+    protected void handleMouseInput(int mouseX, int mouseY) {
+        super.handleMouseInput(mouseX - 9, mouseY - 25);
+    }
 }
