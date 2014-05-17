@@ -26,6 +26,11 @@ public abstract class ScrollingList extends Gui {
 
     private int viewportTopPosition;
 
+    private static final int SCROLL_GRIP = -1;
+    private static final int SCROLL_TRACK = -2;
+    private int mouseDownElement;
+    private boolean isMouseDown;
+
     protected ScrollingList(Rectangle2D viewportBounds, int entryHeight) {
         this.viewportBounds = viewportBounds;
         this.entryHeight = entryHeight;
@@ -47,6 +52,8 @@ public abstract class ScrollingList extends Gui {
 
             y = nextY;
         }
+
+        handleMouseInput(mouseX, mouseY);
     }
 
     protected void normalizeScrollPosition() {
