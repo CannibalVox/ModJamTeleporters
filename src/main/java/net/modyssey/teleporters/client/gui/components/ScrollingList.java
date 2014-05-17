@@ -155,11 +155,12 @@ public abstract class ScrollingList extends Gui {
         drawScrollbar();
 
         int y = -viewportTopPosition;
+        int height = (int)viewportBounds.getHeight();
 
         for (int i = 0; i < getEntryCount(); i++) {
             int nextY = y + getEntryHeight();
 
-            if (nextY > 0) {
+            if (y < height && nextY > 0) {
                 drawEntry(i, y);
             }
 

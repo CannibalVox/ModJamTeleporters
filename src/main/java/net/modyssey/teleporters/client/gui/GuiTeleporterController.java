@@ -27,6 +27,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         this.controller = controller;
         this.containerTeleporterController = (ContainerTeleporterController)inventorySlots;
+        this.zLevel = 2;
     }
 
     public void updateMarketData(List<StockList> marketData) {
