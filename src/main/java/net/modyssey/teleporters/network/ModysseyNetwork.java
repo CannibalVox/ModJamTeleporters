@@ -46,6 +46,7 @@ public class ModysseyNetwork extends FMLIndexedMessageToMessageCodec<ModysseyPac
     public void decodeInto(ChannelHandlerContext ctx, ByteBuf source, ModysseyPacket msg) {
         ByteArrayDataInput in = ByteStreams.newDataInput(source.array());
 
+        in.skipBytes(1);
         msg.read(in);
 
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())

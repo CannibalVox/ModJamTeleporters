@@ -16,6 +16,7 @@ import java.util.List;
 
 public class GuiTeleporterController extends GuiContainer {
     private TileEntityTeleporterController controller;
+    private IMarketFactory[] marketFactories;
     private IMarket[] markets;
 
     private int marketIndex = 0;
@@ -28,15 +29,13 @@ public class GuiTeleporterController extends GuiContainer {
         super(new ContainerTeleporterController(controller));
 
         this.controller = controller;
-        this.markets = new IMarket[marketFactories.length];
-
-        for (int i = 0; i < marketFactories.length; i++) {
-            this.markets[i] = marketFactories[i].createMarket();
-            this.markets[i].initializeCart(controller);
-        }
+        this.marketFactories = marketFactories;
     }
 
     public void updateMarketData(List<StockList> marketData) {
+        if (markets == null || markets.length == 0)
+            return;
+
         for (int i = 0; i < markets.length; i++) {
             if (marketData.size() <= i)
                 break;
@@ -54,6 +53,13 @@ public class GuiTeleporterController extends GuiContainer {
     @Override
     public void initGui() {
         super.initGui();
+
+        this.markets = new IMarket[marketFactories.length];
+
+        for (int i = 0; i < marketFactories.length; i++) {
+            this.markets[i] = marketFactories[i].createMarket();
+            this.markets[i].initializeCart(controller);
+        }
 
         int w = 195;
         int h = 216;

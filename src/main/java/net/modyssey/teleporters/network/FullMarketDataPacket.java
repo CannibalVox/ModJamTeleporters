@@ -25,7 +25,7 @@ public class FullMarketDataPacket extends ModysseyPacket {
 
     @Override
     public void write(ByteArrayDataOutput out) {
-        out.write(allMarkets.size());
+        out.writeInt(allMarkets.size());
 
         for (int i = 0; i < allMarkets.size(); i++) {
             writeMarket(allMarkets.get(i), out);
@@ -33,22 +33,22 @@ public class FullMarketDataPacket extends ModysseyPacket {
     }
 
     private void writeMarket(StockList market, ByteArrayDataOutput out) {
-        out.write(market.getCategoryCount());
+        out.writeInt(market.getCategoryCount());
 
         for (int i = 0; i < market.getCategoryCount(); i++) {
             StockCategory category = market.getCategory(i);
 
             out.writeUTF(category.getCategoryName());
-            out.write(Item.itemRegistry.getIDForObject(category.getIconItem().getItem()));
-            out.write(category.getIconItem().getItemDamage());
-            out.write(category.getItemCount());
+            out.writeInt(Item.itemRegistry.getIDForObject(category.getIconItem().getItem()));
+            out.writeInt(category.getIconItem().getItemDamage());
+            out.writeInt(category.getItemCount());
 
             for (int j = 0; j < category.getItemCount(); j ++) {
                 StockItem item = category.get(j);
 
-                out.write(Item.itemRegistry.getIDForObject(item.getItem()));
-                out.write(item.getItem().getItemDamage());
-                out.write((item.getValue()));
+                out.writeInt(Item.itemRegistry.getIDForObject(item.getItem()));
+                out.writeInt(item.getItem().getItemDamage());
+                out.writeInt((item.getValue()));
             }
         }
     }
