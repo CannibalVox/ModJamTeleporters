@@ -117,7 +117,6 @@ public class ModysseyTeleporters {
         GameRegistry.addRecipe(new ShapedOreRecipe(teleporterPad, "XXX", "XOX", "XXX", 'X', Items.iron_ingot, 'O', teleportCircuit));
     }
 
-    @SideOnly(Side.CLIENT)
     public void setMarketData(List<StockList> allMarketData) {
         for (int i = 0; i < markets.length; i++) {
             if (i >= allMarketData.size())
@@ -126,9 +125,7 @@ public class ModysseyTeleporters {
             markets[i].setStockData(allMarketData.get(i));
         }
 
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiTeleporterController) {
-            ((GuiTeleporterController)Minecraft.getMinecraft().currentScreen).updateMarketData(allMarketData);
-        }
+        proxy.updateCurrentStarmallGui(allMarketData);
     }
 
     public FullMarketDataPacket getMarketDataPacket() {
