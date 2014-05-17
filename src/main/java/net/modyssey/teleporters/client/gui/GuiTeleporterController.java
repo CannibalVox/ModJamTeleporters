@@ -34,20 +34,17 @@ public class GuiTeleporterController extends GuiContainer {
     protected void mouseClicked(int mouseX, int mouseY, int par3) {
         super.mouseClicked(mouseX, mouseY, par3);
 
-        double uvW = 195;
-        double uvH = 256;
-
-        double h = uvH * 0.9;
-        double w = uvW * 0.9;
+        double w = 195;
+        double h = 256;
 
         double x = (width - w) / 2;
-        double y = ((height - h) / 2);
+        double y = (height - h) / 2;
 
         if (par3 == 0) {
-            int leftTabBound = (int)(x - 44.1);
-            int topTabBound = (int)(y + 45);
+            int leftTabBound = (int)(x - 49);
+            int topTabBound = (int)(y + 50);
             int rightTabBound = (int)x;
-            int bottomTabBound = (int)(y + 45 + (markets.length * 25.2));
+            int bottomTabBound = (int)(y + 50 + (markets.length * 28));
 
             if (mouseX >= leftTabBound && mouseX <= rightTabBound && mouseY >= topTabBound && mouseY <= bottomTabBound) {
                 int selectedMarket = (mouseY - 1 - topTabBound)/((bottomTabBound - topTabBound)/markets.length);
@@ -64,12 +61,8 @@ public class GuiTeleporterController extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        double uvW = 195;
-        double uvH = 256;
-
-        double h = uvH;
-        double w = uvW;
-
+        double w = 195;
+        double h = 256;
         double x = (width - w) / 2;
         double y = (height - h) / 2;
 
@@ -79,8 +72,8 @@ public class GuiTeleporterController extends GuiContainer {
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV(x, y + h, (double)this.zLevel, 0, 1);
-        tessellator.addVertexWithUV(x + w, y + h, (double)this.zLevel, uvW * f, 1);
-        tessellator.addVertexWithUV(x + w, y, (double)this.zLevel, uvW * f, 0);
+        tessellator.addVertexWithUV(x + w, y + h, (double)this.zLevel, w * f, 1);
+        tessellator.addVertexWithUV(x + w, y, (double)this.zLevel, w * f, 0);
         tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
 
         double physicalY = 50;
@@ -102,12 +95,12 @@ public class GuiTeleporterController extends GuiContainer {
 
         tessellator.draw();
 
-//        mc.renderEngine.bindTexture(markets[marketIndex].getMarketLogo());
-//        tessellator.startDrawingQuads();
-//        tessellator.addVertexWithUV(x, y + 30.6, (double)this.zLevel, 0, 1);
-//        tessellator.addVertexWithUV(x + 118.8, y + 30.6, (double)this.zLevel, 1, 1);
-//        tessellator.addVertexWithUV(x + 118.8, y, (double)this.zLevel, 1, 0);
-//        tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
-//        tessellator.draw();
+        mc.renderEngine.bindTexture(markets[marketIndex].getMarketLogo());
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV(x, y + 34, (double)this.zLevel, 0, 1);
+        tessellator.addVertexWithUV(x + 132, y + 34, (double)this.zLevel, 1, 1);
+        tessellator.addVertexWithUV(x + 132, y, (double)this.zLevel, 1, 0);
+        tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
+        tessellator.draw();
     }
 }
