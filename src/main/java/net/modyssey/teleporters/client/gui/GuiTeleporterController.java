@@ -27,7 +27,14 @@ public class GuiTeleporterController extends GuiContainer {
         for (int i = 0; i < marketFactories.length; i++) {
             this.markets[i] = marketFactories[i].createMarket();
         }
+    }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question.
+     */
+    @Override
+    public void initGui() {
+        super.initGui();
         categories = new GuiCategoryList(this);
         categories.setStockList(markets[marketIndex].getStockList());
     }
