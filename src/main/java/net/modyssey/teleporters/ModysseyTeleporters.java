@@ -21,6 +21,7 @@ import net.modyssey.teleporters.markets.IMarket;
 import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.markets.pawnshop.PawnShopMarketFactory;
 import net.modyssey.teleporters.markets.starmall.StarMallMarketFactory;
+import net.modyssey.teleporters.markets.stock.StockCategory;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
@@ -66,7 +67,11 @@ public class ModysseyTeleporters {
     public void init(FMLInitializationEvent event) {
 
         StockList starmallStock = new StockList();
+        starmallStock.addCategory(new StockCategory("A", null));
+        starmallStock.addCategory(new StockCategory("B", null));
+
         StockList pawnshopStock = new StockList();
+        pawnshopStock.addCategory(new StockCategory("C", null));
 
         IMarketFactory starmall = new StarMallMarketFactory(starmallStock);
         IMarketFactory pawnshop = new PawnShopMarketFactory(pawnshopStock);

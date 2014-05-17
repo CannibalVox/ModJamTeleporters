@@ -11,6 +11,10 @@ public abstract class ScrollingList extends Gui {
     private int entryHeight;
 
     protected int getEntryHeight() { return entryHeight; }
+    protected int getX() { return (int)viewportBounds.getX(); }
+    protected int getY() { return (int)viewportBounds.getY(); }
+    protected int getWidth() { return (int)viewportBounds.getWidth(); }
+    protected int getHeight() { return (int)viewportBounds.getHeight(); }
 
     protected abstract Rectangle2D getScrollGripBounds();
     protected abstract ResourceLocation getScrollGripTexture();
@@ -60,7 +64,7 @@ public abstract class ScrollingList extends Gui {
 
         //Get the % of the track that the scroll grip makes up (can't be more than 100% of the track)
         double gripToTrackRatio = viewportSize/contentSize;
-        if (gripToTrackRatio < 1.0)
+        if (gripToTrackRatio > 1.0)
             gripToTrackRatio = 1;
 
         //Get the actual grip size in pixels the grip should occupy... shouldn't be smaller than the grip

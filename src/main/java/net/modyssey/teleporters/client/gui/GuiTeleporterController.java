@@ -58,6 +58,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         fontRendererObj.drawString(creditLine, 105, 3, 0xFFFFFF, true);
 
+        categories.drawList(mouseX, mouseY);
     }
 
     private void drawTabLabels() {
