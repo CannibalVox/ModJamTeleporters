@@ -5,8 +5,8 @@ tile.modysseyteleporter.beacon.name=Teleporter Beacon
 item.modysseyteleporter.circuit.name=Teleporter Circuit
 
 gui.modysseyteleporters.cart=Cart
-gui.modysseyteleporters.credits=Credits
+gui.modysseyteleporters.credits=Cash
 gui.modysseyteleporters.stock=Stock
-gui.modysseyteleporters.priceguide=Price Guide
-gui.modysseyteleporters.pawnshop=Galactic Pawn Shop
-gui.modysseyteleporters.starmall=StarMall
+gui.modysseyteleporters.priceguide=Price
+gui.modysseyteleporters.pawnshop=Sell
+gui.modysseyteleporters.starmall=Buy

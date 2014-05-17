@@ -30,49 +30,23 @@ public class GuiTeleporterController extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         drawTabLabels();
-        drawCreditLine();
 
         fontRendererObj.drawString(StatCollector.translateToLocal(markets[marketIndex].getStockTitle()), 2, 17, 0x404040, false);
-        fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.cart"), 50, 17, 0x404040, false);
+        fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.cart"), 133, 17, 0x404040, false);
 
-    }
-
-    private void drawCreditLine() {
         int credits = controller.getCredits();
         String creditLine = StatCollector.translateToLocal("gui.modysseyteleporters.credits") + ": $" + Integer.toString(999999);
 
-        GL11.glPushMatrix();
-        GL11.glTranslatef(105.5f, 4.5f, 0);
-        GL11.glScaled(0.9, 0.9, 1);
-        fontRendererObj.drawString(creditLine, 0, 0, 0x000000, false);
-        GL11.glPopMatrix();
-        GL11.glPushMatrix();
-        GL11.glTranslatef(105, 4, 0);
-        GL11.glScaled(0.9, 0.9, 1);
-        fontRendererObj.drawString(creditLine, 0, 0, 0xFFFFFF, false);
-        GL11.glPopMatrix();
+        fontRendererObj.drawString(creditLine, 105, 3, 0xFFFFFF, true);
+
     }
 
     private void drawTabLabels() {
-        int titleY = 40;
+        int titleY = 36;
         for (int i = 0; i < markets.length; i++) {
             String title = StatCollector.translateToLocal(markets[i].getMarketTitle());
 
-            int lineCount = fontRendererObj.listFormattedStringToWidth(title, 60).size();
-
-            int halfText = (lineCount * 9)/2;
-
-            GL11.glPushMatrix();
-            GL11.glTranslatef(-51.5f, titleY - halfText + 0.5f, 0);
-            GL11.glScaled(0.8f, 0.8f, 1);
-            fontRendererObj.drawSplitString(title, 0, 0, 60, 0x000000);
-            GL11.glPopMatrix();
-
-            GL11.glPushMatrix();
-            GL11.glTranslatef(-52, titleY - halfText, 0);
-            GL11.glScaled(0.8f, 0.8f, 1);
-            fontRendererObj.drawSplitString(title, 0, 0, 60, 0xFFFFFF);
-            GL11.glPopMatrix();
+            fontRendererObj.drawString(title, -52, titleY, 0xFFFFFF, true);
 
             titleY += 28;
         }
