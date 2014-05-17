@@ -7,6 +7,7 @@ import net.minecraft.util.StatCollector;
 import net.modyssey.teleporters.markets.IMarket;
 import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.markets.stock.StockCategory;
+import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 import org.lwjgl.opengl.GL11;
@@ -35,13 +36,16 @@ public class GuiTeleporterController extends GuiContainer {
         }
     }
 
-    public void updateMarketData(List<List<StockCategory>> marketData) {
+    public void updateMarketData(List<StockList> marketData) {
         for (int i = 0; i < markets.length; i++) {
             if (marketData.size() <= i)
-                return;
+                break;
 
             markets[i].updateStock(marketData.get(i));
         }
+
+        categories.setStockList(markets[marketIndex].getStockList());
+        stockItems.setStockCategory(markets[marketIndex].getStockList().getCategory(0));
     }
 
     /**

@@ -31,7 +31,7 @@ public class ModysseyNetwork extends FMLIndexedMessageToMessageCodec<ModysseyPac
         if (!channels.isEmpty())
             return;
 
-        //TODO: add packet discriminators
+        INSTANCE.addDiscriminator(0, FullMarketDataPacket.class);
 
         channels.putAll(NetworkRegistry.INSTANCE.newChannel("ModysseyTeleporters", INSTANCE));
     }

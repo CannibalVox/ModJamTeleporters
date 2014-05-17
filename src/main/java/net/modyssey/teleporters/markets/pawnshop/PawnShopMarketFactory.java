@@ -21,11 +21,13 @@ public class PawnShopMarketFactory implements IMarketFactory {
     }
 
     @Override
-    public void setStockData(List<StockCategory> stock) {
+    public void setStockData(StockList stock) {
         stockList.clear();
 
-        for (int i = 0; i < stock.size(); i++) {
-            stockList.addCategory(stock.get(i));
+        for (int i = 0; i < stock.getCategoryCount(); i++) {
+            stockList.addCategory(stock.getCategory(i));
         }
     }
+
+    public StockList getStockList() { return stockList; }
 }

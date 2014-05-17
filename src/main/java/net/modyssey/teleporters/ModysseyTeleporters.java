@@ -28,6 +28,8 @@ import net.modyssey.teleporters.markets.starmall.StarMallMarketFactory;
 import net.modyssey.teleporters.markets.stock.StockCategory;
 import net.modyssey.teleporters.markets.stock.StockItem;
 import net.modyssey.teleporters.markets.stock.StockList;
+import net.modyssey.teleporters.network.FullMarketDataPacket;
+import net.modyssey.teleporters.network.ModysseyNetwork;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
 
@@ -74,6 +76,7 @@ public class ModysseyTeleporters {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        ModysseyNetwork.init();
 
         StockList starmallStock = new StockList();
         StockList pawnshopStock = new StockList();
@@ -114,7 +117,7 @@ public class ModysseyTeleporters {
     }
 
     @SideOnly(Side.CLIENT)
-    public void setMarketData(List<List<StockCategory>> allMarketData) {
+    public void setMarketData(List<StockList> allMarketData) {
         for (int i = 0; i < markets.length; i++) {
             if (i >= allMarketData.size())
                 break;
@@ -125,5 +128,15 @@ public class ModysseyTeleporters {
         if (Minecraft.getMinecraft().currentScreen instanceof GuiTeleporterController) {
             ((GuiTeleporterController)Minecraft.getMinecraft().currentScreen).updateMarketData(allMarketData);
         }
+    }
+
+    public FullMarketDataPacket getMarketDataPacket() {
+        FullMarketDataPacket packet = new FullMarketDataPacket();
+
+        for (int i = 0; i < markets.length; i++) {
+            packet.addMarket(markets[i].getStockList());
+        }
+
+        return packet;
     }
 }

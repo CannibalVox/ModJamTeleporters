@@ -1,10 +1,9 @@
 package net.modyssey.teleporters.markets;
 
-import net.modyssey.teleporters.markets.stock.StockCategory;
-
-import java.util.List;
+import net.modyssey.teleporters.markets.stock.StockList;
 
 public interface IMarketFactory {
     IMarket createMarket();
-    void setStockData(List<StockCategory> stock);
+    void setStockData(StockList stock);
+    StockList getStockList();
 }

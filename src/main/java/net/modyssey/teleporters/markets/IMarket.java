@@ -19,5 +19,5 @@ public interface IMarket {
     int getCartSize();
     ItemStack getCartContent(int index);
     void addFromStock(ItemStack item);
-    void updateStock(List<StockCategory> stock);
+    void updateStock(StockList stock);
 }

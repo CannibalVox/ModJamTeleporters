@@ -10,13 +10,18 @@ import net.minecraft.world.World;
 import net.modyssey.teleporters.ModysseyTeleporters;
 import net.modyssey.teleporters.markets.stock.StockCategory;
 import net.modyssey.teleporters.markets.stock.StockItem;
+import net.modyssey.teleporters.markets.stock.StockList;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FullMarketDataPacket extends ModysseyPacket {
 
-    List<List<StockCategory>> allMarkets = new ArrayList<List<StockCategory>>();
+    List<StockList> allMarkets = new ArrayList<StockList>();
+
+    public void addMarket(StockList stockList) {
+        allMarkets.add(stockList);
+    }
 
     @Override
     public void write(ByteArrayDataOutput out) {
@@ -27,11 +32,11 @@ public class FullMarketDataPacket extends ModysseyPacket {
         }
     }
 
-    private void writeMarket(List<StockCategory> market, ByteArrayDataOutput out) {
-        out.write(market.size());
+    private void writeMarket(StockList market, ByteArrayDataOutput out) {
+        out.write(market.getCategoryCount());
 
-        for (int i = 0; i < market.size(); i++) {
-            StockCategory category = market.get(i);
+        for (int i = 0; i < market.getCategoryCount(); i++) {
+            StockCategory category = market.getCategory(i);
 
             out.writeUTF(category.getCategoryName());
             out.write(Item.itemRegistry.getIDForObject(category.getIconItem().getItem()));
@@ -52,11 +57,11 @@ public class FullMarketDataPacket extends ModysseyPacket {
     public void read(ByteArrayDataInput in) {
         int marketCount = in.readInt();
 
-        allMarkets = new ArrayList<List<StockCategory>>();
+        allMarkets = new ArrayList<StockList>();
         for (int i = 0; i < marketCount; i++) {
             int categoryCount = in.readInt();
 
-            List<StockCategory> market = new ArrayList<StockCategory>();
+            StockList market = new StockList();
             allMarkets.add(market);
 
             for (int j = 0; j < categoryCount; j++) {
@@ -65,7 +70,7 @@ public class FullMarketDataPacket extends ModysseyPacket {
                 int iconDamage = in.readInt();
 
                 StockCategory category = new StockCategory(catName, new ItemStack((Item)Item.itemRegistry.getObjectById(iconId), 1, iconDamage));
-                market.add(category);
+                market.addCategory(category);
 
                 int itemCount = in.readInt();
 
