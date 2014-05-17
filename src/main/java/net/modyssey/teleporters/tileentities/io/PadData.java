@@ -223,7 +223,7 @@ public class PadData {
             return itemStackToDrop;
     }
 
-    private boolean canItemstacksStack(ItemStack itemStack1, ItemStack itemStack2) {
+    public static boolean canItemstacksStack(ItemStack itemStack1, ItemStack itemStack2) {
         if (itemStack1.getItem() != itemStack2.getItem())
         {
             return false;

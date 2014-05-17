@@ -1,6 +1,7 @@
 package net.modyssey.teleporters.tileentities;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -10,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.modyssey.teleporters.tileentities.io.PadData;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.UUID;
 
 public class TileEntityTeleporterController extends TileEntity {
@@ -36,6 +38,14 @@ public class TileEntityTeleporterController extends TileEntity {
 
     public int getPadCount() { return padLocations.size(); }
     public boolean isActive() { return isActive; }
+
+    public LinkedList<ItemStack> getPadContents() {
+        LinkedList<ItemStack> contents = new LinkedList<ItemStack>();
+
+        for(PadData pad : padLocations) {
+
+        }
+    }
 
     public void registerPad(int x, int y, int z) {
 
