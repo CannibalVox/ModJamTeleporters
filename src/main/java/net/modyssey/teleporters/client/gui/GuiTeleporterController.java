@@ -54,16 +54,10 @@ public class GuiTeleporterController extends GuiContainer {
         fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.cart"), 133, 17, 0x404040, false);
 
         int credits = controller.getCredits();
-        String creditLine = StatCollector.translateToLocal("gui.modysseyteleporters.credits") + ": $" + Integer.toString(999999);
+        String creditLine = StatCollector.translateToLocal("gui.modysseyteleporters.credits") + ": $" + Integer.toString(credits);
 
         fontRendererObj.drawString(creditLine, 105, 3, 0xFFFFFF, true);
 
-    }
-
-    @Override
-    public void drawScreen(int p_571_1_, int p_571_2_, float p_571_3_) {
-        super.drawScreen(p_571_1_, p_571_2_, p_571_3_);
-        categories.drawScreen(p_571_1_, p_571_2_, p_571_3_);
     }
 
     private void drawTabLabels() {

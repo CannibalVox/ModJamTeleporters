@@ -24,7 +24,7 @@ public class PawnShopMarket implements IMarket {
 
     @Override
     public ResourceLocation getMarketLogo() {
-        return new ResourceLocation("modysseyteleporters:textures/gui/station_title_starmall.png");
+        return new ResourceLocation("modysseyteleporters:textures/gui/logo_pawn.png");
     }
 
     @Override
