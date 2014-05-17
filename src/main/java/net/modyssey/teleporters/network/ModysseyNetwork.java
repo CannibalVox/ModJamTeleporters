@@ -7,6 +7,7 @@ import com.google.common.io.ByteStreams;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLIndexedMessageToMessageCodec;
+import cpw.mods.fml.common.network.FMLOutboundHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,6 +15,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 
@@ -59,6 +61,18 @@ public class ModysseyNetwork extends FMLIndexedMessageToMessageCodec<ModysseyPac
     }
 
     private void handleServer(ChannelHandlerContext ctx, ModysseyPacket msg) {
-        EntityPlayerMP player = ((NetHandlerPlayServer)ctx)
+        EntityPlayerMP player = ((NetHandlerPlayServer)ctx.channel().attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
+        msg.handleServer(player.worldObj, player);
+    }
+
+    public static void sendToServer(ModysseyPacket packet) {
+        channels.get(Side.CLIENT).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
+        channels.get(Side.CLIENT).writeAndFlush(packet);
+    }
+
+    public static void sendToPlayer(ModysseyPacket packet, EntityPlayer player) {
+        channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
+        channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
+        channels.get(Side.SERVER).writeAndFlush(packet);
     }
 }
