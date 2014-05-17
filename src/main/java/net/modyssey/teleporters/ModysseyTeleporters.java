@@ -15,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.modyssey.teleporters.blocks.BlockTeleporterController;
 import net.modyssey.teleporters.blocks.BlockTeleporterPad;
@@ -82,15 +83,15 @@ public class ModysseyTeleporters {
         StockList pawnshopStock = new StockList();
 
         for (int i = 0; i < 20; i++) {
-            starmallStock.addCategory(new StockCategory("A", null));
-            starmallStock.addCategory(new StockCategory("B", null));
+            starmallStock.addCategory(new StockCategory("A", new ItemStack(Items.apple, 1, 0)));
+            starmallStock.addCategory(new StockCategory("B", new ItemStack(Items.apple, 1, 0)));
 
-            pawnshopStock.addCategory(new StockCategory("C", null));
+            pawnshopStock.addCategory(new StockCategory("C", new ItemStack(Items.apple, 1, 0)));
         }
 
         for (int i = 0; i < 20; i++) {
-            starmallStock.getCategory(0).addItem(new StockItem(null, 100));
-            pawnshopStock.getCategory(0).addItem(new StockItem(null, 100));
+            starmallStock.getCategory(0).addItem(new StockItem(new ItemStack(Items.apple, 1, 0), 100));
+            pawnshopStock.getCategory(0).addItem(new StockItem(new ItemStack(Items.apple, 1, 0), 100));
         }
 
         IMarketFactory starmall = new StarMallMarketFactory(starmallStock);
