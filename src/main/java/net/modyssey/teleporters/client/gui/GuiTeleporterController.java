@@ -29,11 +29,19 @@ public class GuiTeleporterController extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        int titleY = 52;
+        int titleY = 32;
         for (int i = 0; i < markets.length; i++) {
             String title = StatCollector.translateToLocal(markets[i].getMarketTitle());
 
-            drawString(fontRendererObj, title, -45, titleY, 0xFFFFFF);
+            int lineCount = fontRendererObj.listFormattedStringToWidth(title, 60).size();
+
+            
+
+            GL11.glPushMatrix();
+            GL11.glTranslatef(-52, titleY, 0);
+            GL11.glScaled(0.8f, 0.8f, 1);
+            fontRendererObj.drawSplitString(title, 0, 0, 60, 0x000000);
+            GL11.glPopMatrix();
 
             titleY += 28;
         }
