@@ -18,6 +18,8 @@ public abstract class ScrollingList extends Gui {
 
     protected abstract Rectangle2D getScrollGripBounds();
     protected abstract ResourceLocation getScrollGripTexture();
+    protected abstract int getScrollGripTopCap();
+    protected abstract int getScrollGripBottomCap();
     protected abstract Rectangle2D getScrollTrackBounds();
     protected abstract int getEntryCount();
     protected abstract void drawEntry(int i, int y);
@@ -91,6 +93,9 @@ public abstract class ScrollingList extends Gui {
         int gripY = (int)gripBounds.getY();
 
         trackY += gripPosition;
+
+        int topCap = getScrollGripTopCap();
+        int bottomCap = getScrollGripBottomCap();
 
         Minecraft.getMinecraft().renderEngine.bindTexture(getScrollGripTexture());
         while (gripHeight > gripNativeHeight) {
