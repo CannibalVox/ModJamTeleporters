@@ -67,11 +67,11 @@ public class GuiTeleporterController extends GuiContainer {
         double uvW = 195;
         double uvH = 256;
 
-        double h = uvH * 0.9;
-        double w = uvW * 0.9;
+        double h = uvH;
+        double w = uvW;
 
         double x = (width - w) / 2;
-        double y = ((height - h) / 2);
+        double y = (height - h) / 2;
 
         double f = 0.00390625;
         double f1 = 0.00390625;
@@ -83,31 +83,31 @@ public class GuiTeleporterController extends GuiContainer {
         tessellator.addVertexWithUV(x + w, y, (double)this.zLevel, uvW * f, 0);
         tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
 
-        double physicalY = 45;
+        double physicalY = 50;
         for (int i = 0; i < markets.length; i++) {
             if (i == marketIndex) {
-                tessellator.addVertexWithUV(x - 47.7, y + physicalY + 25.2, (double) this.zLevel, 195 * f, 52 * f1);
-                tessellator.addVertexWithUV(x, y + physicalY + 25.2, (double) this.zLevel, 248 * f, 52 * f1);
-                tessellator.addVertexWithUV(x, y + physicalY, (double) this.zLevel, 248 * f, 24 * f1);
-                tessellator.addVertexWithUV(x - 47.7, y + physicalY, (double) this.zLevel, 195 * f, 24 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel, 195 * f, 52 * f1);
+                tessellator.addVertexWithUV(x+4, y + physicalY + 28, (double) this.zLevel, 248 * f, 52 * f1);
+                tessellator.addVertexWithUV(x+4, y + physicalY, (double) this.zLevel, 248 * f, 24 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY, (double) this.zLevel, 195 * f, 24 * f1);
             } else {
-                tessellator.addVertexWithUV(x - 44.1, y + physicalY + 25.2, (double) this.zLevel, 195 * f, 80 * f1);
-                tessellator.addVertexWithUV(x, y + physicalY + 25.2, (double) this.zLevel, 244 * f, 80 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel, 195 * f, 80 * f1);
+                tessellator.addVertexWithUV(x, y + physicalY + 28, (double) this.zLevel, 244 * f, 80 * f1);
                 tessellator.addVertexWithUV(x, y + physicalY, (double) this.zLevel, 244 * f, 52 * f1);
-                tessellator.addVertexWithUV(x - 44.1, y + physicalY, (double) this.zLevel, 195 * f, 52 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY, (double) this.zLevel, 195 * f, 52 * f1);
             }
 
-            physicalY += 25.2;
+            physicalY += 28;
         }
 
         tessellator.draw();
 
-        mc.renderEngine.bindTexture(markets[marketIndex].getMarketLogo());
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x, y + 30.6, (double)this.zLevel, 0, 1);
-        tessellator.addVertexWithUV(x + 118.8, y + 30.6, (double)this.zLevel, 1, 1);
-        tessellator.addVertexWithUV(x + 118.8, y, (double)this.zLevel, 1, 0);
-        tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
-        tessellator.draw();
+//        mc.renderEngine.bindTexture(markets[marketIndex].getMarketLogo());
+//        tessellator.startDrawingQuads();
+//        tessellator.addVertexWithUV(x, y + 30.6, (double)this.zLevel, 0, 1);
+//        tessellator.addVertexWithUV(x + 118.8, y + 30.6, (double)this.zLevel, 1, 1);
+//        tessellator.addVertexWithUV(x + 118.8, y, (double)this.zLevel, 1, 0);
+//        tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
+//        tessellator.draw();
     }
 }

@@ -8,6 +8,7 @@ package net.modyssey.teleporters.client.models;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
 
 public class ModelStation extends ModelBase
 {
@@ -50,42 +51,42 @@ public class ModelStation extends ModelBase
     textureWidth = 128;
     textureHeight = 128;
     
-      Base = new ModelRenderer(this, 0, 0);
-      Base.addBox(-8F, 0F, -8F, 16, 1, 16);
-      Base.setRotationPoint(0F, 21F, 0F);
-      Base.setTextureSize(128, 128);
-      Base.mirror = true;
-      setRotation(Base, 0F, 0F, 0F);
-      Base = new ModelRenderer(this, 0, 0);
-      Base.addBox(0F, 0F, 0F, 16, 1, 16);
-      Base.setRotationPoint(-8F, 10F, -8F);
-      Base.setTextureSize(128, 128);
-      Base.mirror = true;
-      setRotation(Base, 0F, 0F, 0F);
-      Leg = new ModelRenderer(this, 0, 17);
-      Leg.addBox(0F, 0F, 0F, 2, 15, 2);
-      Leg.setRotationPoint(6F, 9F, -8F);
-      Leg.setTextureSize(128, 128);
-      Leg.mirror = true;
-      setRotation(Leg, 0F, 0F, 0F);
-      Leg = new ModelRenderer(this, 0, 17);
-      Leg.addBox(0F, 0F, 0F, 2, 15, 2);
-      Leg.setRotationPoint(6F, 9F, 6F);
-      Leg.setTextureSize(128, 128);
-      Leg.mirror = true;
-      setRotation(Leg, 0F, 0F, 0F);
-      Leg = new ModelRenderer(this, 0, 17);
-      Leg.addBox(0F, 0F, 0F, 2, 15, 2);
-      Leg.setRotationPoint(-8F, 9F, -8F);
-      Leg.setTextureSize(128, 128);
-      Leg.mirror = true;
-      setRotation(Leg, 0F, 0F, 0F);
-      Leg = new ModelRenderer(this, 0, 17);
-      Leg.addBox(0F, 0F, 0F, 2, 15, 2);
-      Leg.setRotationPoint(-8F, 9F, 6F);
-      Leg.setTextureSize(128, 128);
-      Leg.mirror = true;
-      setRotation(Leg, 0F, 0F, 0F);
+      Base1 = new ModelRenderer(this, 0, 0);
+      Base1.addBox(-8F, 0F, -8F, 16, 1, 16);
+      Base1.setRotationPoint(0F, 21F, 0F);
+      Base1.setTextureSize(128, 128);
+      Base1.mirror = true;
+      setRotation(Base1, 0F, 0F, 0F);
+      Base2 = new ModelRenderer(this, 0, 0);
+      Base2.addBox(0F, 0F, 0F, 16, 1, 16);
+      Base2.setRotationPoint(-8F, 10F, -8F);
+      Base2.setTextureSize(128, 128);
+      Base2.mirror = true;
+      setRotation(Base2, 0F, 0F, 0F);
+      Leg1 = new ModelRenderer(this, 0, 17);
+      Leg1.addBox(0F, 0F, 0F, 2, 15, 2);
+      Leg1.setRotationPoint(6F, 9F, -8F);
+      Leg1.setTextureSize(128, 128);
+      Leg1.mirror = true;
+      setRotation(Leg1, 0F, 0F, 0F);
+      Leg2 = new ModelRenderer(this, 0, 17);
+      Leg2.addBox(0F, 0F, 0F, 2, 15, 2);
+      Leg2.setRotationPoint(6F, 9F, 6F);
+      Leg2.setTextureSize(128, 128);
+      Leg2.mirror = true;
+      setRotation(Leg2, 0F, 0F, 0F);
+      Leg3 = new ModelRenderer(this, 0, 17);
+      Leg3.addBox(0F, 0F, 0F, 2, 15, 2);
+      Leg3.setRotationPoint(-8F, 9F, -8F);
+      Leg3.setTextureSize(128, 128);
+      Leg3.mirror = true;
+      setRotation(Leg3, 0F, 0F, 0F);
+      Leg4 = new ModelRenderer(this, 0, 17);
+      Leg4.addBox(0F, 0F, 0F, 2, 15, 2);
+      Leg4.setRotationPoint(-8F, 9F, 6F);
+      Leg4.setTextureSize(128, 128);
+      Leg4.mirror = true;
+      setRotation(Leg4, 0F, 0F, 0F);
       Keyboard_Bottom = new ModelRenderer(this, 8, 22);
       Keyboard_Bottom.addBox(0F, 0F, -1F, 12, 1, 3);
       Keyboard_Bottom.setRotationPoint(-6F, 9F, 5F);
@@ -116,20 +117,20 @@ public class ModelStation extends ModelBase
       Top_Frame.setTextureSize(128, 128);
       Top_Frame.mirror = true;
       setRotation(Top_Frame, 0F, 0F, 0F);
-      Side_Frame = new ModelRenderer(this, 64, 9);
-      Side_Frame.addBox(0F, 0F, 0F, 1, 9, 2);
-      Side_Frame.setRotationPoint(5F, -2F, -1F);
-      Side_Frame.setTextureSize(128, 128);
-      Side_Frame.mirror = true;
-      setRotation(Side_Frame, 0F, 0F, 0F);
-      Side_Frame.mirror = true;
-      Side_Frame = new ModelRenderer(this, 64, 9);
-      Side_Frame.addBox(0F, 0F, 0F, 1, 9, 2);
-      Side_Frame.setRotationPoint(-6F, -2F, -1F);
-      Side_Frame.setTextureSize(128, 128);
-      Side_Frame.mirror = true;
-      setRotation(Side_Frame, 0F, 0F, 0F);
-      Side_Frame.mirror = false;
+      Side_Frame1 = new ModelRenderer(this, 64, 9);
+      Side_Frame1.addBox(0F, 0F, 0F, 1, 9, 2);
+      Side_Frame1.setRotationPoint(5F, -2F, -1F);
+      Side_Frame1.setTextureSize(128, 128);
+      Side_Frame1.mirror = true;
+      setRotation(Side_Frame1, 0F, 0F, 0F);
+      Side_Frame1.mirror = true;
+      Side_Frame2 = new ModelRenderer(this, 64, 9);
+      Side_Frame2.addBox(0F, 0F, 0F, 1, 9, 2);
+      Side_Frame2.setRotationPoint(-6F, -2F, -1F);
+      Side_Frame2.setTextureSize(128, 128);
+      Side_Frame2.mirror = true;
+      setRotation(Side_Frame2, 0F, 0F, 0F);
+      Side_Frame2.mirror = false;
       Stand = new ModelRenderer(this, 42, 34);
       Stand.addBox(0F, 0F, 0F, 4, 8, 4);
       Stand.setRotationPoint(-2F, 13F, -2F);
@@ -232,37 +233,35 @@ public class ModelStation extends ModelBase
       Pipe2.setTextureSize(128, 128);
       Pipe2.mirror = true;
       setRotation(Pipe2, 0F, 0F, 0F);
-      Pipe_COnjunction = new ModelRenderer(this, 18, 65);
-      Pipe_COnjunction.addBox(0F, 0F, 0F, 2, 3, 2);
-      Pipe_COnjunction.setRotationPoint(-6F, 18F, 3F);
-      Pipe_COnjunction.setTextureSize(128, 128);
-      Pipe_COnjunction.mirror = true;
-      setRotation(Pipe_COnjunction, 0F, 0F, 0F);
-      Pipe_COnjunction = new ModelRenderer(this, 28, 65);
-      Pipe_COnjunction.addBox(0F, 0F, 0F, 2, 6, 4);
-      Pipe_COnjunction.setRotationPoint(-4F, 15F, -2F);
-      Pipe_COnjunction.setTextureSize(128, 128);
-      Pipe_COnjunction.mirror = true;
-      setRotation(Pipe_COnjunction, 0F, 0F, 0F);
+      Pipe_COnjunction1 = new ModelRenderer(this, 18, 65);
+      Pipe_COnjunction1.addBox(0F, 0F, 0F, 2, 3, 2);
+      Pipe_COnjunction1.setRotationPoint(-6F, 18F, 3F);
+      Pipe_COnjunction1.setTextureSize(128, 128);
+      Pipe_COnjunction1.mirror = true;
+      setRotation(Pipe_COnjunction1, 0F, 0F, 0F);
+      Pipe_COnjunction2 = new ModelRenderer(this, 28, 65);
+      Pipe_COnjunction2.addBox(0F, 0F, 0F, 2, 6, 4);
+      Pipe_COnjunction2.setRotationPoint(-4F, 15F, -2F);
+      Pipe_COnjunction2.setTextureSize(128, 128);
+      Pipe_COnjunction2.mirror = true;
+      setRotation(Pipe_COnjunction2, 0F, 0F, 0F);
   }
   
-  public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+  public void render(float f5)
   {
-    super.render(entity, f, f1, f2, f3, f4, f5);
-    setRotationAngles(f, f1, f2, f3, f4, f5);
-    Base.render(f5);
-    Base.render(f5);
-    Leg.render(f5);
-    Leg.render(f5);
-    Leg.render(f5);
-    Leg.render(f5);
+    Base1.render(f5);
+    Base2.render(f5);
+    Leg1.render(f5);
+    Leg2.render(f5);
+    Leg3.render(f5);
+    Leg4.render(f5);
     Keyboard_Bottom.render(f5);
     Keyboard_Top.render(f5);
     Monitor_Base.render(f5);
     Monitor_Bulk.render(f5);
     Top_Frame.render(f5);
-    Side_Frame.render(f5);
-    Side_Frame.render(f5);
+    Side_Frame1.render(f5);
+    Side_Frame2.render(f5);
     Stand.render(f5);
     Stand_Connector.render(f5);
     Battery.render(f5);
@@ -280,8 +279,8 @@ public class ModelStation extends ModelBase
     Generator_Core_Cap_1.render(f5);
     Pipe_1.render(f5);
     Pipe2.render(f5);
-    Pipe_COnjunction.render(f5);
-    Pipe_COnjunction.render(f5);
+    Pipe_COnjunction1.render(f5);
+    Pipe_COnjunction2.render(f5);
   }
   
   private void setRotation(ModelRenderer model, float x, float y, float z)
@@ -290,10 +289,4 @@ public class ModelStation extends ModelBase
     model.rotateAngleY = y;
     model.rotateAngleZ = z;
   }
-  
-  public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-  {
-    super.setRotationAngles(f, f1, f2, f3, f4, f5);
-  }
-
 }
