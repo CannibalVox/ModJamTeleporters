@@ -27,7 +27,6 @@ public class GuiTeleporterController extends GuiContainer {
 
         this.controller = controller;
         this.containerTeleporterController = (ContainerTeleporterController)inventorySlots;
-        this.zLevel = 2;
     }
 
     public void updateMarketData(List<StockList> marketData) {
@@ -138,18 +137,28 @@ public class GuiTeleporterController extends GuiContainer {
         mc.renderEngine.bindTexture(new ResourceLocation("modysseyteleporters:textures/gui/station.png"));
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x, y + h, (double)this.zLevel, 0, 0.84375);
-        tessellator.addVertexWithUV(x + w, y + h, (double)this.zLevel, w * f, 0.84375);
-        tessellator.addVertexWithUV(x + w, y, (double)this.zLevel, w * f, 0);
-        tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
+        tessellator.addVertexWithUV(x, y + 53, (double)this.zLevel+2, 0, 0.20703125);
+        tessellator.addVertexWithUV(x + w, y + 53, (double)this.zLevel+2, w * f, 0.20703125);
+        tessellator.addVertexWithUV(x + w, y, (double)this.zLevel+2, w * f, 0);
+        tessellator.addVertexWithUV(x, y, (double)this.zLevel+2, 0, 0);
+
+        tessellator.addVertexWithUV(x, y + 164, (double)this.zLevel, 0, 0.640625);
+        tessellator.addVertexWithUV(x + w, y + 164, (double)this.zLevel, w * f, 0.640625);
+        tessellator.addVertexWithUV(x + w, y + 53, (double)this.zLevel, w * f, 0.20703125);
+        tessellator.addVertexWithUV(x, y + 53, (double)this.zLevel, 0, 0.20703125);
+
+        tessellator.addVertexWithUV(x, y + 256, (double)this.zLevel+2, 0, 1);
+        tessellator.addVertexWithUV(x + w, y + 256, (double)this.zLevel+2, w * f, 1);
+        tessellator.addVertexWithUV(x + w, y + 164, (double)this.zLevel+2, w * f, 0.640625);
+        tessellator.addVertexWithUV(x, y + 164, (double)this.zLevel+2, 0, 0.640625);
 
         double physicalY = 50;
         for (int i = 0; i < containerTeleporterController.getMarketCount(); i++) {
             if (i == containerTeleporterController.getMarketIndex()) {
-                tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel, 195 * f, 52 * f1);
-                tessellator.addVertexWithUV(x+4, y + physicalY + 28, (double) this.zLevel, 248 * f, 52 * f1);
-                tessellator.addVertexWithUV(x+4, y + physicalY, (double) this.zLevel, 248 * f, 24 * f1);
-                tessellator.addVertexWithUV(x - 49, y + physicalY, (double) this.zLevel, 195 * f, 24 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel+2, 195 * f, 52 * f1);
+                tessellator.addVertexWithUV(x+4, y + physicalY + 28, (double) this.zLevel+2, 248 * f, 52 * f1);
+                tessellator.addVertexWithUV(x+4, y + physicalY, (double) this.zLevel+2, 248 * f, 24 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY, (double) this.zLevel+2, 195 * f, 24 * f1);
             } else {
                 tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel, 195 * f, 80 * f1);
                 tessellator.addVertexWithUV(x, y + physicalY + 28, (double) this.zLevel, 244 * f, 80 * f1);
