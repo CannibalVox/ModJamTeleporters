@@ -16,4 +16,6 @@ public class StockList {
     public StockCategory getCategory(int i) {
         return categories.get(i);
     }
+
+    public void clear() { categories.clear(); }
 }

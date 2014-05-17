@@ -8,13 +8,17 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.modyssey.teleporters.blocks.BlockTeleporterController;
 import net.modyssey.teleporters.blocks.BlockTeleporterPad;
+import net.modyssey.teleporters.client.gui.GuiTeleporterController;
 import net.modyssey.teleporters.client.renderer.RenderTeleporterController;
 import net.modyssey.teleporters.handlers.ModysseyGuiHandler;
 import net.modyssey.teleporters.markets.IMarket;
@@ -27,6 +31,8 @@ import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
 
+import java.util.List;
+
 @Mod(modid = "modysseyteleporters", version = ModysseyTeleporters.VERSION)
 public class ModysseyTeleporters {
     public static final String VERSION = "1.0";
@@ -37,6 +43,8 @@ public class ModysseyTeleporters {
     public static Item teleportCircuit;
 
     public static int TeleportControllerRenderId;
+
+    private IMarketFactory[] markets;
 
     @SidedProxy(clientSide = "net.modyssey.teleporters.client.ClientProxy", serverSide = "net.modyssey.teleporters.CommonProxy")
     public static CommonProxy proxy;
@@ -85,7 +93,7 @@ public class ModysseyTeleporters {
         IMarketFactory starmall = new StarMallMarketFactory(starmallStock);
         IMarketFactory pawnshop = new PawnShopMarketFactory(pawnshopStock);
 
-        IMarketFactory markets[] = { starmall, pawnshop };
+        markets = new IMarketFactory[] { starmall, pawnshop };
 
         //Register handlers
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModysseyGuiHandler(markets));
@@ -103,5 +111,19 @@ public class ModysseyTeleporters {
         GameRegistry.addRecipe(new ShapedOreRecipe(teleportCircuit, "XOX","PPP", 'X', "dustGlowstone", 'O', "gemDiamond", 'P', "plankWood" ));
         GameRegistry.addRecipe(new ShapedOreRecipe(teleporterController, "XXX", "XOX", "XXX", 'X', "gemDiamond", 'O', teleportCircuit));
         GameRegistry.addRecipe(new ShapedOreRecipe(teleporterPad, "XXX", "XOX", "XXX", 'X', Items.iron_ingot, 'O', teleportCircuit));
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void setMarketData(List<List<StockCategory>> allMarketData) {
+        for (int i = 0; i < markets.length; i++) {
+            if (i >= allMarketData.size())
+                break;
+
+            markets[i].setStockData(allMarketData.get(i));
+        }
+
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiTeleporterController) {
+            ((GuiTeleporterController)Minecraft.getMinecraft().currentScreen).updateMarketData(allMarketData);
+        }
     }
 }

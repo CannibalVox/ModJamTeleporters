@@ -3,8 +3,11 @@ package net.modyssey.teleporters.markets;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.modyssey.teleporters.markets.stock.StockCategory;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
+
+import java.util.List;
 
 public interface IMarket {
     String getStockTitle();
@@ -16,4 +19,5 @@ public interface IMarket {
     int getCartSize();
     ItemStack getCartContent(int index);
     void addFromStock(ItemStack item);
+    void updateStock(List<StockCategory> stock);
 }

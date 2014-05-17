@@ -6,9 +6,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.modyssey.teleporters.markets.IMarket;
 import net.modyssey.teleporters.markets.IMarketFactory;
+import net.modyssey.teleporters.markets.stock.StockCategory;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 import org.lwjgl.opengl.GL11;
+
+import java.util.List;
 
 public class GuiTeleporterController extends GuiContainer {
     private TileEntityTeleporterController controller;
@@ -29,6 +32,15 @@ public class GuiTeleporterController extends GuiContainer {
         for (int i = 0; i < marketFactories.length; i++) {
             this.markets[i] = marketFactories[i].createMarket();
             this.markets[i].initializeCart(controller);
+        }
+    }
+
+    public void updateMarketData(List<List<StockCategory>> marketData) {
+        for (int i = 0; i < markets.length; i++) {
+            if (marketData.size() <= i)
+                return;
+
+            markets[i].updateStock(marketData.get(i));
         }
     }
 
