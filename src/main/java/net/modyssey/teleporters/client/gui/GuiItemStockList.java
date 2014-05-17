@@ -2,22 +2,23 @@ package net.modyssey.teleporters.client.gui;
 
 import net.minecraft.util.ResourceLocation;
 import net.modyssey.teleporters.client.gui.components.ScrollingList;
+import net.modyssey.teleporters.markets.stock.StockCategory;
 import net.modyssey.teleporters.markets.stock.StockList;
 
 import java.awt.geom.Rectangle2D;
 
-public class GuiCategoryList extends ScrollingList {
-    private StockList stockList;
+public class GuiItemStockList extends ScrollingList {
+    private StockCategory stockCategory;
     private GuiTeleporterController parent;
 
-    public GuiCategoryList(GuiTeleporterController parent) {
-        super(new Rectangle2D.Double(0,28,55,111), 20);
+    public GuiItemStockList(GuiTeleporterController parent) {
+        super(new Rectangle2D.Double(63,28,55,111), 20);
 
         this.parent = parent;
     }
 
-    public void setStockList(StockList stockList) {
-        this.stockList = stockList;
+    public void setStockCategory(StockCategory stockCategory) {
+        this.stockCategory = stockCategory;
     }
 
     @Override
@@ -42,12 +43,12 @@ public class GuiCategoryList extends ScrollingList {
 
     @Override
     protected Rectangle2D getScrollTrackBounds() {
-        return new Rectangle2D.Double(56, 28, 6, 111);
+        return new Rectangle2D.Double(119, 28, 6, 111);
     }
 
     @Override
     protected int getEntryCount() {
-        return (stockList == null)?0:stockList.getCategoryCount();
+        return (stockCategory == null)?0:stockCategory.getItemCount();
     }
 
     @Override
@@ -60,6 +61,6 @@ public class GuiCategoryList extends ScrollingList {
 
     @Override
     protected void handleMouseInput(int mouseX, int mouseY) {
-        super.handleMouseInput(mouseX - 9, mouseY - 25);
+        super.handleMouseInput(mouseX + 54, mouseY - 25);
     }
 }

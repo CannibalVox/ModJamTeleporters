@@ -17,6 +17,7 @@ public class GuiTeleporterController extends GuiContainer {
     private int marketIndex = 0;
 
     private GuiCategoryList categories;
+    private GuiItemStockList stockItems;
 
     public GuiTeleporterController(TileEntityTeleporterController controller, IMarketFactory[] marketFactories) {
         super(new ContainerTeleporterController(controller));
@@ -42,8 +43,11 @@ public class GuiTeleporterController extends GuiContainer {
         int x = (width - w) / 2;
         int y = (height - h) / 2;
 
-        categories = new GuiCategoryList(this, x, y);
+        categories = new GuiCategoryList(this);
         categories.setStockList(markets[marketIndex].getStockList());
+
+        stockItems = new GuiItemStockList(this);
+        stockItems.setStockCategory(markets[marketIndex].getStockList().getCategory(0));
     }
 
     @Override
@@ -55,6 +59,7 @@ public class GuiTeleporterController extends GuiContainer {
         int y = (height - h) / 2;
 
         categories.drawList(mouseX - x, mouseY - y);
+        stockItems.drawList(mouseX - x, mouseY - y);
         drawTabLabels();
 
         fontRendererObj.drawString(StatCollector.translateToLocal(markets[marketIndex].getStockTitle()), 2, 17, 0x404040, false);
