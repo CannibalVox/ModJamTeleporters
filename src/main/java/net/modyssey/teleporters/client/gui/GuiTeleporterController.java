@@ -4,9 +4,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.modyssey.teleporters.markets.IMarket;
 import net.modyssey.teleporters.markets.IMarketFactory;
-import net.modyssey.teleporters.markets.stock.StockCategory;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
@@ -16,35 +14,24 @@ import java.util.List;
 
 public class GuiTeleporterController extends GuiContainer {
     private TileEntityTeleporterController controller;
-    private IMarketFactory[] marketFactories;
-    private IMarket[] markets;
-
-    private int marketIndex = 0;
+    private ContainerTeleporterController containerTeleporterController;
 
     private GuiCategoryList categories;
     private GuiItemStockList stockItems;
     private GuiCartList cart;
 
     public GuiTeleporterController(TileEntityTeleporterController controller, IMarketFactory[] marketFactories) {
-        super(new ContainerTeleporterController(controller));
+        super(new ContainerTeleporterController(controller, marketFactories));
 
         this.controller = controller;
-        this.marketFactories = marketFactories;
+        this.containerTeleporterController = (ContainerTeleporterController)inventorySlots;
     }
 
     public void updateMarketData(List<StockList> marketData) {
-        if (markets == null || markets.length == 0)
-            return;
+        containerTeleporterController.updateMarketData(marketData);
 
-        for (int i = 0; i < markets.length; i++) {
-            if (marketData.size() <= i)
-                break;
-
-            markets[i].updateStock(marketData.get(i));
-        }
-
-        categories.setStockList(markets[marketIndex].getStockList());
-        stockItems.setStockCategory(markets[marketIndex].getStockList().getCategory(0));
+        categories.setStockList(containerTeleporterController.getCurrentMarket().getStockList());
+        stockItems.setStockCategory(containerTeleporterController.getCurrentMarket().getStockList().getCategory(0));
     }
 
     /**
@@ -54,12 +41,7 @@ public class GuiTeleporterController extends GuiContainer {
     public void initGui() {
         super.initGui();
 
-        this.markets = new IMarket[marketFactories.length];
-
-        for (int i = 0; i < marketFactories.length; i++) {
-            this.markets[i] = marketFactories[i].createMarket();
-            this.markets[i].initializeCart(controller);
-        }
+        containerTeleporterController.initMarkets();
 
         int w = 195;
         int h = 216;
@@ -68,13 +50,13 @@ public class GuiTeleporterController extends GuiContainer {
         int y = (height - h) / 2;
 
         categories = new GuiCategoryList(this);
-        categories.setStockList(markets[marketIndex].getStockList());
+        categories.setStockList(containerTeleporterController.getCurrentMarket().getStockList());
 
         stockItems = new GuiItemStockList(this);
-        stockItems.setStockCategory(markets[marketIndex].getStockList().getCategory(0));
+        stockItems.setStockCategory(containerTeleporterController.getCurrentMarket().getStockList().getCategory(0));
 
         cart = new GuiCartList(this);
-        cart.setMarket(markets[marketIndex]);
+        cart.setMarket(containerTeleporterController.getCurrentMarket());
     }
 
     @Override
@@ -90,7 +72,7 @@ public class GuiTeleporterController extends GuiContainer {
         cart.drawList(mouseX - x, mouseY - y);
         drawTabLabels();
 
-        fontRendererObj.drawString(StatCollector.translateToLocal(markets[marketIndex].getStockTitle()), 2, 17, 0x404040, false);
+        fontRendererObj.drawString(StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getStockTitle()), 2, 17, 0x404040, false);
         fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.cart"), 133, 17, 0x404040, false);
 
         int credits = controller.getCredits();
@@ -101,8 +83,8 @@ public class GuiTeleporterController extends GuiContainer {
 
     private void drawTabLabels() {
         int titleY = 36;
-        for (int i = 0; i < markets.length; i++) {
-            String title = StatCollector.translateToLocal(markets[i].getMarketTitle());
+        for (int i = 0; i < containerTeleporterController.getMarketCount(); i++) {
+            String title = StatCollector.translateToLocal(containerTeleporterController.getMarketTitle(i));
 
             fontRendererObj.drawString(title, -52, titleY, 0xFFFFFF, true);
 
@@ -123,16 +105,16 @@ public class GuiTeleporterController extends GuiContainer {
             int leftTabBound = (int)(x - 49);
             int topTabBound = (int)(y + 50);
             int rightTabBound = (int)x;
-            int bottomTabBound = (int)(y + 50 + (markets.length * 28));
+            int bottomTabBound = (int)(y + 50 + (containerTeleporterController.getMarketCount() * 28));
 
             if (mouseX >= leftTabBound && mouseX <= rightTabBound && mouseY >= topTabBound && mouseY <= bottomTabBound) {
-                int selectedMarket = (mouseY - 1 - topTabBound)/((bottomTabBound - topTabBound)/markets.length);
+                int selectedMarket = (mouseY - 1 - topTabBound)/((bottomTabBound - topTabBound)/containerTeleporterController.getMarketCount());
 
-                if (selectedMarket != marketIndex) {
-                    marketIndex = selectedMarket;
-                    categories.setStockList(markets[marketIndex].getStockList());
-                    stockItems.setStockCategory(markets[marketIndex].getStockList().getCategory(0));
-                    cart.setMarket(markets[marketIndex]);
+                if (selectedMarket != containerTeleporterController.getMarketIndex()) {
+                    containerTeleporterController.setMarketIndex(selectedMarket);
+                    categories.setStockList(containerTeleporterController.getCurrentMarket().getStockList());
+                    stockItems.setStockCategory(containerTeleporterController.getCurrentMarket().getStockList().getCategory(0));
+                    cart.setMarket(containerTeleporterController.getCurrentMarket());
                 }
 
                 return;
@@ -159,8 +141,8 @@ public class GuiTeleporterController extends GuiContainer {
         tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
 
         double physicalY = 50;
-        for (int i = 0; i < markets.length; i++) {
-            if (i == marketIndex) {
+        for (int i = 0; i < containerTeleporterController.getMarketCount(); i++) {
+            if (i == containerTeleporterController.getMarketIndex()) {
                 tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel, 195 * f, 52 * f1);
                 tessellator.addVertexWithUV(x+4, y + physicalY + 28, (double) this.zLevel, 248 * f, 52 * f1);
                 tessellator.addVertexWithUV(x+4, y + physicalY, (double) this.zLevel, 248 * f, 24 * f1);
@@ -177,7 +159,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         tessellator.draw();
 
-        mc.renderEngine.bindTexture(markets[marketIndex].getMarketLogo());
+        mc.renderEngine.bindTexture(containerTeleporterController.getCurrentMarket().getMarketLogo());
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV(x, y + 35, (double)this.zLevel, 0, 1);
         tessellator.addVertexWithUV(x + 109, y + 35, (double)this.zLevel, 1, 1);

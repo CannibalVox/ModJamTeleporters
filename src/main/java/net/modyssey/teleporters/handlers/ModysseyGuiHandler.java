@@ -28,7 +28,9 @@ public class ModysseyGuiHandler implements IGuiHandler {
                 FullMarketDataPacket marketData = ModysseyTeleporters.instance.getMarketDataPacket();
                 ModysseyNetwork.sendToPlayer(marketData, player);
 
-                return new ContainerTeleporterController((TileEntityTeleporterController) world.getTileEntity(x, y, z));
+                ContainerTeleporterController container = new ContainerTeleporterController((TileEntityTeleporterController) world.getTileEntity(x, y, z), marketFactories);
+                container.initMarkets();
+                return container;
             }
             default:
                 return null;
