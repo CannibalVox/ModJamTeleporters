@@ -11,7 +11,7 @@ public class GuiCategoryList extends ScrollingList {
     private GuiTeleporterController parent;
 
     public GuiCategoryList(GuiTeleporterController parent, int parentX, int parentY) {
-        super(new Rectangle2D.Double(parentX + 9,parentY + 53,55,111), 20);
+        super(new Rectangle2D.Double(1,28,55,111), 20);
 
         this.parent = parent;
     }
@@ -32,7 +32,7 @@ public class GuiCategoryList extends ScrollingList {
 
     @Override
     protected Rectangle2D getScrollTrackBounds() {
-        return new Rectangle2D.Double(64, 53, 6, 111);
+        return new Rectangle2D.Double(56, 28, 6, 111);
     }
 
     @Override
@@ -42,6 +42,7 @@ public class GuiCategoryList extends ScrollingList {
 
     @Override
     protected void drawEntry(int i, int y) {
-        drawRect(getX() + 1, y + 1, getWidth() - 2, getEntryHeight() - 2, 0xFFFFFF);
+        drawTexturedModalRect(getX(),getY() + y,110, 36, 10, 10);
+        //drawRect(getX() + 1, y + 1, getWidth() - 2, getEntryHeight() - 2, 0xFFFFFF);
     }
 }

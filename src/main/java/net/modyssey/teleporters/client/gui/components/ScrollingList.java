@@ -52,10 +52,10 @@ public abstract class ScrollingList extends Gui {
         int viewportSize = (int)viewportBounds.getHeight() + 1;
         int maxViewportPosition = contentSize - viewportSize;
 
-        if (viewportTopPosition < 0)
-            viewportTopPosition = 0;
         if (viewportTopPosition > maxViewportPosition)
             viewportTopPosition = maxViewportPosition;
+        if (viewportTopPosition < 0)
+            viewportTopPosition = 0;
     }
 
     protected void drawScrollbar() {
