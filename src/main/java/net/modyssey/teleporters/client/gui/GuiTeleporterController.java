@@ -1,5 +1,6 @@
 package net.modyssey.teleporters.client.gui;
 
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
@@ -21,6 +22,8 @@ public class GuiTeleporterController extends GuiContainer {
     private GuiCategoryList categories;
     private GuiItemStockList stockItems;
     private GuiCartList cart;
+
+    private GuiButton addButton;
 
     public GuiTeleporterController(TileEntityTeleporterController controller, IMarketFactory[] marketFactories) {
         super(new ContainerTeleporterController(controller, marketFactories));
@@ -59,6 +62,11 @@ public class GuiTeleporterController extends GuiContainer {
 
         cart = new GuiCartList(this);
         cart.setMarket(containerTeleporterController.getCurrentMarket());
+
+        addButton = new GuiButton(0, 99, 143, 36, 66, StatCollector.translateToLocal("gui.modysseyteleporters.add"));
+
+        buttonList.clear();
+        buttonList.add(addButton);
     }
 
     @Override
