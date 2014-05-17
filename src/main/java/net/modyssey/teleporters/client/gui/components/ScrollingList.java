@@ -16,6 +16,7 @@ public abstract class ScrollingList extends Gui {
     protected abstract ResourceLocation getScrollGripTexture();
     protected abstract Rectangle2D getScrollTrackBounds();
     protected abstract int getEntryCount();
+    protected abstract void drawEntry(int i, int y);
 
     private int viewportTopPosition;
 
