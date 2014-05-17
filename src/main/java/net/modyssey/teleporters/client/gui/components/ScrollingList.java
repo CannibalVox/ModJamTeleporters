@@ -3,6 +3,7 @@ package net.modyssey.teleporters.client.gui.components;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Mouse;
 
 import java.awt.geom.Rectangle2D;
 
@@ -27,13 +28,81 @@ public abstract class ScrollingList extends Gui {
     private int viewportTopPosition;
 
     private static final int SCROLL_GRIP = -1;
-    private static final int SCROLL_TRACK = -2;
+    private static final int TOP_SCROLL_TRACK = -2;
+    private static final int BOTTOM_SCROLL_TRACK = -3;
+    private static final int NOTHING = -4;
+    private static final int OUT_OF_BOUNDS = -5;
     private int mouseDownElement;
+    private int lastMouseX;
+    private int lastMouseY;
     private boolean isMouseDown;
 
     protected ScrollingList(Rectangle2D viewportBounds, int entryHeight) {
         this.viewportBounds = viewportBounds;
         this.entryHeight = entryHeight;
+    }
+
+    protected int getMouseOverElement(int mouseX, int mouseY) {
+        double x = mouseX;
+        double y = mouseY;
+
+        if (x >= viewportBounds.getX() && x <= (viewportBounds.getX() + viewportBounds.getWidth()) &&
+                y >= viewportBounds.getY() && y <= (viewportBounds.getY() + viewportBounds.getHeight())) {
+            y += viewportTopPosition;
+            y /= getEntryHeight();
+
+            if (y < 0 || y >= getEntryCount())
+                return NOTHING;
+            else
+                return (int)y;
+        }
+
+        Rectangle2D trackBounds = getScrollTrackBounds();
+
+        if (x >= trackBounds.getX() && x <= (trackBounds.getX() + trackBounds.getWidth()) &&
+                y >= viewportBounds.getY() && y <= (viewportBounds.getY() + viewportBounds.getHeight())) {
+
+        }
+
+        return OUT_OF_BOUNDS;
+    }
+
+    protected void handleMouseInput(int mouseX, int mouseY) {
+        boolean mouseCurrentlyDown = Mouse.isButtonDown(0);
+        int mouseOverElement = getMouseOverElement(mouseX, mouseY);
+
+        if (mouseCurrentlyDown != isMouseDown) {
+            isMouseDown = mouseCurrentlyDown;
+            if (mouseCurrentlyDown) {
+                mouseDownElement = mouseOverElement;
+                mouseDownOn(mouseOverElement);
+            } else if (mouseOverElement == mouseDownElement) {
+                mouseClickOn(mouseOverElement);
+            }
+        } else if (mouseCurrentlyDown && mouseOverElement == SCROLL_GRIP) {
+            dragGrip(mouseY - lastMouseY);
+        } else if (!mouseCurrentlyDown) {
+            if (mouseOverElement >= 0 || mouseOverElement == NOTHING) {
+                for (; !Minecraft.getMinecraft().gameSettings.touchscreen && Mouse.next(); Minecraft.getMinecraft().currentScreen.handleMouseInput())
+                {
+                    int j1 = Mouse.getEventDWheel();
+
+                    if (j1 != 0)
+                    {
+                        if (j1 > 0)
+                        {
+                            j1 = -1;
+                        }
+                        else if (j1 < 0)
+                        {
+                            j1 = 1;
+                        }
+
+                        this.viewportTopPosition += (float)(j1 * 10);
+                    }
+                }
+            }
+        }
     }
 
     public void drawList(int mouseX, int mouseY) {
@@ -67,7 +136,7 @@ public abstract class ScrollingList extends Gui {
             viewportTopPosition = 0;
     }
 
-    protected void drawScrollbar() {
+    protected int calculateVisibleGripHeight() {
         double contentSize = getEntryCount() * getEntryHeight();
         double viewportSize = viewportBounds.getHeight();
 
@@ -86,6 +155,16 @@ public abstract class ScrollingList extends Gui {
         if (gripNativeHeight > gripHeight)
             gripHeight = gripNativeHeight;
 
+        return gripHeight;
+    }
+
+    protected int calculateVisibleGripPosition() {
+        double contentSize = getEntryCount() * getEntryHeight();
+        double viewportSize = viewportBounds.getHeight();
+
+        int gripHeight = calculateVisibleGripHeight();
+        Rectangle2D trackBounds = getScrollTrackBounds();
+
         //Get the position of the grip on the track
         double slideLength = trackBounds.getHeight() - gripHeight;
         double contentSlide = contentSize - viewportSize;
@@ -93,6 +172,18 @@ public abstract class ScrollingList extends Gui {
 
         int gripPosition = (int)(slideToContentRatio * (double)viewportTopPosition);
 
+        return gripPosition;
+    }
+
+    protected void drawScrollbar() {
+
+        int gripHeight = calculateVisibleGripHeight();
+        int gripPosition = calculateVisibleGripPosition();
+
+        Rectangle2D gripBounds = getScrollGripBounds();
+        Rectangle2D trackBounds = getScrollTrackBounds();
+
+        int gripNativeHeight = (int)gripBounds.getHeight();
         int gripNativeWidth = (int)gripBounds.getWidth();
         int trackX = (int)trackBounds.getX();
         int trackY = (int)trackBounds.getY();
