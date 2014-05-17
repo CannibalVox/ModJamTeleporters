@@ -48,7 +48,13 @@ public class GuiTeleporterController extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        categories.drawList(mouseX, mouseY);
+        int w = 195;
+        int h = 216;
+
+        int x = (width - w) / 2;
+        int y = (height - h) / 2;
+
+        categories.drawList(mouseX - x, mouseY - y);
         drawTabLabels();
 
         fontRendererObj.drawString(StatCollector.translateToLocal(markets[marketIndex].getStockTitle()), 2, 17, 0x404040, false);

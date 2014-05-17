@@ -24,6 +24,8 @@ public abstract class ScrollingList extends Gui {
     protected abstract Rectangle2D getScrollTrackBounds();
     protected abstract int getEntryCount();
     protected abstract void drawEntry(int i, int y);
+    protected void itemMouseDown(int item) {}
+    protected void itemMouseClick(int item) {}
 
     private int viewportTopPosition;
 
@@ -62,9 +64,48 @@ public abstract class ScrollingList extends Gui {
         if (x >= trackBounds.getX() && x <= (trackBounds.getX() + trackBounds.getWidth()) &&
                 y >= viewportBounds.getY() && y <= (viewportBounds.getY() + viewportBounds.getHeight())) {
 
+            int gripPos = calculateVisibleGripPosition();
+            int gripHeight = calculateVisibleGripHeight();
+
+            if (y < gripPos)
+                return TOP_SCROLL_TRACK;
+            else if (y >= gripPos + gripHeight)
+                return BOTTOM_SCROLL_TRACK;
+            else
+                return SCROLL_GRIP;
         }
 
         return OUT_OF_BOUNDS;
+    }
+
+    protected void mouseDownOn(int element) {
+        if (element >= 0) {
+            itemMouseDown(element);
+        } else if (element == TOP_SCROLL_TRACK) {
+            viewportTopPosition -= (int)viewportBounds.getHeight();
+            normalizeScrollPosition();
+        } else if (element == BOTTOM_SCROLL_TRACK) {
+            viewportTopPosition += (int)viewportBounds.getHeight();
+            normalizeScrollPosition();
+        }
+    }
+
+    protected void mouseClickOn(int element) {
+        if (element >= 0) {
+            itemMouseClick(element);
+        }
+    }
+
+    protected void dragGrip(int deltaY) {
+        int gripSize = calculateVisibleGripHeight();
+        double slideLength = getScrollTrackBounds().getHeight() - gripSize;
+
+        double contentPct = (double)deltaY / slideLength;
+
+        int movementSize = (int)((double)(getEntryCount() * getEntryHeight()) * contentPct);
+
+        viewportTopPosition += movementSize;
+        normalizeScrollPosition();
     }
 
     protected void handleMouseInput(int mouseX, int mouseY) {
@@ -103,6 +144,9 @@ public abstract class ScrollingList extends Gui {
                 }
             }
         }
+
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
     }
 
     public void drawList(int mouseX, int mouseY) {
