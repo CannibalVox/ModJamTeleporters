@@ -92,6 +92,8 @@ public class TileEntityTeleporterController extends TileEntity {
         getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
+    public int getCredits() { return credits; }
+
     @Override
     public Packet getDescriptionPacket()
     {

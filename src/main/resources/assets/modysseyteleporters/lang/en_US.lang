@@ -4,6 +4,7 @@ tile.modysseyteleporter.beacon.name=Teleporter Beacon
 
 item.modysseyteleporter.circuit.name=Teleporter Circuit
 
+gui.modysseyteleporters.credits=Credits
 gui.modysseyteleporters.stock=Stock
 gui.modysseyteleporters.priceguide=Price Guide
 gui.modysseyteleporters.pawnshop=Galactic Pawn Shop
