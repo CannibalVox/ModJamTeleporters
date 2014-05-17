@@ -1,16 +1,18 @@
 package net.modyssey.teleporters.client.gui;
 
 import cpw.mods.fml.client.GuiScrollingList;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.Tessellator;
 import net.modyssey.teleporters.markets.stock.StockList;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 public class GuiCategoryList extends GuiScrollingList {
     private StockList stockList;
     private GuiTeleporterController parent;
 
-    public GuiCategoryList(GuiTeleporterController parent) {
-        super(parent.mc, 56, 112, 53, 164, 9, 20);
+    public GuiCategoryList(GuiTeleporterController parent, int parentX, int parentY) {
+        super(parent.mc, 55, 112, parentY+53, parentY+164, parentX+9, 20);
 
         this.parent = parent;
     }
@@ -36,6 +38,11 @@ public class GuiCategoryList extends GuiScrollingList {
 
     @Override
     protected void drawBackground() {
+
+    }
+
+    @Override
+    protected void drawGradientRect(int par1, int par2, int par3, int par4, int par5, int par6) {
 
     }
 

@@ -35,7 +35,14 @@ public class GuiTeleporterController extends GuiContainer {
     @Override
     public void initGui() {
         super.initGui();
-        categories = new GuiCategoryList(this);
+
+        int w = 195;
+        int h = 216;
+
+        int x = (width - w) / 2;
+        int y = (height - h) / 2;
+
+        categories = new GuiCategoryList(this, x, y);
         categories.setStockList(markets[marketIndex].getStockList());
     }
 
@@ -137,9 +144,9 @@ public class GuiTeleporterController extends GuiContainer {
 
         mc.renderEngine.bindTexture(markets[marketIndex].getMarketLogo());
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x, y + 34, (double)this.zLevel, 0, 1);
-        tessellator.addVertexWithUV(x + 132, y + 34, (double)this.zLevel, 1, 1);
-        tessellator.addVertexWithUV(x + 132, y, (double)this.zLevel, 1, 0);
+        tessellator.addVertexWithUV(x, y + 35, (double)this.zLevel, 0, 1);
+        tessellator.addVertexWithUV(x + 109, y + 35, (double)this.zLevel, 1, 1);
+        tessellator.addVertexWithUV(x + 109, y, (double)this.zLevel, 1, 0);
         tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
         tessellator.draw();
     }
