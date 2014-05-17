@@ -3,7 +3,7 @@ package net.modyssey.teleporters.markets.stock;
 import java.util.ArrayList;
 
 public class StockList {
-    private ArrayList<StockCategory> categories;
+    private ArrayList<StockCategory> categories = new ArrayList<StockCategory>();
 
     public StockList() {}
 

@@ -7,9 +7,12 @@ import net.modyssey.teleporters.markets.stock.StockList;
 
 public class GuiCategoryList extends GuiScrollingList {
     private StockList stockList;
+    private GuiTeleporterController parent;
 
-    public GuiCategoryList(Minecraft client, int width, int height, int top, int bottom, int left, int entryHeight) {
-        super(client, width, height, top, bottom, left, entryHeight);
+    public GuiCategoryList(GuiTeleporterController parent) {
+        super(parent.mc, 56, 112, 53, 164, 9, 20);
+
+        this.parent = parent;
     }
 
     public void setStockList(StockList stockList) {

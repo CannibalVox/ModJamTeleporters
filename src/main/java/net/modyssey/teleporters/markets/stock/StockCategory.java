@@ -8,7 +8,7 @@ public class StockCategory {
     private String unlocalizedCategoryName;
     private Item iconItem;
 
-    private ArrayList<StockItem> categoryItems;
+    private ArrayList<StockItem> categoryItems = new ArrayList<StockItem>();
 
     public StockCategory(String categoryName, Item iconItem) {
         this.unlocalizedCategoryName = categoryName;
