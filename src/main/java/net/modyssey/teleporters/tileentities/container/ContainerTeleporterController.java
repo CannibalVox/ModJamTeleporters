@@ -10,6 +10,7 @@ import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.markets.stock.StockItem;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.network.ModysseyNetwork;
+import net.modyssey.teleporters.network.TransmitCartRemoveItemPacket;
 import net.modyssey.teleporters.network.TransmitCartUpdatePacket;
 import net.modyssey.teleporters.network.TransmitFullCartPacket;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
@@ -86,13 +87,25 @@ public class ContainerTeleporterController extends Container {
         }
     }
 
-    public void receiveCartUpdate(int marketIndex, int cartIndex, ItemStack itemToUpdate) {
+    public void receiveCartUpdate(int marketIndex, int cartIndex, ItemStack itemToUpdate, boolean addIfUnlocated) {
+        if (marketIndex < 0 || marketIndex >= markets.length)
+            return;
+
         Market market = markets[marketIndex];
 
         if (cartIndex < market.getCartSize() && PadData.canItemstacksStack(market.getCartContent(cartIndex), itemToUpdate))
             market.getCartContent(cartIndex).stackSize = itemToUpdate.stackSize;
-        else
+        else if (addIfUnlocated)
             market.directAddToCart(itemToUpdate);
+    }
+
+    public void receiveCartRemove(int marketIndex, int cartIndex) {
+        if (marketIndex < 0 || marketIndex >= markets.length)
+            return;
+
+        Market market = markets[marketIndex];
+
+        market.removeCartItem(cartIndex);
     }
 
     public void requestFullCart(EntityPlayerMP player) {
@@ -119,14 +132,14 @@ public class ContainerTeleporterController extends Container {
 
             if (PadData.canItemstacksStack(cartStack, itemToAdd)) {
                 cartStack.stackSize += itemToAdd.stackSize;
-                TransmitCartUpdatePacket packet = new TransmitCartUpdatePacket(windowId, marketId, i, cartStack);
+                TransmitCartUpdatePacket packet = new TransmitCartUpdatePacket(windowId, marketId, i, cartStack, true);
                 ModysseyNetwork.sendToPlayer(packet, player);
                 return;
             }
         }
 
         market.directAddToCart(itemToAdd);
-        TransmitCartUpdatePacket packet = new TransmitCartUpdatePacket(windowId, marketId, market.getCartSize()-1, itemToAdd);
+        TransmitCartUpdatePacket packet = new TransmitCartUpdatePacket(windowId, marketId, market.getCartSize()-1, itemToAdd, true);
         ModysseyNetwork.sendToPlayer(packet, player);
     }
 
@@ -139,7 +152,23 @@ public class ContainerTeleporterController extends Container {
         if (!market.allowAddFromStock())
             return;
 
-        ItemStack cartItem = market.
+        if (cartIndex < 0 || cartIndex >= market.getCartSize())
+            return;
+
+        ItemStack cartItem = market.getCartContent(cartIndex);
+
+        if (!PadData.canItemstacksStack(cartItem, itemToRemove))
+            return;
+
+        if (cartItem.stackSize > itemToRemove.stackSize) {
+            cartItem.stackSize -= itemToRemove.stackSize;
+            TransmitCartUpdatePacket packet = new TransmitCartUpdatePacket(windowId, marketIndex, cartIndex, cartItem, false);
+            ModysseyNetwork.sendToPlayer(packet, player);
+        } else {
+            market.removeCartItem(cartIndex);
+            TransmitCartRemoveItemPacket packet = new TransmitCartRemoveItemPacket(windowId, marketIndex, cartIndex);
+            ModysseyNetwork.sendToPlayer(packet, player);
+        }
     }
 
     public void requestExchange(EntityPlayerMP player, int marketIndex) {

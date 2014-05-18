@@ -15,12 +15,14 @@ public class TransmitCartUpdatePacket extends ModysseyPacket {
     private int marketId;
     private int cartIndex;
     private ItemStack itemToAddOrUpdate;
+    private boolean addIfUnlocated;
 
-    public TransmitCartUpdatePacket(int windowId, int marketId, int cartIndex, ItemStack itemToAddOrUpdate) {
+    public TransmitCartUpdatePacket(int windowId, int marketId, int cartIndex, ItemStack itemToAddOrUpdate, boolean addIfUnlocated) {
         this.windowId = windowId;
         this.marketId = marketId;
         this.cartIndex = cartIndex;
         this.itemToAddOrUpdate = itemToAddOrUpdate;
+        this.addIfUnlocated = addIfUnlocated;
     }
 
     public TransmitCartUpdatePacket() {}
@@ -35,6 +37,8 @@ public class TransmitCartUpdatePacket extends ModysseyPacket {
         out.writeInt(itemId);
         out.writeInt(itemToAddOrUpdate.stackSize);
         out.writeInt(itemToAddOrUpdate.getItemDamage());
+
+        out.writeBoolean(addIfUnlocated);
     }
 
     @Override
@@ -49,12 +53,14 @@ public class TransmitCartUpdatePacket extends ModysseyPacket {
 
         Item item = (Item)Item.itemRegistry.getObjectById(itemId);
         itemToAddOrUpdate = new ItemStack(item, stackSize, damage);
+
+        addIfUnlocated = in.readBoolean();
     }
 
     @Override
     public void handleClient(World world, EntityPlayer player) {
         if (player.openContainer != null && player.openContainer.windowId == windowId && player.openContainer instanceof ContainerTeleporterController)
-            ((ContainerTeleporterController)player.openContainer).receiveCartUpdate(marketId, cartIndex, itemToAddOrUpdate);
+            ((ContainerTeleporterController)player.openContainer).receiveCartUpdate(marketId, cartIndex, itemToAddOrUpdate, addIfUnlocated);
     }
 
     @Override

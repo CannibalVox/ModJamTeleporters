@@ -189,7 +189,7 @@ public class GuiTeleporterController extends GuiContainer {
             if (addButton.pollClickEvent()) {
                 int amount = getQuantity();
 
-                RequestCartRemovePacket packet = new RequestCartRemovePacket(containerTeleporterController.windowId, containerTeleporterController.getMarketIndex(), cart.getSelectedItem(), new ItemStack(selectedItem.getItem().getItem(), amount, selectedItem.getItem().getItemDamage()));
+                RequestCartRemovePacket packet = new RequestCartRemovePacket(containerTeleporterController.windowId, containerTeleporterController.getMarketIndex(), cart.getSelectedItem(), new ItemStack(selectedCartItem.getItem(), amount, selectedCartItem.getItemDamage()));
                 ModysseyNetwork.sendToServer(packet);
             }
         }
