@@ -16,6 +16,10 @@ public class RequestMarketExchangePacket extends ModysseyPacket {
         this.marketId = marketId;
     }
 
+    public RequestMarketExchangePacket() {
+
+    }
+
     @Override
     public void write(ByteArrayDataOutput out) {
         out.writeInt(windowId);

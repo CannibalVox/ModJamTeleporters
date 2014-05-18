@@ -147,6 +147,36 @@ public class TileEntityTeleporterController extends TileEntity {
         return stack;
     }
 
+    public ItemStack sellPadContents(ItemStack stack) {
+        if (worldObj.isRemote)
+            return stack;
+
+        for (int i = 0; i < padLocations.size(); i++) {
+            PadData pad = padLocations.get(i);
+            stack = pad.attemptRemoveItems(getWorldObj(), stack, true);
+
+            if (stack == null)
+                return null;
+        }
+
+        return stack;
+    }
+
+    public ItemStack sellPadBlocks(ItemStack stack) {
+        if (worldObj.isRemote)
+            return stack;
+
+        for (int i = 0; i < padLocations.size(); i++) {
+            PadData pad = padLocations.get(i);
+            stack = pad.attemptRemoveBlock(getWorldObj(), stack, true);
+
+            if (stack == null)
+                return null;
+        }
+
+        return stack;
+    }
+
     public int getCredits() { return credits; }
 
     @Override

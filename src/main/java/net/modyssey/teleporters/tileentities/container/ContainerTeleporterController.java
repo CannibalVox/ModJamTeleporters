@@ -168,7 +168,7 @@ public class ContainerTeleporterController extends Container {
         ItemStack exchangeStack = market.getCartContent(cartIndex);
 
         int startSize = exchangeStack.stackSize;
-        int endSize = startSize;
+        int endSize = 0;
         int unitValue = market.getStockList().getItemValue(exchangeStack);
 
         boolean exchangedWholeStack = false;
@@ -184,7 +184,7 @@ public class ContainerTeleporterController extends Container {
             market.removeCartItem(cartIndex);
 
         if (endSize < startSize) {
-            return (endSize - startSize) * unitValue;
+            return (startSize - endSize) * unitValue;
         }
 
         return 0;
