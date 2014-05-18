@@ -14,6 +14,7 @@ import net.modyssey.teleporters.markets.stock.StockItem;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.network.ModysseyNetwork;
 import net.modyssey.teleporters.network.RequestCartAddPacket;
+import net.modyssey.teleporters.network.RequestCartRemovePacket;
 import net.modyssey.teleporters.network.RequestMarketExchangePacket;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
@@ -177,22 +178,35 @@ public class GuiTeleporterController extends GuiContainer {
             drawInfoPane(selectedItem.getItem(), selectedItem.getValue());
 
             if (addButton.pollClickEvent()) {
-                String amount = quantity.getText();
-
-                int intAmount = 1;
-                try {
-                    intAmount = Integer.parseInt(amount);
-                } catch (NumberFormatException ex) {
-                    //Looks like some garbage made it into the amount field (or maybe it was blank?)
-                    //just use 1
-                }
+                int intAmount = getQuantity();
 
                 RequestCartAddPacket packet = new RequestCartAddPacket(containerTeleporterController.windowId, containerTeleporterController.getMarketIndex(), new ItemStack(selectedItem.getItem().getItem(), intAmount, selectedItem.getItem().getItemDamage()));
                 ModysseyNetwork.sendToServer(packet);
             }
         } else if (selectedCartItem != null) {
             drawInfoPane(selectedCartItem);
+
+            if (addButton.pollClickEvent()) {
+                int amount = getQuantity();
+
+                RequestCartRemovePacket packet = new RequestCartRemovePacket(containerTeleporterController.windowId, containerTeleporterController.getMarketIndex(), cart.getSelectedItem(), new ItemStack(selectedItem.getItem().getItem(), amount, selectedItem.getItem().getItemDamage()));
+                ModysseyNetwork.sendToServer(packet);
+            }
         }
+    }
+
+    protected int getQuantity() {
+        String amount = quantity.getText();
+
+        int intAmount = 1;
+        try {
+            intAmount = Integer.parseInt(amount);
+        } catch (NumberFormatException ex) {
+            //Looks like some garbage made it into the amount field (or maybe it was blank?)
+            //just use 1
+        }
+
+        return intAmount;
     }
 
     private void drawTabLabels() {

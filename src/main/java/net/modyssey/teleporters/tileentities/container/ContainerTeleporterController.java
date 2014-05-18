@@ -7,6 +7,7 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.item.ItemStack;
 import net.modyssey.teleporters.markets.Market;
 import net.modyssey.teleporters.markets.IMarketFactory;
+import net.modyssey.teleporters.markets.stock.StockItem;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.network.ModysseyNetwork;
 import net.modyssey.teleporters.network.TransmitCartUpdatePacket;
@@ -129,7 +130,22 @@ public class ContainerTeleporterController extends Container {
         ModysseyNetwork.sendToPlayer(packet, player);
     }
 
+    public void requestRemoveFromCart(EntityPlayerMP player, int marketIndex, int cartIndex, ItemStack itemToRemove) {
+        if (marketIndex < 0 || marketIndex >= markets.length)
+            return;
+
+        Market market = markets[marketIndex];
+
+        if (!market.allowAddFromStock())
+            return;
+
+        ItemStack cartItem = market.
+    }
+
     public void requestExchange(EntityPlayerMP player, int marketIndex) {
+        if (marketIndex < 0 || marketIndex >= markets.length)
+            return;
+
         Market market = markets[marketIndex];
 
         if (controller.getPadCount() == 0)
