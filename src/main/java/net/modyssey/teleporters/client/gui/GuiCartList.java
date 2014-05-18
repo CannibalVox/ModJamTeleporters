@@ -19,7 +19,7 @@ public class GuiCartList extends ScrollingList {
     private FontRenderer fontRenderer;
 
     public GuiCartList(GuiTeleporterController parent, FontRenderer fontRenderer) {
-        super(new Rectangle2D.Double(131,28,41,110), 20);
+        super(new Rectangle2D.Double(122,27,55,110), 20);
 
         this.parent = parent;
         this.fontRenderer = fontRenderer;
@@ -31,7 +31,7 @@ public class GuiCartList extends ScrollingList {
 
     @Override
     protected Rectangle2D getScrollGripBounds() {
-        return new Rectangle2D.Double(195, 13, 6, 11);
+        return new Rectangle2D.Double(207, 12, 6, 11);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class GuiCartList extends ScrollingList {
 
     @Override
     protected Rectangle2D getScrollTrackBounds() {
-        return new Rectangle2D.Double(172, 28, 6, 111);
+        return new Rectangle2D.Double(178, 28, 6, 111);
     }
 
     @Override
@@ -65,6 +65,7 @@ public class GuiCartList extends ScrollingList {
         int rectY = getY() + y + 1;
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         itemRenderer.zLevel = this.zLevel + 1;
         itemRenderer.renderItemIntoGUI(fontRenderer, Minecraft.getMinecraft().getTextureManager(), market.getCartContent(i), rectX, rectY, true);
 

@@ -19,7 +19,7 @@ public class GuiCategoryList extends ScrollingList {
     private FontRenderer fontRenderer;
 
     public GuiCategoryList(GuiTeleporterController parent, FontRenderer fontRenderer) {
-        super(new Rectangle2D.Double(0,28,55,110), 20);
+        super(new Rectangle2D.Double(-6,28,55,110), 20);
 
         this.parent = parent;
         this.fontRenderer = fontRenderer;
@@ -65,6 +65,8 @@ public class GuiCategoryList extends ScrollingList {
         int rectY = getY() + y + 1;
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
         itemRenderer.zLevel = this.zLevel + 1;
         itemRenderer.renderItemIntoGUI(fontRenderer, Minecraft.getMinecraft().getTextureManager(), stockList.getCategory(i).getIconItem(), rectX, rectY, true);
 

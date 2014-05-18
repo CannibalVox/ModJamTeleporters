@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.geom.Rectangle2D;
 
@@ -252,6 +253,7 @@ public abstract class ScrollingList extends Gui {
         gripHeight -= (bottomCap + topCap);
         gripNativeHeight -= (bottomCap + topCap);
 
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         while (gripHeight > gripNativeHeight) {
             drawTexturedModalRect(trackX, trackY, gripX, gripY, gripNativeWidth, gripNativeHeight);
             trackY += gripNativeHeight;

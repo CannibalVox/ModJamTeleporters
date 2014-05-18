@@ -95,6 +95,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
             addButton.drawButton(mouseX - x - 9, mouseY - y - 25);
+            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             drawTexturedModalRect(84, 145, 213, 9, 35, 14);
             drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.modysseyteleporters.add"), 102, 169, 0xFFFFFF);
             quantity.drawTextBox();

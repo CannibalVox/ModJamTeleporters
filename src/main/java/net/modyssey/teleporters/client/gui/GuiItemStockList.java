@@ -17,7 +17,7 @@ public class GuiItemStockList extends ScrollingList {
     private FontRenderer fontRenderer;
 
     public GuiItemStockList(GuiTeleporterController parent, FontRenderer fontRenderer) {
-        super(new Rectangle2D.Double(63,28,55,110), 20);
+        super(new Rectangle2D.Double(57,28,55,110), 20);
 
         this.parent = parent;
         this.fontRenderer = fontRenderer;
@@ -29,7 +29,7 @@ public class GuiItemStockList extends ScrollingList {
 
     @Override
     protected Rectangle2D getScrollGripBounds() {
-        return new Rectangle2D.Double(195, 13, 6, 11);
+        return new Rectangle2D.Double(207, 12, 6, 11);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class GuiItemStockList extends ScrollingList {
 
     @Override
     protected Rectangle2D getScrollTrackBounds() {
-        return new Rectangle2D.Double(118, 28, 6, 111);
+        return new Rectangle2D.Double(112, 28, 6, 111);
     }
 
     @Override
