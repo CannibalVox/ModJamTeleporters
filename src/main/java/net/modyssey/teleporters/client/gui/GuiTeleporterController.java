@@ -61,6 +61,14 @@ public class GuiTeleporterController extends GuiContainer {
 
     public void updateItem() {
         selectedItem = containerTeleporterController.getCurrentMarket().getStockList().getCategory(categories.getSelectedCategory()).get(stockItems.getSelectedItem());
+        cart.clearSelectedItem();
+        selectedCartItem = null;
+    }
+
+    public void updateCartSelection() {
+        stockItems.clearSelectedItem();
+        selectedItem = null;
+        selectedCartItem = containerTeleporterController.getCurrentMarket().getCartContent(cart.getSelectedItem());
     }
 
     /**
@@ -130,7 +138,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         int total = containerTeleporterController.getCurrentMarket().getCartTotal();
 
-        exchangeButton.setEnabled(containerTeleporterController.getCurrentMarket().getCartSize() != 0 && (!containerTeleporterController.getCurrentMarket().requiresBalanceToExchange() || total <= controller.getCredits()));
+        exchangeButton.setEnabled(controller.getPadCount() > 0 && containerTeleporterController.getCurrentMarket().getCartSize() != 0 && (!containerTeleporterController.getCurrentMarket().requiresBalanceToExchange() || total <= controller.getCredits()));
         exchangeButton.drawButton(mouseX - x - 9, mouseY - y - 25);
         drawCenteredString(fontRendererObj, StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getMarketTitle()), 152, 169, 0xFFFFFF);
 
@@ -251,6 +259,8 @@ public class GuiTeleporterController extends GuiContainer {
                     stockItems.clearSelectedItem();
                     stockItems.setStockCategory(null);
                     selectedItem = null;
+                    cart.clearSelectedItem();
+                    selectedCartItem = null;
                     cart.setMarket(containerTeleporterController.getCurrentMarket());
 
                     if (!containerTeleporterController.getCurrentMarket().allowAddFromStock())

@@ -16,8 +16,10 @@ public class GuiCartList extends ScrollingList {
     private RenderItem itemRenderer = new RenderItem();
     private FontRenderer fontRenderer;
 
+    private int selectedItem = -1;
+
     public GuiCartList(GuiTeleporterController parent, FontRenderer fontRenderer) {
-        super(new Rectangle2D.Double(122,27,55,110), 20);
+        super(new Rectangle2D.Double(123,28,55,110), 20);
 
         this.parent = parent;
         this.fontRenderer = fontRenderer;
@@ -27,6 +29,9 @@ public class GuiCartList extends ScrollingList {
     public void setMarket(Market market) {
         this.market = market;
     }
+
+    public int getSelectedItem() { return selectedItem; }
+    public void clearSelectedItem() { selectedItem = -1; }
 
     @Override
     protected Rectangle2D getScrollGripBounds() {
@@ -59,12 +64,26 @@ public class GuiCartList extends ScrollingList {
     }
 
     @Override
+    protected void itemMouseClick(int item) {
+        selectedItem = item;
+        parent.updateCartSelection();
+    }
+
+    @Override
     protected void drawEntry(int i, int y) {
         int rectX = getX() + 1;
         int rectY = getY() + y + 1;
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+        if (i == selectedItem) {
+            drawHorizontalLine(getX(), getX() + getWidth() - 2, rectY-1, 0xFFFFFFFF);
+            drawHorizontalLine(getX(), getX() + getWidth() - 2, rectY+getEntryHeight()-2, 0xFFFFFFFF);
+            drawVerticalLine(getX(), rectY-1, rectY+getEntryHeight()-2, 0xFFFFFFFF);
+            drawVerticalLine(getX() + getWidth() - 2, rectY-1, rectY+getEntryHeight()-2, 0xFFFFFFFF);
+        }
+
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPushMatrix();
         GL11.glTranslatef(0, 0, -5);

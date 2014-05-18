@@ -132,6 +132,9 @@ public class ContainerTeleporterController extends Container {
     public void requestExchange(EntityPlayerMP player, int marketIndex) {
         Market market = markets[marketIndex];
 
+        if (controller.getPadCount() == 0)
+            return;
+
         //For markets that pull their cart from the pad, we should refresh the pad before selling or whatever
         if (!market.allowAddFromStock())
             market.initializeCart(controller);
@@ -158,8 +161,6 @@ public class ContainerTeleporterController extends Container {
 
         if (!market.allowAddFromStock())
             market.initializeCart(controller);
-        else
-            market.clearCart();
 
         requestFullCart(player);
     }
