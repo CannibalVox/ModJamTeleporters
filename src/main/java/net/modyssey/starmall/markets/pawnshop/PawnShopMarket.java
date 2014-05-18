@@ -15,17 +15,17 @@ public class PawnShopMarket extends Market {
 
     @Override
     public String getStockTitle() {
-        return "gui.modysseyteleporters.priceguide";
+        return "gui.starmall.priceguide";
     }
 
     @Override
     public String getMarketTitle() {
-        return "gui.modysseyteleporters.pawnshop";
+        return "gui.starmall.pawnshop";
     }
 
     @Override
     public ResourceLocation getMarketLogo() {
-        return new ResourceLocation("modysseyteleporters:textures/gui/logo_pawn.png");
+        return new ResourceLocation("starmall:textures/gui/logo_pawn.png");
     }
 
     @Override

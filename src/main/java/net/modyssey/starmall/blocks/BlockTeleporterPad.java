@@ -13,7 +13,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.modyssey.starmall.ModysseyTeleporters;
+import net.modyssey.starmall.ModysseyStarMall;
 import net.modyssey.starmall.tileentities.TileEntityTeleporterPad;
 
 import java.util.LinkedList;
@@ -76,7 +76,7 @@ public class BlockTeleporterPad extends BlockContainer {
         for (int i = 0; i < 4; i++) {
             Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ);
 
-            if (block == ModysseyTeleporters.teleporterController) {
+            if (block == ModysseyStarMall.teleporterController) {
                 if (registerStation(world, dir, x, y, z, oldMetadata)) {
                     return;
                 }
@@ -172,15 +172,15 @@ public class BlockTeleporterPad extends BlockContainer {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerBlockIcons(IIconRegister registry) {
-        bottomIcon = registry.registerIcon("modysseyteleporters:teleporter_pad_bottom");
-        sideIcons[0] = registry.registerIcon("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_single");
-        sideIcons[1] = registry.registerIcon("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_left");
-        sideIcons[2] = registry.registerIcon("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_right");
-        sideIcons[3] = registry.registerIcon("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_middle");
+        bottomIcon = registry.registerIcon("starmall:teleporter_pad_bottom");
+        sideIcons[0] = registry.registerIcon("starmall:teleporter_pad_side/teleporter_pad_side_single");
+        sideIcons[1] = registry.registerIcon("starmall:teleporter_pad_side/teleporter_pad_side_left");
+        sideIcons[2] = registry.registerIcon("starmall:teleporter_pad_side/teleporter_pad_side_right");
+        sideIcons[3] = registry.registerIcon("starmall:teleporter_pad_side/teleporter_pad_side_middle");
 
         for (int i = 0; i < 47; i++) {
-            topIconsActive[i] = registry.registerIcon("modysseyteleporters:teleporter_pad_top/"+Integer.toString(i));
-            topIconsInactive[i] = registry.registerIcon("modysseyteleporters:teleporter_pad_top_off/"+Integer.toString(i));
+            topIconsActive[i] = registry.registerIcon("starmall:teleporter_pad_top/"+Integer.toString(i));
+            topIconsInactive[i] = registry.registerIcon("starmall:teleporter_pad_top_off/"+Integer.toString(i));
         }
     }
 

@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modyssey.starmall.ModysseyTeleporters;
+import net.modyssey.starmall.ModysseyStarMall;
 import net.modyssey.starmall.markets.stock.StockCategory;
 import net.modyssey.starmall.markets.stock.StockItem;
 import net.modyssey.starmall.markets.stock.StockList;
@@ -93,7 +93,7 @@ public class FullMarketDataPacket extends ModysseyPacket {
 
     @Override
     public void handleClient(World world, EntityPlayer player) {
-        ModysseyTeleporters.instance.setMarketData(allMarkets);
+        ModysseyStarMall.instance.setMarketData(allMarkets);
 
         if (player.openContainer != null && player.openContainer instanceof ContainerTeleporterController)
             ((ContainerTeleporterController)player.openContainer).updateMarketData(allMarkets);

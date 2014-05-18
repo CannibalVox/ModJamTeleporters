@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
-import net.modyssey.starmall.ModysseyTeleporters;
+import net.modyssey.starmall.ModysseyStarMall;
 import net.modyssey.starmall.client.models.ModelStation;
 import org.lwjgl.opengl.GL11;
 
@@ -65,6 +65,6 @@ public class RenderTeleporterController extends TileEntitySpecialRenderer implem
 
     @Override
     public int getRenderId() {
-        return ModysseyTeleporters.TeleportControllerRenderId;
+        return ModysseyStarMall.TeleportControllerRenderId;
     }
 }

@@ -13,17 +13,17 @@ public class StarMallMarket extends Market {
 
     @Override
     public String getStockTitle() {
-        return "gui.modysseyteleporters.stock";
+        return "gui.starmall.stock";
     }
 
     @Override
     public String getMarketTitle() {
-        return "gui.modysseyteleporters.starmall";
+        return "gui.starmall.starmall";
     }
 
     @Override
     public ResourceLocation getMarketLogo() {
-        return new ResourceLocation("modysseyteleporters:textures/gui/station_title_starmall.png");
+        return new ResourceLocation("starmall:textures/gui/station_title_starmall.png");
     }
 
     @Override

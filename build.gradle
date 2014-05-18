@@ -19,7 +19,7 @@ apply plugin: 'forge'
 
 version = "1.0"
 group= "net.modyssey.starmall" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modysseyteleporters"
+archivesBaseName = "starmall"
 
 minecraft {
     version = "1.7.2-10.12.1.1060"

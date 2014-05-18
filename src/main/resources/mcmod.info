@@ -1,7 +1,7 @@
 [
 {
-  "modid": "modysseyteleporters",
-  "name": "Modyssey Teleporters",
+  "modid": "starmall",
+  "name": "StarMall",
   "description": "Thing movers for the people!.",
   "version": "${version}",
   "mcversion": "${mcversion}",

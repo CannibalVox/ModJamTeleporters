@@ -3,7 +3,7 @@ package net.modyssey.starmall.handlers;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import net.modyssey.starmall.ModysseyTeleporters;
+import net.modyssey.starmall.ModysseyStarMall;
 import net.modyssey.starmall.blocks.BlockTeleporterController;
 import net.modyssey.starmall.client.gui.GuiTeleporterController;
 import net.modyssey.starmall.markets.IMarketFactory;
@@ -24,7 +24,7 @@ public class ModysseyGuiHandler implements IGuiHandler {
 
         switch (ID) {
             case BlockTeleporterController.GUI_ID: {
-                FullMarketDataPacket marketData = ModysseyTeleporters.instance.getMarketDataPacket();
+                FullMarketDataPacket marketData = ModysseyStarMall.instance.getMarketDataPacket();
                 ModysseyNetwork.sendToPlayer(marketData, player);
 
                 ContainerTeleporterController container = new ContainerTeleporterController((TileEntityTeleporterController) world.getTileEntity(x, y, z), marketFactories);

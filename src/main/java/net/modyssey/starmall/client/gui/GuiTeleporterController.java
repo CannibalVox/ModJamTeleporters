@@ -96,10 +96,10 @@ public class GuiTeleporterController extends GuiContainer {
         cart = new GuiCartList(this, fontRendererObj, containerTeleporterController);
         cart.setMarket(containerTeleporterController.getCurrentMarket());
 
-        addButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(84, 162, 35, 22), new Rectangle2D.Double(207, 111, 35, 22), new Rectangle2D.Double(207, 133, 35, 22),
+        addButton = new Button(new ResourceLocation("starmall:textures/gui/station.png"), new Rectangle2D.Double(84, 162, 35, 22), new Rectangle2D.Double(207, 111, 35, 22), new Rectangle2D.Double(207, 133, 35, 22),
                 new Rectangle2D.Double(207, 155, 35, 22), new Rectangle2D.Double(207, 177, 35, 22));
 
-        exchangeButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(129, 162, 49, 22), new Rectangle2D.Double(207, 23, 49, 22), new Rectangle2D.Double(207, 45, 49, 22),
+        exchangeButton = new Button(new ResourceLocation("starmall:textures/gui/station.png"), new Rectangle2D.Double(129, 162, 49, 22), new Rectangle2D.Double(207, 23, 49, 22), new Rectangle2D.Double(207, 45, 49, 22),
                 new Rectangle2D.Double(207, 67, 49, 22), new Rectangle2D.Double(207, 89, 49, 22));
 
         quantity = new NumberOnlyTextField(fontRendererObj, 86, 148, 31, 14);
@@ -138,9 +138,9 @@ public class GuiTeleporterController extends GuiContainer {
             drawTexturedModalRect(84, 145, 213, 9, 35, 14);
 
             if (selectedCartItem == null)
-                drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.modysseyteleporters.add"), 102, 169, 0xFFFFFF);
+                drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.starmall.add"), 102, 169, 0xFFFFFF);
             else
-                drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.modysseyteleporters.remove"), 102, 169, 0xFFFFFF);
+                drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.starmall.remove"), 102, 169, 0xFFFFFF);
 
             quantity.drawTextBox();
         }
@@ -154,9 +154,9 @@ public class GuiTeleporterController extends GuiContainer {
         drawTabLabels();
 
         fontRendererObj.drawString(StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getStockTitle()), -2, 17, 0x404040, false);
-        fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.cart"), 125, 17, 0x404040, false);
+        fontRendererObj.drawString(StatCollector.translateToLocal("gui.starmall.cart"), 125, 17, 0x404040, false);
 
-        String totalField = StatCollector.translateToLocal("gui.modysseyteleporters.total") + ":";
+        String totalField = StatCollector.translateToLocal("gui.starmall.total") + ":";
         fontRendererObj.drawString(totalField, 124, 142, 0x404040, false);
 
         int totalColor = 0x404040;
@@ -168,7 +168,7 @@ public class GuiTeleporterController extends GuiContainer {
         fontRendererObj.drawString(totalLine, 155 - fontRendererObj.getStringWidth(totalLine) / 2, 152, totalColor, false);
 
         int credits = controller.getCredits();
-        String creditLine = StatCollector.translateToLocal("gui.modysseyteleporters.credits") + ": $" + Integer.toString(credits);
+        String creditLine = StatCollector.translateToLocal("gui.starmall.credits") + ": $" + Integer.toString(credits);
 
         fontRendererObj.drawString(creditLine, 112, 3, 0xFFFFFF, true);
 
@@ -309,7 +309,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         double f = 0.00390625;
         double f1 = 0.00390625;
-        mc.renderEngine.bindTexture(new ResourceLocation("modysseyteleporters:textures/gui/station.png"));
+        mc.renderEngine.bindTexture(new ResourceLocation("starmall:textures/gui/station.png"));
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV(x, y + 53, (double)this.zLevel+18, 0, 0.20703125);

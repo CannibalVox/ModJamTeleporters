@@ -32,8 +32,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-@Mod(modid = "modysseyteleporters", version = ModysseyTeleporters.VERSION)
-public class ModysseyTeleporters {
+@Mod(modid = "starmall", version = ModysseyStarMall.VERSION)
+public class ModysseyStarMall {
     public static final String VERSION = "1.0";
 
     public static Block teleporterPad;
@@ -49,7 +49,7 @@ public class ModysseyTeleporters {
     public static CommonProxy proxy;
 
     @Mod.Instance
-    public static ModysseyTeleporters instance;
+    public static ModysseyStarMall instance;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -58,7 +58,7 @@ public class ModysseyTeleporters {
         File configFile = event.getSuggestedConfigurationFile();
 
         if (!configFile.exists()) {
-            InputStream stream = ModysseyTeleporters.class.getResourceAsStream("/assets/modysseyteleporters/config/defaultConfig.json");
+            InputStream stream = ModysseyStarMall.class.getResourceAsStream("/assets/starmall/config/defaultConfig.json");
 
             try {
                 OutputStream out = FileUtils.openOutputStream(configFile);
@@ -81,11 +81,11 @@ public class ModysseyTeleporters {
         }
 
         //Init blocks
-        teleporterPad = new BlockTeleporterPad().setBlockName("modysseyteleporter.pad").setHardness(5.0f).setResistance(10.0f).setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabRedstone);
-        teleporterController = new BlockTeleporterController().setBlockName("modysseyteleporter.controller").setHardness(5.0f).setResistance(10.0f).setBlockTextureName("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_single").setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabRedstone);
+        teleporterPad = new BlockTeleporterPad().setBlockName("starmall.pad").setHardness(5.0f).setResistance(10.0f).setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabRedstone);
+        teleporterController = new BlockTeleporterController().setBlockName("starmall.controller").setHardness(5.0f).setResistance(10.0f).setBlockTextureName("starmall:teleporter_pad_side/teleporter_pad_side_single").setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabRedstone);
 
         //Init items
-        teleportCircuit = new Item().setUnlocalizedName("modysseyteleporter.circuit").setTextureName("modysseyteleporters:circuitboard").setCreativeTab(CreativeTabs.tabMaterials);
+        teleportCircuit = new Item().setUnlocalizedName("starmall.circuit").setTextureName("starmall:circuitboard").setCreativeTab(CreativeTabs.tabMaterials);
 
         //Register blocks
         GameRegistry.registerBlock(teleporterPad, "pad");

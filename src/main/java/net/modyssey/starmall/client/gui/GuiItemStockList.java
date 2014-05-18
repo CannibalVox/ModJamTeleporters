@@ -45,7 +45,7 @@ public class GuiItemStockList extends ScrollingList {
 
     @Override
     protected ResourceLocation getScrollGripTexture() {
-        return new ResourceLocation("modysseyteleporters:textures/gui/station.png");
+        return new ResourceLocation("starmall:textures/gui/station.png");
     }
 
     @Override

@@ -12,7 +12,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.modyssey.starmall.ModysseyTeleporters;
+import net.modyssey.starmall.ModysseyStarMall;
 import net.modyssey.starmall.tileentities.TileEntityTeleporterController;
 import net.modyssey.starmall.tileentities.TileEntityTeleporterPad;
 
@@ -108,7 +108,7 @@ public class BlockTeleporterController extends BlockContainer {
             if ((meta & 4) != 0)
                 y--;
 
-            FMLNetworkHandler.openGui(player, ModysseyTeleporters.instance, GUI_ID, world, x, y, z);
+            FMLNetworkHandler.openGui(player, ModysseyStarMall.instance, GUI_ID, world, x, y, z);
         }
 
         return true;
@@ -127,7 +127,7 @@ public class BlockTeleporterController extends BlockContainer {
     }
 
     @Override
-    public int getRenderType() { return ModysseyTeleporters.TeleportControllerRenderId; }
+    public int getRenderType() { return ModysseyStarMall.TeleportControllerRenderId; }
 
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item) {
@@ -157,7 +157,7 @@ public class BlockTeleporterController extends BlockContainer {
 
         Block block = world.getBlock(x, y, z);
 
-        if (block == ModysseyTeleporters.teleporterPad) {
+        if (block == ModysseyStarMall.teleporterPad) {
             TileEntity padEntity = world.getTileEntity(x, y, z);
 
             if (padEntity != null && padEntity instanceof TileEntityTeleporterPad) {
