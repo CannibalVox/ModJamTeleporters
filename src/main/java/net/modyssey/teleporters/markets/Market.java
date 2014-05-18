@@ -25,6 +25,7 @@ public abstract class Market {
     public abstract ResourceLocation getMarketLogo();
     public abstract void initializeCart(TileEntityTeleporterController controller);
     public abstract boolean allowAddFromStock();
+    public abstract boolean requiresBalanceToExchange();
 
     public StockList getStockList() {
         return stockList;
@@ -67,5 +68,18 @@ public abstract class Market {
         }
 
         return false;
+    }
+
+    public int getCartTotal() {
+        int total = 0;
+
+        for (int i = 0; i < cart.size(); i++) {
+            ItemStack stack = cart.get(i);
+
+            int price = stockList.getItemValue(stack);
+            total += (price * stack.stackSize);
+        }
+
+        return total;
     }
 }

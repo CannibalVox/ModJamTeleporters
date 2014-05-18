@@ -1,5 +1,8 @@
 package net.modyssey.teleporters.markets.stock;
 
+import net.minecraft.item.ItemStack;
+import net.modyssey.teleporters.tileentities.io.PadData;
+
 import java.util.ArrayList;
 
 public class StockList {
@@ -18,4 +21,19 @@ public class StockList {
     }
 
     public void clear() { categories.clear(); }
+
+    public int getItemValue(ItemStack stack) {
+        for (int i = 0; i < categories.size(); i++) {
+            StockCategory category = categories.get(i);
+            for (int j = 0; j < category.getItemCount(); j++) {
+                StockItem item = category.get(j);
+
+                if (PadData.canItemstacksStack(item.getItem(), stack)) {
+                    return item.getValue();
+                }
+            }
+        }
+
+        return 0;
+    }
 }

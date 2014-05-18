@@ -38,4 +38,9 @@ public class StarMallMarket extends Market {
     public boolean allowAddFromStock() {
         return true;
     }
+
+    @Override
+    public boolean requiresBalanceToExchange() {
+        return true;
+    }
 }
