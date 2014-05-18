@@ -1,0 +1,5 @@
+{
+    "waiting": {"category":"master", "sounds":[{"name":"waiting", "stream":false}]},
+    "beam": {"category":"master", "sounds":[{"name":"beam", "stream":false}]},
+    "signal": {"category":"master", "sounds":[{"name":"signal", "stream":false}]}
+}

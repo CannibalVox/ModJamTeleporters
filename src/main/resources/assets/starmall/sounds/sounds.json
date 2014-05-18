@@ -1,5 +1,0 @@
-{
-    "starmall:waiting": {"category":"master", "sounds":[{"name":"waiting", "stream":false}]},
-    "starmall:beam": {"category":"master", "sounds":[{"name":"beam", "stream":false}]},
-    "starmall:signal": {"category":"master", "sounds":[{"name":"signal", "stream":false}]}
-}

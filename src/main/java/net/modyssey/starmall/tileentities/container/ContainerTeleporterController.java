@@ -217,7 +217,7 @@ public class ContainerTeleporterController extends Container {
 
         requestFullCart(player);
 
-        controller.getWorldObj().playSoundEffect(controller.xCoord + 0.5f, controller.yCoord + 0.5f, controller.zCoord + 0.5f, "starmall:waiting", 1.0f, 1.0f);
+        controller.getWorldObj().playSoundEffect(controller.xCoord + 0.5f, controller.yCoord + 0.5f, controller.zCoord + 0.5f, "starmall:signal", 1.0f, 1.0f);
     }
 
     private int exchangeStack(Market market, int cartIndex, boolean forceExchange) {
