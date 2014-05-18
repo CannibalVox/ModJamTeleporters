@@ -9,8 +9,10 @@ import net.modyssey.teleporters.markets.IMarket;
 import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.network.ModysseyNetwork;
+import net.modyssey.teleporters.network.TransmitCartUpdatePacket;
 import net.modyssey.teleporters.network.TransmitFullCartPacket;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
+import net.modyssey.teleporters.tileentities.io.PadData;
 
 import java.util.List;
 
@@ -87,6 +89,15 @@ public class ContainerTeleporterController extends Container {
         }
     }
 
+    public void receiveCartUpdate(int marketIndex, int cartIndex, ItemStack itemToUpdate) {
+        IMarket market = markets[marketIndex];
+
+        if (cartIndex < market.getCartSize() && PadData.canItemstacksStack(market.getCartContent(cartIndex), itemToUpdate))
+            market.getCartContent(cartIndex).stackSize = itemToUpdate.stackSize;
+        else
+            market.directAddToCart(itemToUpdate);
+    }
+
     public void requestFullCart(EntityPlayerMP player) {
         TransmitFullCartPacket packet = new TransmitFullCartPacket(this.windowId);
 
@@ -94,6 +105,31 @@ public class ContainerTeleporterController extends Container {
             packet.addCart(markets[i]);
         }
 
+        ModysseyNetwork.sendToPlayer(packet, player);
+    }
+
+    public void requestAddToCart(EntityPlayerMP player, int marketId, ItemStack itemToAdd) {
+        if (marketId < 0 || marketId >= markets.length)
+            return;
+
+        IMarket market = markets[marketId];
+
+        if (!market.canAddToCart(itemToAdd))
+            return;
+
+        for (int i = 0; i < market.getCartSize(); i++) {
+            ItemStack cartStack = market.getCartContent(i);
+
+            if (PadData.canItemstacksStack(cartStack, itemToAdd)) {
+                cartStack.stackSize += itemToAdd.stackSize;
+                TransmitCartUpdatePacket packet = new TransmitCartUpdatePacket(windowId, marketId, i, cartStack);
+                ModysseyNetwork.sendToPlayer(packet, player);
+                return;
+            }
+        }
+
+        market.directAddToCart(itemToAdd);
+        TransmitCartUpdatePacket packet = new TransmitCartUpdatePacket(windowId, marketId, market.getCartSize()-1, itemToAdd);
         ModysseyNetwork.sendToPlayer(packet, player);
     }
 }

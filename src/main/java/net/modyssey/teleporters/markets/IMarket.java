@@ -18,8 +18,8 @@ public interface IMarket {
     boolean allowAddFromStock();
     int getCartSize();
     ItemStack getCartContent(int index);
-    void addFromStock(ItemStack item);
     void updateStock(StockList stock);
+    boolean canAddToCart(ItemStack itemToAdd);
 
     void clearCart();
     void directAddToCart(ItemStack stack);

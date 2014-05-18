@@ -9,53 +9,54 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 
-public class RequestCartAddPacket extends ModysseyPacket {
+public class TransmitCartUpdatePacket extends ModysseyPacket {
 
     private int windowId;
     private int marketId;
-    private ItemStack itemToAdd;
+    private int cartIndex;
+    private ItemStack itemToAddOrUpdate;
 
-    public RequestCartAddPacket(int windowId, int marketId, ItemStack itemToAdd) {
+    public TransmitCartUpdatePacket(int windowId, int marketId, int cartIndex, ItemStack itemToAddOrUpdate) {
         this.windowId = windowId;
         this.marketId = marketId;
-        this.itemToAdd = itemToAdd;
+        this.cartIndex = cartIndex;
+        this.itemToAddOrUpdate = itemToAddOrUpdate;
     }
-
-    public RequestCartAddPacket() {}
 
     @Override
     public void write(ByteArrayDataOutput out) {
         out.writeInt(windowId);
         out.writeInt(marketId);
+        out.writeInt(cartIndex);
 
-        int itemId = Item.getIdFromItem(itemToAdd.getItem());
+        int itemId = Item.getIdFromItem(itemToAddOrUpdate.getItem());
         out.writeInt(itemId);
-        out.writeInt(itemToAdd.stackSize);
-        out.writeInt(itemToAdd.getItemDamage());
+        out.writeInt(itemToAddOrUpdate.stackSize);
+        out.writeInt(itemToAddOrUpdate.getItemDamage());
     }
 
     @Override
     public void read(ByteArrayDataInput in) {
         windowId = in.readInt();
         marketId = in.readInt();
+        cartIndex = in.readInt();
 
         int itemId = in.readInt();
         int stackSize = in.readInt();
         int damage = in.readInt();
 
         Item item = (Item)Item.itemRegistry.getObjectById(itemId);
-        itemToAdd = new ItemStack(item, stackSize, damage);
+        itemToAddOrUpdate = new ItemStack(item, stackSize, damage);
     }
 
     @Override
     public void handleClient(World world, EntityPlayer player) {
-        //Shouldn't be here
+        if (player.openContainer != null && player.openContainer.windowId == windowId && player.openContainer instanceof ContainerTeleporterController)
+            ((ContainerTeleporterController)player.openContainer).receiveCartUpdate(marketId, cartIndex, itemToAddOrUpdate);
     }
 
     @Override
     public void handleServer(World world, EntityPlayerMP player) {
-        if (player.currentWindowId == windowId && player.openContainer != null && player.openContainer instanceof ContainerTeleporterController) {
-            ((ContainerTeleporterController)player.openContainer).requestAddToCart(player, marketId, itemToAdd);
-        }
+        //Shouldn't be here
     }
 }
