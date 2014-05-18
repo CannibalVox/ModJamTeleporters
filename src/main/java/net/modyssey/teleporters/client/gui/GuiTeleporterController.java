@@ -126,7 +126,9 @@ public class GuiTeleporterController extends GuiContainer {
             quantity.drawTextBox();
         }
 
-        exchangeButton.setEnabled(containerTeleporterController.getCurrentMarket().getCartSize() != 0);
+        int total = containerTeleporterController.getCurrentMarket().getCartTotal();
+
+        exchangeButton.setEnabled(containerTeleporterController.getCurrentMarket().getCartSize() != 0 && (!containerTeleporterController.getCurrentMarket().requiresBalanceToExchange() || total <= controller.getCredits()));
         exchangeButton.drawButton(mouseX - x - 9, mouseY - y - 25);
         drawCenteredString(fontRendererObj, StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getMarketTitle()), 152, 169, 0xFFFFFF);
 
@@ -138,10 +140,10 @@ public class GuiTeleporterController extends GuiContainer {
         String totalField = StatCollector.translateToLocal("gui.modysseyteleporters.total") + ":";
         fontRendererObj.drawString(totalField, 124, 142, 0x404040, false);
 
-        int total = containerTeleporterController.getCurrentMarket().getCartTotal();
-
         int totalColor = 0x404040;
 
+        if (containerTeleporterController.getCurrentMarket().requiresBalanceToExchange() && controller.getCredits() < total)
+            totalColor = 0x8F0000;
 
         String totalLine = "$" + Integer.toString(total);
         fontRendererObj.drawString(totalLine, 155 - fontRendererObj.getStringWidth(totalLine) / 2, 152, totalColor, false);
