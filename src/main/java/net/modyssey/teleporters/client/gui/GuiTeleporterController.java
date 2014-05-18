@@ -95,7 +95,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
             addButton.drawButton(mouseX - x - 9, mouseY - y - 25);
-            drawTexturedModalRect(91, 145, 201, 10, 35, 14);
+            drawTexturedModalRect(91, 145, 213, 9, 35, 14);
             drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.modysseyteleporters.add"), 109, 169, 0xFFFFFF);
             quantity.drawTextBox();
         }
@@ -105,8 +105,8 @@ public class GuiTeleporterController extends GuiContainer {
 
         drawTabLabels();
 
-        fontRendererObj.drawString(StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getStockTitle()), 2, 17, 0x404040, false);
-        fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.cart"), 133, 17, 0x404040, false);
+        fontRendererObj.drawString(StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getStockTitle()), -2, 17, 0x404040, false);
+        fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.cart"), 125, 17, 0x404040, false);
 
         String totalField = StatCollector.translateToLocal("gui.modysseyteleporters.total") + ":";
         fontRendererObj.drawString(totalField, 132, 142, 0x404040, false);
@@ -118,7 +118,7 @@ public class GuiTeleporterController extends GuiContainer {
         int credits = controller.getCredits();
         String creditLine = StatCollector.translateToLocal("gui.modysseyteleporters.credits") + ": $" + Integer.toString(credits);
 
-        fontRendererObj.drawString(creditLine, 105, 3, 0xFFFFFF, true);
+        fontRendererObj.drawString(creditLine, 112, 3, 0xFFFFFF, true);
     }
 
     private void drawTabLabels() {
@@ -188,7 +188,7 @@ public class GuiTeleporterController extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        double w = 195;
+        double w = 207;
         double h = 216;
         double x = (width - w) / 2;
         double y = (height - h) / 2;
@@ -208,23 +208,23 @@ public class GuiTeleporterController extends GuiContainer {
         tessellator.addVertexWithUV(x + w, y + 53, (double)this.zLevel, w * f, 0.20703125);
         tessellator.addVertexWithUV(x, y + 53, (double)this.zLevel, 0, 0.20703125);
 
-        tessellator.addVertexWithUV(x, y + 256, (double)this.zLevel+2, 0, 1);
-        tessellator.addVertexWithUV(x + w, y + 256, (double)this.zLevel+2, w * f, 1);
+        tessellator.addVertexWithUV(x, y + 216, (double)this.zLevel+2, 0, 0.84375);
+        tessellator.addVertexWithUV(x + w, y + 216, (double)this.zLevel+2, w * f, 0.84375);
         tessellator.addVertexWithUV(x + w, y + 164, (double)this.zLevel+2, w * f, 0.640625);
         tessellator.addVertexWithUV(x, y + 164, (double)this.zLevel+2, 0, 0.640625);
 
         double physicalY = 50;
         for (int i = 0; i < containerTeleporterController.getMarketCount(); i++) {
             if (i == containerTeleporterController.getMarketIndex()) {
-                tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel+2, 195 * f, 52 * f1);
-                tessellator.addVertexWithUV(x+4, y + physicalY + 28, (double) this.zLevel+2, 248 * f, 52 * f1);
-                tessellator.addVertexWithUV(x+4, y + physicalY, (double) this.zLevel+2, 248 * f, 24 * f1);
-                tessellator.addVertexWithUV(x - 49, y + physicalY, (double) this.zLevel+2, 195 * f, 24 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel+2, 0 * f, 244 * f1);
+                tessellator.addVertexWithUV(x+4, y + physicalY + 28, (double) this.zLevel+2, 53 * f, 244 * f1);
+                tessellator.addVertexWithUV(x+4, y + physicalY, (double) this.zLevel+2, 53 * f, 216 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY, (double) this.zLevel+2, 0 * f, 216 * f1);
             } else {
-                tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel, 195 * f, 80 * f1);
-                tessellator.addVertexWithUV(x, y + physicalY + 28, (double) this.zLevel, 244 * f, 80 * f1);
-                tessellator.addVertexWithUV(x, y + physicalY, (double) this.zLevel, 244 * f, 52 * f1);
-                tessellator.addVertexWithUV(x - 49, y + physicalY, (double) this.zLevel, 195 * f, 52 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel, 53 * f, 244 * f1);
+                tessellator.addVertexWithUV(x, y + physicalY + 28, (double) this.zLevel, 102 * f, 244 * f1);
+                tessellator.addVertexWithUV(x, y + physicalY, (double) this.zLevel, 102 * f, 216 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY, (double) this.zLevel, 53 * f, 216 * f1);
             }
 
             physicalY += 28;
