@@ -26,6 +26,9 @@ public abstract class Market {
     public abstract void initializeCart(TileEntityTeleporterController controller);
     public abstract boolean allowAddFromStock();
     public abstract boolean requiresBalanceToExchange();
+    public abstract boolean applyBalance(int balance, TileEntityTeleporterController controller);
+    public abstract boolean attemptExchangeStack(ItemStack stack, TileEntityTeleporterController controller);
+    public abstract boolean forceExchangeStack(ItemStack stack, TileEntityTeleporterController controller);
 
     public StockList getStockList() {
         return stockList;
@@ -81,5 +84,9 @@ public abstract class Market {
         }
 
         return total;
+    }
+
+    public void removeCartItem(int i) {
+        cart.remove(i);
     }
 }

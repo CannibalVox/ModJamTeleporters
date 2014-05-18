@@ -129,11 +129,12 @@ public class ContainerTeleporterController extends Container {
         ModysseyNetwork.sendToPlayer(packet, player);
     }
 
-    public void requestExchange(EntityPlayer player, int marketIndex) {
+    public void requestExchange(EntityPlayerMP player, int marketIndex) {
         Market market = markets[marketIndex];
 
         //For markets that pull their cart from the pad, we should refresh the pad before selling or whatever
-        market.initializeCart(controller);
+        if (!market.allowAddFromStock())
+            market.initializeCart(controller);
 
         if (market.getCartSize() == 0)
             return;
@@ -146,12 +147,25 @@ public class ContainerTeleporterController extends Container {
 
         int totalExchangedValue = 0;
         for (int i = market.getCartSize() - 1; i >= 0; i--) {
-            exchangeStack(market, i, false);
+            totalExchangedValue += exchangeStack(market, i, false);
         }
+
+        for (int i = market.getCartSize() - 1; i >= 0; i--) {
+            totalExchangedValue += exchangeStack(market, i, true);
+        }
+
+        market.applyBalance(totalExchangedValue, controller);
+
+        if (!market.allowAddFromStock())
+            market.initializeCart(controller);
+        else
+            market.clearCart();
+
+        requestFullCart(player);
     }
 
-    private void exchangeStack(Market market, int cartIndex, boolean forceExchange) {
-        ItemStack exchangeStack = market.getCartContent(i);
+    private int exchangeStack(Market market, int cartIndex, boolean forceExchange) {
+        ItemStack exchangeStack = market.getCartContent(cartIndex);
 
         int startSize = exchangeStack.stackSize;
         int endSize = startSize;
@@ -160,9 +174,9 @@ public class ContainerTeleporterController extends Container {
         boolean exchangedWholeStack = false;
 
         if (forceExchange)
-            exchangedWholeStack = market.forceExchangeStack(exchangeStack);
+            exchangedWholeStack = market.forceExchangeStack(exchangeStack, controller);
         else
-            exchangedWholeStack = market.attemptExchangeStack(exchangeStack);
+            exchangedWholeStack = market.attemptExchangeStack(exchangeStack, controller);
 
         if (!exchangedWholeStack) {
             endSize = exchangeStack.stackSize;
@@ -170,7 +184,9 @@ public class ContainerTeleporterController extends Container {
             market.removeCartItem(cartIndex);
 
         if (endSize < startSize) {
-            totalExchangedValue += (endSize - startSize) * unitValue;
+            return (endSize - startSize) * unitValue;
         }
+
+        return 0;
     }
 }
