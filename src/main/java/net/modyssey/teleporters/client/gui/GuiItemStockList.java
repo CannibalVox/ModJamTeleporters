@@ -1,11 +1,11 @@
 package net.modyssey.teleporters.client.gui;
 
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.util.ResourceLocation;
 import net.modyssey.teleporters.client.gui.components.ScrollingList;
 import net.modyssey.teleporters.markets.stock.StockCategory;
-import net.modyssey.teleporters.markets.stock.StockList;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.geom.Rectangle2D;
@@ -13,11 +13,14 @@ import java.awt.geom.Rectangle2D;
 public class GuiItemStockList extends ScrollingList {
     private StockCategory stockCategory;
     private GuiTeleporterController parent;
+    private RenderItem itemRenderer = new RenderItem();
+    private FontRenderer fontRenderer;
 
-    public GuiItemStockList(GuiTeleporterController parent) {
+    public GuiItemStockList(GuiTeleporterController parent, FontRenderer fontRenderer) {
         super(new Rectangle2D.Double(63,28,55,110), 20);
 
         this.parent = parent;
+        this.fontRenderer = fontRenderer;
     }
 
     public void setStockCategory(StockCategory stockCategory) {
@@ -59,49 +62,26 @@ public class GuiItemStockList extends ScrollingList {
         int rectX = getX() + 1;
         int rectY = getY() + y + 1;
 
-        //drawRect(rectX, rectY, rectX + getWidth() - 2, rectY + getEntryHeight() - 2, 0xFFFFFFFF);
-
-        int par0 = rectX;
-        int par1 = rectY;
-        int par2 = rectX + getWidth() - 2;
-        int par3 = rectY + getEntryHeight() - 2;
-        int par4 = 0xFFFFFFFF;
-
-        int j1;
-
-        if (par0 < par2)
-        {
-            j1 = par0;
-            par0 = par2;
-            par2 = j1;
-        }
-
-        if (par1 < par3)
-        {
-            j1 = par1;
-            par1 = par3;
-            par3 = j1;
-        }
-
-        float f3 = (float)(par4 >> 24 & 255) / 255.0F;
-        float f = (float)(par4 >> 16 & 255) / 255.0F;
-        float f1 = (float)(par4 >> 8 & 255) / 255.0F;
-        float f2 = (float)(par4 & 255) / 255.0F;
-        Tessellator tessellator = Tessellator.instance;
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(f, f1, f2, f3);
-        tessellator.startDrawingQuads();
-        tessellator.addVertex((double)par0, (double)par3, 1);
-        tessellator.addVertex((double)par2, (double)par3, 1);
-        tessellator.addVertex((double)par2, (double)par1, 1);
-        tessellator.addVertex((double)par0, (double)par1, 1);
-        tessellator.draw();
+        itemRenderer.zLevel = this.zLevel + 1;
+        itemRenderer.renderItemIntoGUI(fontRenderer, Minecraft.getMinecraft().getTextureManager(), stockCategory.getIconItem(), rectX, rectY, true);
 
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
+        String displayText = stockCategory.getIconItem().getDisplayName();
+        int displayTextLen = fontRenderer.getStringWidth(displayText);
+
+        if (displayTextLen >= 37) {
+            String ellipsis = "...";
+            int ellipsisLen = fontRenderer.getStringWidth(ellipsis);
+
+            while (displayText.length() > 0 && displayTextLen + ellipsisLen >= 37) {
+                displayText = displayText.substring(0, displayText.length()-2);
+                displayTextLen = fontRenderer.getStringWidth(displayText);
+            }
+
+            displayText = displayText.concat(ellipsis);
+        }
+
+        fontRenderer.drawString(displayText, rectX + 18, rectY + 6, 0xFFFFFF, false);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
     }
 }
