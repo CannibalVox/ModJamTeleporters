@@ -1,7 +1,7 @@
 tile.starmall.pad.name=Transmatter Pad
 tile.starmall.controller.name=Catalog Station
 
-item.starmall.circuit.name=Teleporter Circuit
+item.starmall.circuit.name=Transmatter Circuit
 
 gui.starmall.cart=Cart
 gui.starmall.credits=Cash
