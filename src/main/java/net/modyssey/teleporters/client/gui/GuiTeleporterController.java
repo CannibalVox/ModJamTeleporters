@@ -58,7 +58,7 @@ public class GuiTeleporterController extends GuiContainer {
         int x = (width - w) / 2;
         int y = (height - h) / 2;
 
-        categories = new GuiCategoryList(this);
+        categories = new GuiCategoryList(this, fontRendererObj);
         categories.setStockList(containerTeleporterController.getCurrentMarket().getStockList());
 
         stockItems = new GuiItemStockList(this);
