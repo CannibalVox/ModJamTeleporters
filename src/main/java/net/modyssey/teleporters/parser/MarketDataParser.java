@@ -112,7 +112,7 @@ public class MarketDataParser {
 
             try {
                 damage = Integer.parseInt(textAfterColon);
-                name = name.substring(0, damageIndex -1);
+                name = name.substring(0, damageIndex);
             } catch (NumberFormatException ex) {
                 //This just means that the colon was there to separate modID from item name, not to separate
                 //item name from damage value.  NBD, just ignore it

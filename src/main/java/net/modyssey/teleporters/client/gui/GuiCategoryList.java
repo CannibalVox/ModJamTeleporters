@@ -24,6 +24,7 @@ public class GuiCategoryList extends ScrollingList {
 
         this.parent = parent;
         this.fontRenderer = fontRenderer;
+        itemRenderer.zLevel += 5;
     }
 
     public void setStockList(StockList stockList) {
@@ -88,8 +89,10 @@ public class GuiCategoryList extends ScrollingList {
         }
 
         GL11.glEnable(GL11.GL_LIGHTING);
-        itemRenderer.zLevel = this.zLevel + 1;
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0, 0, -5);
         itemRenderer.renderItemIntoGUI(fontRenderer, Minecraft.getMinecraft().getTextureManager(), stockList.getCategory(i).getIconItem(), rectX, rectY, true);
+        GL11.glPopMatrix();
         GL11.glDisable(GL11.GL_LIGHTING);
 
         fontRenderer.drawString(stockList.getCategory(i).getCategoryName(), rectX + 18, rectY + 6, 0xFFFFFF, false);

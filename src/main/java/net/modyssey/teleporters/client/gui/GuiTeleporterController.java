@@ -171,8 +171,8 @@ public class GuiTeleporterController extends GuiContainer {
         GL11.glPopMatrix();
         GL11.glDisable(GL11.GL_LIGHTING);
 
-        fontRendererObj.drawSplitString(itemStack.getDisplayName(), 31, 148, 49, 0xFFFFFF);
-        fontRendererObj.drawString("$" + Integer.toString(item.getValue()), 31, 173, 0xFFFFFF, false);
+        fontRendererObj.drawSplitString(itemStack.getDisplayName(), 31, 147, 49, 0xFFFFFF);
+        fontRendererObj.drawString("$" + Integer.toString(item.getValue()), 31, 174, 0xFFFFFF, false);
     }
 
     @Override
@@ -244,28 +244,28 @@ public class GuiTeleporterController extends GuiContainer {
         mc.renderEngine.bindTexture(new ResourceLocation("modysseyteleporters:textures/gui/station.png"));
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x, y + 53, (double)this.zLevel+2, 0, 0.20703125);
-        tessellator.addVertexWithUV(x + w, y + 53, (double)this.zLevel+2, w * f, 0.20703125);
-        tessellator.addVertexWithUV(x + w, y, (double)this.zLevel+2, w * f, 0);
-        tessellator.addVertexWithUV(x, y, (double)this.zLevel+2, 0, 0);
+        tessellator.addVertexWithUV(x, y + 53, (double)this.zLevel+18, 0, 0.20703125);
+        tessellator.addVertexWithUV(x + w, y + 53, (double)this.zLevel+18, w * f, 0.20703125);
+        tessellator.addVertexWithUV(x + w, y, (double)this.zLevel+18, w * f, 0);
+        tessellator.addVertexWithUV(x, y, (double)this.zLevel+18, 0, 0);
 
         tessellator.addVertexWithUV(x, y + 164, (double)this.zLevel, 0, 0.640625);
         tessellator.addVertexWithUV(x + w, y + 164, (double)this.zLevel, w * f, 0.640625);
         tessellator.addVertexWithUV(x + w, y + 53, (double)this.zLevel, w * f, 0.20703125);
         tessellator.addVertexWithUV(x, y + 53, (double)this.zLevel, 0, 0.20703125);
 
-        tessellator.addVertexWithUV(x, y + 216, (double)this.zLevel+2, 0, 0.84375);
-        tessellator.addVertexWithUV(x + w, y + 216, (double)this.zLevel+2, w * f, 0.84375);
-        tessellator.addVertexWithUV(x + w, y + 164, (double)this.zLevel+2, w * f, 0.640625);
-        tessellator.addVertexWithUV(x, y + 164, (double)this.zLevel+2, 0, 0.640625);
+        tessellator.addVertexWithUV(x, y + 216, (double)this.zLevel+18, 0, 0.84375);
+        tessellator.addVertexWithUV(x + w, y + 216, (double)this.zLevel+18, w * f, 0.84375);
+        tessellator.addVertexWithUV(x + w, y + 164, (double)this.zLevel+18, w * f, 0.640625);
+        tessellator.addVertexWithUV(x, y + 164, (double)this.zLevel+18, 0, 0.640625);
 
         double physicalY = 50;
         for (int i = 0; i < containerTeleporterController.getMarketCount(); i++) {
             if (i == containerTeleporterController.getMarketIndex()) {
-                tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel+2, 0 * f, 244 * f1);
-                tessellator.addVertexWithUV(x+4, y + physicalY + 28, (double) this.zLevel+2, 53 * f, 244 * f1);
-                tessellator.addVertexWithUV(x+4, y + physicalY, (double) this.zLevel+2, 53 * f, 216 * f1);
-                tessellator.addVertexWithUV(x - 49, y + physicalY, (double) this.zLevel+2, 0 * f, 216 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel+18, 0 * f, 244 * f1);
+                tessellator.addVertexWithUV(x+4, y + physicalY + 28, (double) this.zLevel+18, 53 * f, 244 * f1);
+                tessellator.addVertexWithUV(x+4, y + physicalY, (double) this.zLevel+18, 53 * f, 216 * f1);
+                tessellator.addVertexWithUV(x - 49, y + physicalY, (double) this.zLevel+18, 0 * f, 216 * f1);
             } else {
                 tessellator.addVertexWithUV(x - 49, y + physicalY + 28, (double) this.zLevel, 53 * f, 244 * f1);
                 tessellator.addVertexWithUV(x, y + physicalY + 28, (double) this.zLevel, 102 * f, 244 * f1);
