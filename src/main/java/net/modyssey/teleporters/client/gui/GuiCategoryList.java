@@ -103,9 +103,4 @@ public class GuiCategoryList extends ScrollingList {
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
     }
-
-    @Override
-    protected void handleMouseInput(int mouseX, int mouseY) {
-        super.handleMouseInput(mouseX - 9, mouseY - 25);
-    }
 }

@@ -26,6 +26,7 @@ public class GuiTeleporterController extends GuiContainer {
     private GuiCartList cart;
 
     private Button addButton;
+    private Button exchangeButton;
 
     public GuiTeleporterController(TileEntityTeleporterController controller, IMarketFactory[] marketFactories) {
         super(new ContainerTeleporterController(controller, marketFactories));
@@ -67,6 +68,9 @@ public class GuiTeleporterController extends GuiContainer {
 
         addButton = new Button(new Rectangle2D.Double(91, 162, 35, 22), new Rectangle2D.Double(195, 168, 35, 22), new Rectangle2D.Double(195, 190, 35, 22),
                 new Rectangle2D.Double(195, 212, 35, 22), new Rectangle2D.Double(195, 234, 35, 22));
+
+        exchangeButton = new Button(new Rectangle2D.Double(130, 162, 49, 22), new Rectangle2D.Double(195, 80, 49, 22), new Rectangle2D.Double(195, 102, 49, 22),
+                new Rectangle2D.Double(195, 124, 49, 22), new Rectangle2D.Double(195, 146, 49, 2));
     }
 
     @Override
@@ -77,12 +81,16 @@ public class GuiTeleporterController extends GuiContainer {
         int x = (width - w) / 2;
         int y = (height - h) / 2;
 
-        categories.drawList(mouseX - x, mouseY - y);
-        stockItems.drawList(mouseX - x, mouseY - y);
-        cart.drawList(mouseX - x, mouseY - y);
+        categories.drawList(mouseX - x - 9, mouseY - y - 25);
+        stockItems.drawList(mouseX - x - 9, mouseY - y - 25);
+        cart.drawList(mouseX - x - 9, mouseY - y - 25);
 
-        if (containerTeleporterController.getCurrentMarket().allowAddFromStock())
-            addButton.drawButton(mouseX, mouseY);
+        if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
+            addButton.drawButton(mouseX - x - 9, mouseY - y - 25);
+            fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.add"), 105, 193, 0xFFFFFF, true);
+        }
+
+        exchangeButton.drawButton(mouseX - x - 9, mouseY - y - 25);
 
         drawTabLabels();
 

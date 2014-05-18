@@ -32,7 +32,7 @@ public class Button extends Gui {
 
         if (!isEnabled)
             draw(physicalBounds, disabledUVBounds);
-        else if (isClicked)
+        else if (isClicked && isHovering)
             draw(physicalBounds, clickedUVBounds);
         else if (isHovering)
             draw(physicalBounds, hoverUVBounds);
@@ -42,6 +42,13 @@ public class Button extends Gui {
 
     protected void processMouseInput(int mouseX, int mouseY) {
         boolean mouseDown = Mouse.isButtonDown(0);
+
+        if (!isEnabled) {
+            isHovering = false;
+            isClicked = false;
+            hasClickEvent = false;
+            return;
+        }
 
         isHovering = false;
 
