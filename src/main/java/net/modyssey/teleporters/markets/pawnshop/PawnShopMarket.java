@@ -41,6 +41,21 @@ public class PawnShopMarket extends Market {
     }
 
     @Override
+    public boolean applyBalance(int balance, TileEntityTeleporterController controller) {
+        return false;
+    }
+
+    @Override
+    public boolean attemptExchangeStack(ItemStack stack, TileEntityTeleporterController controller) {
+        return false;
+    }
+
+    @Override
+    public boolean forceExchangeStack(ItemStack stack, TileEntityTeleporterController controller) {
+        return false;
+    }
+
+    @Override
     public void initializeCart(TileEntityTeleporterController controller) {
          List<ItemStack> cart = controller.getPadContents();
 

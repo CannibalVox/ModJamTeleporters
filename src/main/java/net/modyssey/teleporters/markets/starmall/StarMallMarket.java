@@ -43,4 +43,19 @@ public class StarMallMarket extends Market {
     public boolean requiresBalanceToExchange() {
         return true;
     }
+
+    @Override
+    public boolean applyBalance(int balance, TileEntityTeleporterController controller) {
+        return false;
+    }
+
+    @Override
+    public boolean attemptExchangeStack(ItemStack stack, TileEntityTeleporterController controller) {
+        return false;
+    }
+
+    @Override
+    public boolean forceExchangeStack(ItemStack stack, TileEntityTeleporterController controller) {
+        return false;
+    }
 }
