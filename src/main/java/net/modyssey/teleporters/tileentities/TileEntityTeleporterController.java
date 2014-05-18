@@ -117,6 +117,36 @@ public class TileEntityTeleporterController extends TileEntity {
         getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
+    public ItemStack placeInPadContents(ItemStack stack) {
+        if (worldObj.isRemote)
+            return stack;
+
+        for (int i = 0; i < padLocations.size(); i++) {
+            PadData pad = padLocations.get(i);
+            stack = pad.attemptAddItems(getWorldObj(), stack);
+
+            if (stack == null)
+                return null;
+        }
+
+        return stack;
+    }
+
+    public ItemStack dropOnPad(ItemStack stack, boolean forceDropOnOccupiedSpaces) {
+        if (worldObj.isRemote)
+            return stack;
+
+        for (int i = 0; i < padLocations.size(); i++) {
+            PadData pad = padLocations.get(i);
+            stack = pad.dropItemsOnFloor(getWorldObj(), stack, forceDropOnOccupiedSpaces);
+
+            if (stack == null)
+                return null;
+        }
+
+        return stack;
+    }
+
     public int getCredits() { return credits; }
 
     @Override

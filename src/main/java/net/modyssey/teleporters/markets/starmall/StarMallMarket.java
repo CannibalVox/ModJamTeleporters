@@ -45,17 +45,24 @@ public class StarMallMarket extends Market {
     }
 
     @Override
-    public boolean applyBalance(int balance, TileEntityTeleporterController controller) {
-        return false;
+    public void applyBalance(int balance, TileEntityTeleporterController controller) {
+        controller.adjustCreditAmount(balance * -1);
     }
 
     @Override
     public boolean attemptExchangeStack(ItemStack stack, TileEntityTeleporterController controller) {
-        return false;
+        stack = controller.placeInPadContents(stack);
+
+        return stack == null;
     }
 
     @Override
     public boolean forceExchangeStack(ItemStack stack, TileEntityTeleporterController controller) {
-        return false;
+        stack = controller.dropOnPad(stack, false);
+
+        if (stack != null)
+            controller.dropOnPad(stack, true);
+
+        return stack == null;
     }
 }
