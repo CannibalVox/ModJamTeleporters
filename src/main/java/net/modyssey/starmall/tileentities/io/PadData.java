@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class PadData {
@@ -27,7 +28,7 @@ public class PadData {
     public int getPadYCoord() { return padYCoord; }
     public int getPadZCoord() { return padZCoord; }
 
-    public Iterable<ItemStack> getPadItems(World world) {
+    public Iterable<ItemStack> getPadItems(World world, Collection<Integer> collectedEntityIds) {
         LinkedList<ItemStack> allItems = new LinkedList<ItemStack>();
         Block topBlock = world.getBlock(padXCoord, padYCoord + 1, padZCoord);
         Item blockItem = Item.getItemFromBlock(topBlock);
@@ -57,9 +58,12 @@ public class PadData {
         for(Object item : world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getAABBPool().getAABB(padXCoord, padYCoord + 1, padZCoord, padXCoord + 1, padYCoord + 2, padZCoord + 1))) {
             EntityItem entity = (EntityItem)item;
             if (!entity.isDead) {
-                ItemStack entityStack = entity.getEntityItem();
-                ItemStack outStack = new ItemStack(entityStack.getItem(), entityStack.stackSize, entityStack.getItemDamage());
-                allItems.add(outStack);
+                if (!collectedEntityIds.contains(entity.getEntityId())) {
+                    ItemStack entityStack = entity.getEntityItem();
+                    ItemStack outStack = new ItemStack(entityStack.getItem(), entityStack.stackSize, entityStack.getItemDamage());
+                    allItems.add(outStack);
+                    collectedEntityIds.add(entity.getEntityId());
+                }
             }
         }
 
