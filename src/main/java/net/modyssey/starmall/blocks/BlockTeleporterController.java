@@ -84,13 +84,6 @@ public class BlockTeleporterController extends BlockContainer {
 
         if (world.getBlock(x, y, z) == this) {
             world.setBlockToAir(x, y, z);
-
-            if ((meta & 4) != 0) {
-                if (!world.isRemote)
-                {
-                    this.dropBlockAsItem(world, x, y, z, meta, 0);
-                }
-            }
         }
     }
 

@@ -2,7 +2,7 @@
 {
   "modid": "starmall",
   "name": "StarMall",
-  "description": "Thing movers for the people!.",
+  "description": "A vendor mod that adds a transmatter buy/sell interface, fully configurable by server owners.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
