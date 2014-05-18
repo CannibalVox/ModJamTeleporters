@@ -36,6 +36,7 @@ public class GuiTeleporterController extends GuiContainer {
     private GuiTextField quantity;
 
     private StockItem selectedItem = null;
+    private ItemStack selectedCartItem = null;
 
     public GuiTeleporterController(TileEntityTeleporterController controller, IMarketFactory[] marketFactories) {
         super(new ContainerTeleporterController(controller, marketFactories));

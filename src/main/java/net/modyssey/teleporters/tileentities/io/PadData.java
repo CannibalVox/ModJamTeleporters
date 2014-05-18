@@ -100,6 +100,9 @@ public class PadData {
                 for (int i = 0; i < inventory.getSizeInventory(); i++) {
                     ItemStack item = inventory.getStackInSlot(i);
 
+                    if (item == null)
+                        continue;
+
                     if (itemMatches(item, itemsToRemove, checkItemDamage)) {
                         if (item.stackSize <= itemsToRemove.stackSize) {
                             itemsToRemove.stackSize -= item.stackSize;
