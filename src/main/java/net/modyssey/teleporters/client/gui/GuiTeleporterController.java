@@ -1,6 +1,5 @@
 package net.modyssey.teleporters.client.gui;
 
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
@@ -9,8 +8,6 @@ import net.minecraft.util.StatCollector;
 import net.modyssey.teleporters.client.gui.components.Button;
 import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.markets.stock.StockList;
-import net.modyssey.teleporters.network.ModysseyNetwork;
-import net.modyssey.teleporters.network.ModysseyPacket;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 import org.lwjgl.opengl.GL11;
@@ -75,8 +72,8 @@ public class GuiTeleporterController extends GuiContainer {
         exchangeButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(130, 162, 49, 22), new Rectangle2D.Double(195, 80, 49, 22), new Rectangle2D.Double(195, 102, 49, 22),
                 new Rectangle2D.Double(195, 124, 49, 22), new Rectangle2D.Double(195, 146, 49, 2));
 
-        quantity = new GuiTextField(fontRendererObj, 91, 148, 35, 14);
-        quantity.setMaxStringLength(6);
+        quantity = new GuiTextField(fontRendererObj, 93, 148, 31, 14);
+        quantity.setMaxStringLength(3);
         quantity.setEnableBackgroundDrawing(false);
         quantity.setFocused(false);
         quantity.setText("1");
@@ -134,6 +131,20 @@ public class GuiTeleporterController extends GuiContainer {
         }
     }
 
+    @Override
+    /**
+     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
+     */
+    protected void keyTyped(char par1, int par2)
+    {
+        super.keyTyped(par1, par2);
+
+        if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
+            quantity.textboxKeyTyped(par1, par2);
+        }
+    }
+
+    @Override
     protected void mouseClicked(int mouseX, int mouseY, int par3) {
         super.mouseClicked(mouseX, mouseY, par3);
 
@@ -142,6 +153,10 @@ public class GuiTeleporterController extends GuiContainer {
 
         double x = (width - w) / 2;
         double y = (height - h) / 2;
+
+        if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
+            quantity.mouseClicked(mouseX - (int)x - 9, mouseY - (int)y - 25, par3);
+        }
 
         if (par3 == 0) {
             int leftTabBound = (int)(x - 49);
@@ -157,6 +172,9 @@ public class GuiTeleporterController extends GuiContainer {
                     categories.setStockList(containerTeleporterController.getCurrentMarket().getStockList());
                     stockItems.setStockCategory(containerTeleporterController.getCurrentMarket().getStockList().getCategory(0));
                     cart.setMarket(containerTeleporterController.getCurrentMarket());
+
+                    if (!containerTeleporterController.getCurrentMarket().allowAddFromStock())
+                        quantity.setFocused(false);
                 }
 
                 return;
