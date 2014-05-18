@@ -128,4 +128,49 @@ public class ContainerTeleporterController extends Container {
         TransmitCartUpdatePacket packet = new TransmitCartUpdatePacket(windowId, marketId, market.getCartSize()-1, itemToAdd);
         ModysseyNetwork.sendToPlayer(packet, player);
     }
+
+    public void requestExchange(EntityPlayer player, int marketIndex) {
+        Market market = markets[marketIndex];
+
+        //For markets that pull their cart from the pad, we should refresh the pad before selling or whatever
+        market.initializeCart(controller);
+
+        if (market.getCartSize() == 0)
+            return;
+
+        int total = market.getCartTotal();
+        int balance = controller.getCredits();
+
+        if (market.requiresBalanceToExchange() && total > balance)
+            return;
+
+        int totalExchangedValue = 0;
+        for (int i = market.getCartSize() - 1; i >= 0; i--) {
+            exchangeStack(market, i, false);
+        }
+    }
+
+    private void exchangeStack(Market market, int cartIndex, boolean forceExchange) {
+        ItemStack exchangeStack = market.getCartContent(i);
+
+        int startSize = exchangeStack.stackSize;
+        int endSize = startSize;
+        int unitValue = market.getStockList().getItemValue(exchangeStack);
+
+        boolean exchangedWholeStack = false;
+
+        if (forceExchange)
+            exchangedWholeStack = market.forceExchangeStack(exchangeStack);
+        else
+            exchangedWholeStack = market.attemptExchangeStack(exchangeStack);
+
+        if (!exchangedWholeStack) {
+            endSize = exchangeStack.stackSize;
+        } else
+            market.removeCartItem(cartIndex);
+
+        if (endSize < startSize) {
+            totalExchangedValue += (endSize - startSize) * unitValue;
+        }
+    }
 }
