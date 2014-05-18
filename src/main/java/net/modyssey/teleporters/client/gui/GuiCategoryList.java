@@ -34,6 +34,8 @@ public class GuiCategoryList extends ScrollingList {
         return selectedCategory;
     }
 
+    public void clearSelectedCategory() { selectedCategory = -1; }
+
     @Override
     protected void itemMouseClick(int item) {
         selectedCategory = item;
@@ -77,6 +79,13 @@ public class GuiCategoryList extends ScrollingList {
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+        if (i == selectedCategory) {
+            drawHorizontalLine(getX(), getX() + getWidth() - 2, rectY-1, 0xFFFFFFFF);
+            drawHorizontalLine(getX(), getX() + getWidth() - 2, rectY+getEntryHeight()-2, 0xFFFFFFFF);
+            drawVerticalLine(getX(), rectY-1, rectY+getEntryHeight()-2, 0xFFFFFFFF);
+            drawVerticalLine(getX() + getWidth() - 2, rectY-1, rectY+getEntryHeight()-2, 0xFFFFFFFF);
+        }
 
         GL11.glEnable(GL11.GL_LIGHTING);
         itemRenderer.zLevel = this.zLevel + 1;

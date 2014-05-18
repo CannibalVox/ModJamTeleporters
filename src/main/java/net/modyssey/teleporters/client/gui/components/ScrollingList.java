@@ -51,6 +51,7 @@ public abstract class ScrollingList extends Gui {
 
         if (x >= viewportBounds.getX() && x <= (viewportBounds.getX() + viewportBounds.getWidth()) &&
                 y >= viewportBounds.getY() && y <= (viewportBounds.getY() + viewportBounds.getHeight())) {
+            y -= viewportBounds.getY();
             y += viewportTopPosition;
             y /= getEntryHeight();
 

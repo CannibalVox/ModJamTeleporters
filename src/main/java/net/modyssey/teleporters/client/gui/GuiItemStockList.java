@@ -15,6 +15,7 @@ public class GuiItemStockList extends ScrollingList {
     private GuiTeleporterController parent;
     private RenderItem itemRenderer = new RenderItem();
     private FontRenderer fontRenderer;
+    private int selectedItem = -1;
 
     public GuiItemStockList(GuiTeleporterController parent, FontRenderer fontRenderer) {
         super(new Rectangle2D.Double(57,28,55,110), 20);
@@ -26,6 +27,9 @@ public class GuiItemStockList extends ScrollingList {
     public void setStockCategory(StockCategory stockCategory) {
         this.stockCategory = stockCategory;
     }
+
+    public int getSelectedItem() { return selectedItem; }
+    public void clearSelectedItem() { selectedItem = -1; }
 
     @Override
     protected Rectangle2D getScrollGripBounds() {
@@ -63,6 +67,14 @@ public class GuiItemStockList extends ScrollingList {
         int rectY = getY() + y + 1;
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
+
+        if (i == selectedCategory) {
+            drawHorizontalLine(getX(), getX() + getWidth() - 2, rectY-1, 0xFFFFFFFF);
+            drawHorizontalLine(getX(), getX() + getWidth() - 2, rectY+getEntryHeight()-2, 0xFFFFFFFF);
+            drawVerticalLine(getX(), rectY-1, rectY+getEntryHeight()-2, 0xFFFFFFFF);
+            drawVerticalLine(getX() + getWidth() - 2, rectY-1, rectY+getEntryHeight()-2, 0xFFFFFFFF);
+        }
+
         itemRenderer.zLevel = this.zLevel + 1;
         GL11.glEnable(GL11.GL_LIGHTING);
         itemRenderer.renderItemIntoGUI(fontRenderer, Minecraft.getMinecraft().getTextureManager(), stockCategory.getIconItem(), rectX, rectY, true);

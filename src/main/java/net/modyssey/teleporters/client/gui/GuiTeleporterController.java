@@ -189,6 +189,7 @@ public class GuiTeleporterController extends GuiContainer {
                 if (selectedMarket != containerTeleporterController.getMarketIndex()) {
                     containerTeleporterController.setMarketIndex(selectedMarket);
                     categories.setStockList(containerTeleporterController.getCurrentMarket().getStockList());
+                    categories.clearSelectedCategory();
                     stockItems.setStockCategory(null);
                     cart.setMarket(containerTeleporterController.getCurrentMarket());
 
