@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.modyssey.starmall.markets.Market;
 import net.modyssey.starmall.markets.IMarketFactory;
 import net.modyssey.starmall.markets.stock.StockList;
@@ -16,6 +17,7 @@ import net.modyssey.starmall.tileentities.TileEntityTeleporterController;
 import net.modyssey.starmall.tileentities.io.PadData;
 
 import java.util.List;
+import java.util.Random;
 
 public class ContainerTeleporterController extends Container {
     private TileEntityTeleporterController controller;
@@ -218,6 +220,9 @@ public class ContainerTeleporterController extends Container {
         requestFullCart(player);
 
         controller.getWorldObj().playSoundEffect(controller.xCoord + 0.5f, controller.yCoord + 0.5f, controller.zCoord + 0.5f, "starmall:signal", 1.0f, 1.0f);
+
+        SpawnTransmatParticlePacket packet = new SpawnTransmatParticlePacket(controller.xCoord, controller.yCoord, controller.zCoord);
+        ModysseyNetwork.sendToPlayer(packet, player);
     }
 
     private int exchangeStack(Market market, int cartIndex, boolean forceExchange) {

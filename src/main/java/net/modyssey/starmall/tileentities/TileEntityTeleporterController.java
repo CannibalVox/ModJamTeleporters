@@ -37,6 +37,7 @@ public class TileEntityTeleporterController extends TileEntity {
     }
 
     public int getPadCount() { return padLocations.size(); }
+    public PadData getPadData(int index) { return padLocations.get(index); }
     public boolean isActive() { return isActive; }
 
     public LinkedList<ItemStack> getPadContents() {
