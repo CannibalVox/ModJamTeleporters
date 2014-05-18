@@ -5,6 +5,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.modyssey.teleporters.client.gui.components.Button;
 import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.network.ModysseyNetwork;
@@ -13,6 +14,7 @@ import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 public class GuiTeleporterController extends GuiContainer {
@@ -23,7 +25,7 @@ public class GuiTeleporterController extends GuiContainer {
     private GuiItemStockList stockItems;
     private GuiCartList cart;
 
-    private GuiButton addButton;
+    private Button addButton;
 
     public GuiTeleporterController(TileEntityTeleporterController controller, IMarketFactory[] marketFactories) {
         super(new ContainerTeleporterController(controller, marketFactories));
@@ -63,10 +65,7 @@ public class GuiTeleporterController extends GuiContainer {
         cart = new GuiCartList(this);
         cart.setMarket(containerTeleporterController.getCurrentMarket());
 
-        addButton = new GuiButton(0, 99, 143, 36, 66, StatCollector.translateToLocal("gui.modysseyteleporters.add"));
-
-        buttonList.clear();
-        buttonList.add(addButton);
+        addButton = new Button(new Rectangle2D.Double(99, 158, 35, ))
     }
 
     @Override
