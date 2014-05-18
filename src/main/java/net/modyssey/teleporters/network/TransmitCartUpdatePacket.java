@@ -23,6 +23,8 @@ public class TransmitCartUpdatePacket extends ModysseyPacket {
         this.itemToAddOrUpdate = itemToAddOrUpdate;
     }
 
+    public TransmitCartUpdatePacket() {}
+
     @Override
     public void write(ByteArrayDataOutput out) {
         out.writeInt(windowId);

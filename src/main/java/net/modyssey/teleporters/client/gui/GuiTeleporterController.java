@@ -12,6 +12,8 @@ import net.modyssey.teleporters.client.gui.components.NumberOnlyTextField;
 import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.markets.stock.StockItem;
 import net.modyssey.teleporters.markets.stock.StockList;
+import net.modyssey.teleporters.network.ModysseyNetwork;
+import net.modyssey.teleporters.network.RequestCartAddPacket;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 import org.lwjgl.opengl.GL11;
@@ -158,6 +160,9 @@ public class GuiTeleporterController extends GuiContainer {
                     //Looks like some garbage made it into the amount field (or maybe it was blank?)
                     //just use 1
                 }
+
+                RequestCartAddPacket packet = new RequestCartAddPacket(containerTeleporterController.windowId, containerTeleporterController.getMarketIndex(), new ItemStack(selectedItem.getItem().getItem(), intAmount, selectedItem.getItem().getItemDamage()));
+                ModysseyNetwork.sendToServer(packet);
             }
         }
     }
