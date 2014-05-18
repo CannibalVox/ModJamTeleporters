@@ -24,6 +24,8 @@ public class ContainerTeleporterController extends Container {
     private IMarketFactory[] marketFactories;
     private int marketIndex;
 
+    private int selectedCartItem = -1;
+
     public ContainerTeleporterController(TileEntityTeleporterController controller, IMarketFactory[] marketFactories) {
         this.controller = controller;
         this.marketFactories = marketFactories;
@@ -45,6 +47,8 @@ public class ContainerTeleporterController extends Container {
     public int getMarketCount() { return markets.length; }
     public String getMarketTitle(int i) { return markets[i].getMarketTitle(); }
     public void setMarketIndex(int index) { marketIndex = index; }
+    public int getSelectedCartItem() { return selectedCartItem; }
+    public void setSelectedCartItem(int index) { selectedCartItem = index; }
 
     @Override
     public boolean canInteractWith(EntityPlayer var1) {
@@ -106,6 +110,11 @@ public class ContainerTeleporterController extends Container {
         Market market = markets[marketIndex];
 
         market.removeCartItem(cartIndex);
+
+        if (cartIndex == selectedCartItem)
+            selectedCartItem = -1;
+        else if (cartIndex < selectedCartItem)
+            selectedCartItem--;
     }
 
     public void requestFullCart(EntityPlayerMP player) {

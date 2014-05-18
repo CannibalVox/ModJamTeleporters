@@ -93,7 +93,7 @@ public class GuiTeleporterController extends GuiContainer {
         stockItems = new GuiItemStockList(this, fontRendererObj);
         stockItems.setStockCategory(null);
 
-        cart = new GuiCartList(this, fontRendererObj);
+        cart = new GuiCartList(this, fontRendererObj, containerTeleporterController);
         cart.setMarket(containerTeleporterController.getCurrentMarket());
 
         addButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(84, 162, 35, 22), new Rectangle2D.Double(207, 111, 35, 22), new Rectangle2D.Double(207, 133, 35, 22),
@@ -117,6 +117,9 @@ public class GuiTeleporterController extends GuiContainer {
 
         int x = (width - w) / 2;
         int y = (height - h) / 2;
+
+        if (cart.getSelectedItem() < 0 && selectedCartItem != null)
+            selectedCartItem = null;
 
         categories.drawList(mouseX - x - 9, mouseY - y - 25);
         stockItems.drawList(mouseX - x - 9, mouseY - y - 25);

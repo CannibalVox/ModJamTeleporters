@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.util.ResourceLocation;
 import net.modyssey.teleporters.client.gui.components.ScrollingList;
 import net.modyssey.teleporters.markets.Market;
+import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.geom.Rectangle2D;
@@ -13,25 +14,25 @@ import java.awt.geom.Rectangle2D;
 public class GuiCartList extends ScrollingList {
     private Market market;
     private GuiTeleporterController parent;
+    private ContainerTeleporterController container;
     private RenderItem itemRenderer = new RenderItem();
     private FontRenderer fontRenderer;
 
-    private int selectedItem = -1;
-
-    public GuiCartList(GuiTeleporterController parent, FontRenderer fontRenderer) {
+    public GuiCartList(GuiTeleporterController parent, FontRenderer fontRenderer, ContainerTeleporterController container) {
         super(new Rectangle2D.Double(123,28,55,110), 20);
 
         this.parent = parent;
         this.fontRenderer = fontRenderer;
         itemRenderer.zLevel += 5;
+        this.container = container;
     }
 
     public void setMarket(Market market) {
         this.market = market;
     }
 
-    public int getSelectedItem() { return selectedItem; }
-    public void clearSelectedItem() { selectedItem = -1; }
+    public int getSelectedItem() { return container.getSelectedCartItem(); }
+    public void clearSelectedItem() { container.setSelectedCartItem(-1); }
 
     @Override
     protected Rectangle2D getScrollGripBounds() {
@@ -65,7 +66,7 @@ public class GuiCartList extends ScrollingList {
 
     @Override
     protected void itemMouseClick(int item) {
-        selectedItem = item;
+        container.setSelectedCartItem(item);
         parent.updateCartSelection();
     }
 
@@ -77,7 +78,7 @@ public class GuiCartList extends ScrollingList {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-        if (i == selectedItem) {
+        if (i == container.getSelectedCartItem()) {
             drawHorizontalLine(getX(), getX() + getWidth() - 2, rectY-1, 0xFFFFFFFF);
             drawHorizontalLine(getX(), getX() + getWidth() - 2, rectY+getEntryHeight()-2, 0xFFFFFFFF);
             drawVerticalLine(getX(), rectY-1, rectY+getEntryHeight()-2, 0xFFFFFFFF);
