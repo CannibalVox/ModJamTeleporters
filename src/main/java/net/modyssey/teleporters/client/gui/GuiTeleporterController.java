@@ -171,8 +171,8 @@ public class GuiTeleporterController extends GuiContainer {
         GL11.glPopMatrix();
         GL11.glDisable(GL11.GL_LIGHTING);
 
-        fontRendererObj.drawSplitString(itemStack.getDisplayName(), 34, 148, 39, 0xFFFFFF);
-        fontRendererObj.drawString("$" + Integer.toString(item.getValue()), 34, 174, 0xFFFFFF, false);
+        fontRendererObj.drawSplitString(itemStack.getDisplayName(), 31, 148, 49, 0xFFFFFF);
+        fontRendererObj.drawString("$" + Integer.toString(item.getValue()), 31, 173, 0xFFFFFF, false);
     }
 
     @Override

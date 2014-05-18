@@ -16,6 +16,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.modyssey.teleporters.blocks.BlockTeleporterController;
 import net.modyssey.teleporters.blocks.BlockTeleporterPad;
@@ -34,7 +35,11 @@ import net.modyssey.teleporters.network.ModysseyNetwork;
 import net.modyssey.teleporters.parser.MarketDataParser;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Mod(modid = "modysseyteleporters", version = ModysseyTeleporters.VERSION)
@@ -58,6 +63,22 @@ public class ModysseyTeleporters {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+
+        MarketDataParser parser = new MarketDataParser();
+        File configFile = event.getSuggestedConfigurationFile();
+
+        try {
+            InputStream stream = FileUtils.openInputStream(configFile);
+            List<StockList> stockLists = parser.parseMarketData(stream);
+
+            IMarketFactory starmall = new StarMallMarketFactory(stockLists.get(0));
+            IMarketFactory pawnshop = new PawnShopMarketFactory(stockLists.get(1));
+
+            markets = new IMarketFactory[] { starmall, pawnshop };
+        } catch (IOException ex) {
+            throw new RuntimeException("Attempting to write out the default didn't work for some weird reason.");
+        }
+
         //Init blocks
         teleporterPad = new BlockTeleporterPad().setBlockName("modysseyteleporter.pad").setHardness(5.0f).setResistance(10.0f).setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabTransport);
         teleporterController = new BlockTeleporterController().setBlockName("modysseyteleporter.controller").setHardness(5.0f).setResistance(10.0f).setBlockTextureName("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_single").setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabAllSearch.tabTransport);
@@ -79,17 +100,6 @@ public class ModysseyTeleporters {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         ModysseyNetwork.init();
-
-        StockList starmallStock = new StockList();
-        StockList pawnshopStock = new StockList();
-
-        MarketDataParser parser = new MarketDataParser();
-        List<StockList>
-
-        IMarketFactory starmall = new StarMallMarketFactory(starmallStock);
-        IMarketFactory pawnshop = new PawnShopMarketFactory(pawnshopStock);
-
-        markets = new IMarketFactory[] { starmall, pawnshop };
 
         //Register handlers
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModysseyGuiHandler(markets));
