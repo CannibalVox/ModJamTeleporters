@@ -116,7 +116,7 @@ public class ModysseyStarMall {
 
         //Register recipes
         GameRegistry.addRecipe(new ShapedOreRecipe(teleportCircuit, "XOX","PPP", 'X', "dustGlowstone", 'O', "gemDiamond", 'P', "plankWood" ));
-        GameRegistry.addRecipe(new ShapedOreRecipe(teleporterController, "XXX", "XOX", "XXX", 'X', "gemDiamond", 'O', teleportCircuit));
+        GameRegistry.addRecipe(new ShapedOreRecipe(teleporterController, "XXX", "XOX", "III", 'X', "gemDiamond", 'O', teleportCircuit, 'I', Items.iron_ingot));
         GameRegistry.addRecipe(new ShapedOreRecipe(teleporterPad, "XXX", "XOX", "XXX", 'X', Items.iron_ingot, 'O', teleportCircuit));
     }
 
