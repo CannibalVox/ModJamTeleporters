@@ -67,13 +67,13 @@ public class GuiTeleporterController extends GuiContainer {
         cart = new GuiCartList(this, fontRendererObj);
         cart.setMarket(containerTeleporterController.getCurrentMarket());
 
-        addButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(91, 162, 35, 22), new Rectangle2D.Double(195, 168, 35, 22), new Rectangle2D.Double(195, 190, 35, 22),
-                new Rectangle2D.Double(195, 212, 35, 22), new Rectangle2D.Double(195, 234, 35, 22));
+        addButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(84, 162, 35, 22), new Rectangle2D.Double(207, 111, 35, 22), new Rectangle2D.Double(207, 133, 35, 22),
+                new Rectangle2D.Double(207, 155, 35, 22), new Rectangle2D.Double(207, 177, 35, 22));
 
-        exchangeButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(130, 162, 49, 22), new Rectangle2D.Double(195, 80, 49, 22), new Rectangle2D.Double(195, 102, 49, 22),
-                new Rectangle2D.Double(195, 124, 49, 22), new Rectangle2D.Double(195, 146, 49, 2));
+        exchangeButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(130, 162, 49, 22), new Rectangle2D.Double(207, 23, 49, 22), new Rectangle2D.Double(207, 45, 49, 22),
+                new Rectangle2D.Double(207, 67, 49, 22), new Rectangle2D.Double(207, 89, 49, 22));
 
-        quantity = new NumberOnlyTextField(fontRendererObj, 93, 148, 31, 14);
+        quantity = new NumberOnlyTextField(fontRendererObj, 86, 148, 31, 14);
         quantity.setMaxStringLength(3);
         quantity.setEnableBackgroundDrawing(false);
         quantity.setFocused(false);
@@ -95,13 +95,13 @@ public class GuiTeleporterController extends GuiContainer {
 
         if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
             addButton.drawButton(mouseX - x - 9, mouseY - y - 25);
-            drawTexturedModalRect(91, 145, 213, 9, 35, 14);
-            drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.modysseyteleporters.add"), 109, 169, 0xFFFFFF);
+            drawTexturedModalRect(84, 145, 213, 9, 35, 14);
+            drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.modysseyteleporters.add"), 102, 169, 0xFFFFFF);
             quantity.drawTextBox();
         }
 
-        exchangeButton.drawButton(mouseX - x - 9, mouseY - y - 25);
-        drawCenteredString(fontRendererObj, StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getMarketTitle()), 155, 169, 0xFFFFFF);
+        //exchangeButton.drawButton(mouseX - x - 9, mouseY - y - 25);
+        drawCenteredString(fontRendererObj, StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getMarketTitle()), 150, 169, 0xFFFFFF);
 
         drawTabLabels();
 
@@ -109,7 +109,7 @@ public class GuiTeleporterController extends GuiContainer {
         fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.cart"), 125, 17, 0x404040, false);
 
         String totalField = StatCollector.translateToLocal("gui.modysseyteleporters.total") + ":";
-        fontRendererObj.drawString(totalField, 132, 142, 0x404040, false);
+        fontRendererObj.drawString(totalField, 124, 142, 0x404040, false);
 
         int total = containerTeleporterController.getCartTotal();
         String totalLine = "$" + Integer.toString(total);

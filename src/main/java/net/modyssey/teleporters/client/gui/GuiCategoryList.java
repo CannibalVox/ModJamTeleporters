@@ -31,7 +31,7 @@ public class GuiCategoryList extends ScrollingList {
 
     @Override
     protected Rectangle2D getScrollGripBounds() {
-        return new Rectangle2D.Double(195, 13, 6, 11);
+        return new Rectangle2D.Double(207, 12, 6, 11);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class GuiCategoryList extends ScrollingList {
 
     @Override
     protected Rectangle2D getScrollTrackBounds() {
-        return new Rectangle2D.Double(55, 28, 6, 111);
+        return new Rectangle2D.Double(49, 28, 6, 111);
     }
 
     @Override
