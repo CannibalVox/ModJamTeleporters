@@ -53,7 +53,7 @@ public class FullMarketDataPacket extends ModysseyPacket {
             for (int j = 0; j < category.getItemCount(); j ++) {
                 StockItem item = category.get(j);
 
-                out.writeInt(Item.itemRegistry.getIDForObject(item.getItem()));
+                out.writeInt(Item.itemRegistry.getIDForObject(item.getItem().getItem()));
                 out.writeInt(item.getItem().getItemDamage());
                 out.writeInt((item.getValue()));
             }

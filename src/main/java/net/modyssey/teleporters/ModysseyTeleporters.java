@@ -90,8 +90,8 @@ public class ModysseyTeleporters {
         }
 
         for (int i = 0; i < 20; i++) {
-            starmallStock.getCategory(0).addItem(new StockItem(new ItemStack(Items.apple, 1, 0), 100));
-            pawnshopStock.getCategory(0).addItem(new StockItem(new ItemStack(Items.apple, 1, 0), 100));
+            starmallStock.getCategory(0).addItem(new StockItem(new ItemStack(Items.diamond_sword, 1, 0), 100));
+            pawnshopStock.getCategory(0).addItem(new StockItem(new ItemStack(Items.diamond_sword, 1, 0), 100));
         }
 
         IMarketFactory starmall = new StarMallMarketFactory(starmallStock);

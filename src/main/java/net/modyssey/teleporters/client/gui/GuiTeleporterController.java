@@ -164,7 +164,11 @@ public class GuiTeleporterController extends GuiContainer {
         ItemStack itemStack = item.getItem();
 
         GL11.glEnable(GL11.GL_LIGHTING);
-        itemRender.renderItemIntoGUI(fontRendererObj, Minecraft.getMinecraft().getTextureManager(), itemStack, 44, 143, true);
+        GL11.glPushMatrix();
+        GL11.glTranslatef(-3, 148, 0);
+        GL11.glScalef(2.0f, 2.0f, 1.0f);
+        itemRender.renderItemIntoGUI(fontRendererObj, Minecraft.getMinecraft().getTextureManager(), itemStack, 0, 0, true);
+        GL11.glPopMatrix();
         GL11.glDisable(GL11.GL_LIGHTING);
     }
 
