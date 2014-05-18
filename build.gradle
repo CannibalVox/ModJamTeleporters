@@ -18,7 +18,7 @@ buildscript {
 apply plugin: 'forge'
 
 version = "1.0"
-group= "net.modyssey.teleporters" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "net.modyssey.starmall" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "modysseyteleporters"
 
 minecraft {
