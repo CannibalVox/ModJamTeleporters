@@ -32,6 +32,12 @@ public class GuiItemStockList extends ScrollingList {
     public void clearSelectedItem() { selectedItem = -1; }
 
     @Override
+    protected void itemMouseClick(int item) {
+        selectedItem = item;
+        parent.updateItem();
+    }
+
+    @Override
     protected Rectangle2D getScrollGripBounds() {
         return new Rectangle2D.Double(207, 12, 6, 11);
     }
@@ -68,7 +74,7 @@ public class GuiItemStockList extends ScrollingList {
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
 
-        if (i == selectedCategory) {
+        if (i == selectedItem) {
             drawHorizontalLine(getX(), getX() + getWidth() - 2, rectY-1, 0xFFFFFFFF);
             drawHorizontalLine(getX(), getX() + getWidth() - 2, rectY+getEntryHeight()-2, 0xFFFFFFFF);
             drawVerticalLine(getX(), rectY-1, rectY+getEntryHeight()-2, 0xFFFFFFFF);

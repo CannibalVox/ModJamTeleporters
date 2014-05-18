@@ -44,10 +44,17 @@ public class GuiTeleporterController extends GuiContainer {
 
         categories.setStockList(containerTeleporterController.getCurrentMarket().getStockList());
         stockItems.setStockCategory(null);
+        selectedItem = null;
     }
 
     public void updateCategory() {
         stockItems.setStockCategory(containerTeleporterController.getCurrentMarket().getStockList().getCategory(categories.getSelectedCategory()));
+        stockItems.clearSelectedItem();
+        selectedItem = null;
+    }
+
+    public void updateItem() {
+        selectedItem = containerTeleporterController.getCurrentMarket().getStockList().getCategory(categories.getSelectedCategory()).get(stockItems.getSelectedItem());
     }
 
     /**
@@ -190,7 +197,9 @@ public class GuiTeleporterController extends GuiContainer {
                     containerTeleporterController.setMarketIndex(selectedMarket);
                     categories.setStockList(containerTeleporterController.getCurrentMarket().getStockList());
                     categories.clearSelectedCategory();
+                    stockItems.clearSelectedItem();
                     stockItems.setStockCategory(null);
+                    selectedItem = null;
                     cart.setMarket(containerTeleporterController.getCurrentMarket());
 
                     if (!containerTeleporterController.getCurrentMarket().allowAddFromStock())
