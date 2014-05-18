@@ -1,8 +1,10 @@
 package net.modyssey.teleporters.client.gui;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.modyssey.teleporters.client.gui.components.Button;
@@ -142,6 +144,9 @@ public class GuiTeleporterController extends GuiContainer {
         String creditLine = StatCollector.translateToLocal("gui.modysseyteleporters.credits") + ": $" + Integer.toString(credits);
 
         fontRendererObj.drawString(creditLine, 112, 3, 0xFFFFFF, true);
+
+        if (selectedItem != null)
+            drawInfoPane(selectedItem);
     }
 
     private void drawTabLabels() {
@@ -153,6 +158,14 @@ public class GuiTeleporterController extends GuiContainer {
 
             titleY += 28;
         }
+    }
+
+    private void drawInfoPane(StockItem item) {
+        ItemStack itemStack = item.getItem();
+
+        GL11.glEnable(GL11.GL_LIGHTING);
+        itemRender.renderItemIntoGUI(fontRendererObj, Minecraft.getMinecraft().getTextureManager(), itemStack, 44, 143, true);
+        GL11.glDisable(GL11.GL_LIGHTING);
     }
 
     @Override
