@@ -122,17 +122,22 @@ public class GuiTeleporterController extends GuiContainer {
         cart.drawList(mouseX - x - 9, mouseY - y - 25);
 
         if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
-            addButton.setEnabled(selectedItem != null);
-            quantity.setEnabled(selectedItem != null);
+            addButton.setEnabled(selectedItem != null || selectedCartItem != null);
+            quantity.setEnabled(selectedItem != null || selectedCartItem != null);
 
-            if (quantity.isFocused() && selectedItem == null)
+            if (quantity.isFocused() && selectedItem == null && selectedCartItem == null)
                 quantity.setFocused(false);
-            quantity.setCanLoseFocus(selectedItem != null);
+            quantity.setCanLoseFocus(selectedItem != null || selectedCartItem != null);
 
             addButton.drawButton(mouseX - x - 9, mouseY - y - 25);
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             drawTexturedModalRect(84, 145, 213, 9, 35, 14);
-            drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.modysseyteleporters.add"), 102, 169, 0xFFFFFF);
+
+            if (selectedCartItem == null)
+                drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.modysseyteleporters.add"), 102, 169, 0xFFFFFF);
+            else
+                drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.modysseyteleporters.remove"), 102, 169, 0xFFFFFF);
+
             quantity.drawTextBox();
         }
 
@@ -169,7 +174,7 @@ public class GuiTeleporterController extends GuiContainer {
         }
 
         if (selectedItem != null) {
-            drawInfoPane(selectedItem);
+            drawInfoPane(selectedItem.getItem(), selectedItem.getValue());
 
             if (addButton.pollClickEvent()) {
                 String amount = quantity.getText();
@@ -185,6 +190,8 @@ public class GuiTeleporterController extends GuiContainer {
                 RequestCartAddPacket packet = new RequestCartAddPacket(containerTeleporterController.windowId, containerTeleporterController.getMarketIndex(), new ItemStack(selectedItem.getItem().getItem(), intAmount, selectedItem.getItem().getItemDamage()));
                 ModysseyNetwork.sendToServer(packet);
             }
+        } else if (selectedCartItem != null) {
+            drawInfoPane(selectedCartItem);
         }
     }
 
@@ -199,9 +206,12 @@ public class GuiTeleporterController extends GuiContainer {
         }
     }
 
-    private void drawInfoPane(StockItem item) {
-        ItemStack itemStack = item.getItem();
+    private void drawInfoPane(ItemStack stack) {
+        int value = containerTeleporterController.getCurrentMarket().getStockList().getItemValue(stack);
+        drawInfoPane(stack, value);
+    }
 
+    private void drawInfoPane(ItemStack itemStack, int value) {
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPushMatrix();
         GL11.glTranslatef(-3, 148, 0);
@@ -211,7 +221,7 @@ public class GuiTeleporterController extends GuiContainer {
         GL11.glDisable(GL11.GL_LIGHTING);
 
         fontRendererObj.drawSplitString(itemStack.getDisplayName(), 31, 147, 49, 0xFFFFFF);
-        fontRendererObj.drawString("$" + Integer.toString(item.getValue()), 31, 174, 0xFFFFFF, false);
+        fontRendererObj.drawString("$" + Integer.toString(value), 31, 174, 0xFFFFFF, false);
     }
 
     @Override
@@ -221,7 +231,7 @@ public class GuiTeleporterController extends GuiContainer {
     protected void keyTyped(char par1, int par2)
     {
         boolean doDefaultKeyBehavior = true;
-        if (containerTeleporterController.getCurrentMarket().allowAddFromStock() && selectedItem != null) {
+        if (containerTeleporterController.getCurrentMarket().allowAddFromStock() && (selectedItem != null || selectedCartItem != null)) {
             doDefaultKeyBehavior = !quantity.textboxKeyTyped(par1, par2);
         }
 
