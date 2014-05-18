@@ -2,18 +2,16 @@ package net.modyssey.teleporters.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.util.ResourceLocation;
 import net.modyssey.teleporters.client.gui.components.ScrollingList;
-import net.modyssey.teleporters.markets.IMarket;
+import net.modyssey.teleporters.markets.Market;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.geom.Rectangle2D;
 
 public class GuiCartList extends ScrollingList {
-    private IMarket market;
+    private Market market;
     private GuiTeleporterController parent;
     private RenderItem itemRenderer = new RenderItem();
     private FontRenderer fontRenderer;
@@ -26,7 +24,7 @@ public class GuiCartList extends ScrollingList {
         itemRenderer.zLevel += 5;
     }
 
-    public void setMarket(IMarket market) {
+    public void setMarket(Market market) {
         this.market = market;
     }
 

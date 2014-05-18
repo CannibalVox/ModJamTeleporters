@@ -1,11 +1,8 @@
 package net.modyssey.teleporters.markets.pawnshop;
 
-import net.modyssey.teleporters.markets.IMarket;
+import net.modyssey.teleporters.markets.Market;
 import net.modyssey.teleporters.markets.IMarketFactory;
-import net.modyssey.teleporters.markets.stock.StockCategory;
 import net.modyssey.teleporters.markets.stock.StockList;
-
-import java.util.List;
 
 public class PawnShopMarketFactory implements IMarketFactory {
 
@@ -16,7 +13,7 @@ public class PawnShopMarketFactory implements IMarketFactory {
     }
 
     @Override
-    public IMarket createMarket() {
+    public Market createMarket() {
         return new PawnShopMarket(stockList);
     }
 

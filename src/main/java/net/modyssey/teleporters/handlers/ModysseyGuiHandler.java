@@ -6,7 +6,6 @@ import net.minecraft.world.World;
 import net.modyssey.teleporters.ModysseyTeleporters;
 import net.modyssey.teleporters.blocks.BlockTeleporterController;
 import net.modyssey.teleporters.client.gui.GuiTeleporterController;
-import net.modyssey.teleporters.markets.IMarket;
 import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.network.FullMarketDataPacket;
 import net.modyssey.teleporters.network.ModysseyNetwork;

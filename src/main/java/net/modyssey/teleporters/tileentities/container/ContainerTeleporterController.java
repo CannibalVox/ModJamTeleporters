@@ -5,7 +5,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.item.ItemStack;
-import net.modyssey.teleporters.markets.IMarket;
+import net.modyssey.teleporters.markets.Market;
 import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.network.ModysseyNetwork;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ContainerTeleporterController extends Container {
     private TileEntityTeleporterController controller;
-    private IMarket[] markets;
+    private Market[] markets;
     private IMarketFactory[] marketFactories;
     private int marketIndex;
 
@@ -29,7 +29,7 @@ public class ContainerTeleporterController extends Container {
     }
 
     public void initMarkets() {
-        this.markets = new IMarket[marketFactories.length];
+        this.markets = new Market[marketFactories.length];
 
         for (int i = 0; i < marketFactories.length; i++) {
             this.markets[i] = marketFactories[i].createMarket();
@@ -61,17 +61,13 @@ public class ContainerTeleporterController extends Container {
         }
     }
 
-    public int getCartTotal() {
-        return 999999;
-    }
-
     @Override
     public void addCraftingToCrafters(ICrafting par1ICrafting) {
         if (!controller.getWorldObj().isRemote && par1ICrafting instanceof EntityPlayerMP)
             requestFullCart((EntityPlayerMP)par1ICrafting);
     }
 
-    public IMarket getCurrentMarket() {
+    public Market getCurrentMarket() {
         return markets[marketIndex];
     }
 
@@ -90,7 +86,7 @@ public class ContainerTeleporterController extends Container {
     }
 
     public void receiveCartUpdate(int marketIndex, int cartIndex, ItemStack itemToUpdate) {
-        IMarket market = markets[marketIndex];
+        Market market = markets[marketIndex];
 
         if (cartIndex < market.getCartSize() && PadData.canItemstacksStack(market.getCartContent(cartIndex), itemToUpdate))
             market.getCartContent(cartIndex).stackSize = itemToUpdate.stackSize;
@@ -112,7 +108,7 @@ public class ContainerTeleporterController extends Container {
         if (marketId < 0 || marketId >= markets.length)
             return;
 
-        IMarket market = markets[marketId];
+        Market market = markets[marketId];
 
         if (!market.canAddToCart(itemToAdd))
             return;

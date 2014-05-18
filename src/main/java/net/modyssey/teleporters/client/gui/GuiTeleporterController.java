@@ -138,7 +138,7 @@ public class GuiTeleporterController extends GuiContainer {
         String totalField = StatCollector.translateToLocal("gui.modysseyteleporters.total") + ":";
         fontRendererObj.drawString(totalField, 124, 142, 0x404040, false);
 
-        int total = containerTeleporterController.getCartTotal();
+        int total = containerTeleporterController.getCurrentMarket().getCartTotal();
         String totalLine = "$" + Integer.toString(total);
         fontRendererObj.drawString(totalLine, 155 - fontRendererObj.getStringWidth(totalLine) / 2, 152, 0x404040, false);
 

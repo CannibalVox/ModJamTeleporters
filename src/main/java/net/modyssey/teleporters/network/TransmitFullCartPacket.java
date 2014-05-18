@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.modyssey.teleporters.markets.IMarket;
+import net.modyssey.teleporters.markets.Market;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class TransmitFullCartPacket extends ModysseyPacket {
         this.windowId = windowId;
     }
 
-    public void addCart(IMarket singleCart) {
+    public void addCart(Market singleCart) {
         List<ItemStack> cart = new ArrayList<ItemStack>();
 
         for (int i = 0; i < singleCart.getCartSize(); i++) {

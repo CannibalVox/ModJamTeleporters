@@ -1,11 +1,8 @@
 package net.modyssey.teleporters.markets.starmall;
 
-import net.modyssey.teleporters.markets.IMarket;
+import net.modyssey.teleporters.markets.Market;
 import net.modyssey.teleporters.markets.IMarketFactory;
-import net.modyssey.teleporters.markets.stock.StockCategory;
 import net.modyssey.teleporters.markets.stock.StockList;
-
-import java.util.List;
 
 public class StarMallMarketFactory implements IMarketFactory {
     private StockList stockList;
@@ -15,7 +12,7 @@ public class StarMallMarketFactory implements IMarketFactory {
     }
 
     @Override
-    public IMarket createMarket() {
+    public Market createMarket() {
         return new StarMallMarket(stockList);
     }
 
