@@ -31,6 +31,7 @@ import net.modyssey.teleporters.markets.stock.StockItem;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.network.FullMarketDataPacket;
 import net.modyssey.teleporters.network.ModysseyNetwork;
+import net.modyssey.teleporters.parser.MarketDataParser;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
 
@@ -82,17 +83,8 @@ public class ModysseyTeleporters {
         StockList starmallStock = new StockList();
         StockList pawnshopStock = new StockList();
 
-        for (int i = 0; i < 20; i++) {
-            starmallStock.addCategory(new StockCategory("A", new ItemStack(Items.apple, 1, 0)));
-            starmallStock.addCategory(new StockCategory("B", new ItemStack(Items.apple, 1, 0)));
-
-            pawnshopStock.addCategory(new StockCategory("C", new ItemStack(Items.apple, 1, 0)));
-        }
-
-        for (int i = 0; i < 20; i++) {
-            starmallStock.getCategory(0).addItem(new StockItem(new ItemStack(Items.diamond_sword, 1, 0), 100));
-            pawnshopStock.getCategory(0).addItem(new StockItem(new ItemStack(Items.diamond_sword, 1, 0), 100));
-        }
+        MarketDataParser parser = new MarketDataParser();
+        List<StockList>
 
         IMarketFactory starmall = new StarMallMarketFactory(starmallStock);
         IMarketFactory pawnshop = new PawnShopMarketFactory(pawnshopStock);

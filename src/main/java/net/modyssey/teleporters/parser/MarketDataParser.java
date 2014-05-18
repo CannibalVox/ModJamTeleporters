@@ -3,14 +3,21 @@ package net.modyssey.teleporters.parser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.modyssey.teleporters.markets.stock.StockCategory;
+import net.modyssey.teleporters.markets.stock.StockItem;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.parser.io.MarketData;
 import net.modyssey.teleporters.parser.io.StockData;
+import net.modyssey.teleporters.parser.io.StockDataItem;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MarketDataParser {
@@ -48,7 +55,98 @@ public class MarketDataParser {
         return buildStockData(data);
     }
 
-    private List<StockData> buildStockData(MarketData data) {
-        
+    private List<StockList> buildStockData(MarketData data) {
+        List<StockList> markets = new ArrayList<StockList>();
+        markets.add(buildStockList(data.getBuy()));
+        markets.add(buildStockList(data.getSell()));
+        return markets;
+    }
+
+    private StockList buildStockList(List<StockData> data) {
+        StockList list = new StockList();
+
+        for (int i = 0; i < data.size(); i++) {
+            StockCategory category = buildCategory(data.get(i));
+            list.addCategory(category);
+        }
+
+        return list;
+    }
+
+    private StockCategory buildCategory(StockData data) {
+        String name = data.getName();
+        String iconName = data.getIcon();
+        ItemStack iconItem = getStackFromName(iconName);
+
+        StockCategory category = new StockCategory(name, iconItem);
+
+        for (int i = 0; i < data.getItemCount(); i++) {
+            StockDataItem item = data.getItem(i);
+
+            StockItem stockItem = buildStockItem(item);
+
+            if (stockItem != null)
+                category.addItem(stockItem);
+        }
+
+        return category;
+    }
+
+    private StockItem buildStockItem(StockDataItem item) {
+        String itemName = item.getItem();
+        int value = item.getValue();
+        ItemStack itemStack = getStackFromName(itemName);
+
+        if (itemStack == null)
+            return null;
+
+        return new StockItem(itemStack, value);
+    }
+
+    private ItemStack getStackFromName(String name) {
+        int damage = 0;
+        int damageIndex = name.lastIndexOf(':');
+
+        if (damageIndex >= 0) {
+            String textAfterColon = name.substring(damageIndex + 1);
+
+            try {
+                damage = Integer.parseInt(textAfterColon);
+                name = name.substring(0, damageIndex -1);
+            } catch (NumberFormatException ex) {
+                //This just means that the colon was there to separate modID from item name, not to separate
+                //item name from damage value.  NBD, just ignore it
+            }
+        }
+
+        ItemStack itemStack = getStackFromItemName(name, damage);
+
+        if (itemStack == null)
+            itemStack = getStackFromBlockName(name, damage);
+
+        return itemStack;
+    }
+
+    private ItemStack getStackFromItemName(String name, int damage) {
+        Item item = (Item)Item.itemRegistry.getObject(name);
+
+        if (item == null)
+            return null;
+
+        return new ItemStack(item, 1, damage);
+    }
+
+    private ItemStack getStackFromBlockName(String name, int damage) {
+        Block block = (Block)Block.blockRegistry.getObject(name);
+
+        if (block == null)
+            return null;
+
+        Item item = Item.getItemFromBlock(block);
+
+        if (item == null)
+            return null;
+
+        return new ItemStack(item, 1, damage);
     }
 }
