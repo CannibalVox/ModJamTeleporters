@@ -145,8 +145,21 @@ public class GuiTeleporterController extends GuiContainer {
 
         fontRendererObj.drawString(creditLine, 112, 3, 0xFFFFFF, true);
 
-        if (selectedItem != null)
+        if (selectedItem != null) {
             drawInfoPane(selectedItem);
+
+            if (addButton.pollClickEvent()) {
+                String amount = quantity.getText();
+
+                int intAmount = 1;
+                try {
+                    intAmount = Integer.parseInt(amount);
+                } catch (NumberFormatException ex) {
+                    //Looks like some garbage made it into the amount field (or maybe it was blank?)
+                    //just use 1
+                }
+            }
+        }
     }
 
     private void drawTabLabels() {
