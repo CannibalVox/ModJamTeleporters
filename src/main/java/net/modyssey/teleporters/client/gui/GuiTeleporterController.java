@@ -1,6 +1,7 @@
 package net.modyssey.teleporters.client.gui;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
@@ -27,6 +28,8 @@ public class GuiTeleporterController extends GuiContainer {
 
     private Button addButton;
     private Button exchangeButton;
+
+    private GuiTextField quantity;
 
     public GuiTeleporterController(TileEntityTeleporterController controller, IMarketFactory[] marketFactories) {
         super(new ContainerTeleporterController(controller, marketFactories));
@@ -71,6 +74,13 @@ public class GuiTeleporterController extends GuiContainer {
 
         exchangeButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(130, 162, 49, 22), new Rectangle2D.Double(195, 80, 49, 22), new Rectangle2D.Double(195, 102, 49, 22),
                 new Rectangle2D.Double(195, 124, 49, 22), new Rectangle2D.Double(195, 146, 49, 2));
+
+        quantity = new GuiTextField(fontRendererObj, 91, 148, 35, 14);
+        quantity.setMaxStringLength(6);
+        quantity.setEnableBackgroundDrawing(false);
+        quantity.setFocused(false);
+        quantity.setText("1");
+        quantity.setCanLoseFocus(true);
     }
 
     @Override
@@ -87,7 +97,9 @@ public class GuiTeleporterController extends GuiContainer {
 
         if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
             addButton.drawButton(mouseX - x - 9, mouseY - y - 25);
+            drawTexturedModalRect(91, 145, 201, 10, 35, 14);
             drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.modysseyteleporters.add"), 109, 169, 0xFFFFFF);
+            quantity.drawTextBox();
         }
 
         exchangeButton.drawButton(mouseX - x - 9, mouseY - y - 25);
