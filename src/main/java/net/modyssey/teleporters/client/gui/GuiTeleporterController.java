@@ -8,6 +8,7 @@ import net.minecraft.util.StatCollector;
 import net.modyssey.teleporters.client.gui.components.Button;
 import net.modyssey.teleporters.client.gui.components.NumberOnlyTextField;
 import net.modyssey.teleporters.markets.IMarketFactory;
+import net.modyssey.teleporters.markets.stock.StockItem;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
@@ -29,6 +30,8 @@ public class GuiTeleporterController extends GuiContainer {
 
     private GuiTextField quantity;
 
+    private StockItem selectedItem = null;
+
     public GuiTeleporterController(TileEntityTeleporterController controller, IMarketFactory[] marketFactories) {
         super(new ContainerTeleporterController(controller, marketFactories));
 
@@ -40,7 +43,11 @@ public class GuiTeleporterController extends GuiContainer {
         containerTeleporterController.updateMarketData(marketData);
 
         categories.setStockList(containerTeleporterController.getCurrentMarket().getStockList());
-        stockItems.setStockCategory(containerTeleporterController.getCurrentMarket().getStockList().getCategory(0));
+        stockItems.setStockCategory(null);
+    }
+
+    public void updateCategory() {
+        stockItems.setStockCategory(containerTeleporterController.getCurrentMarket().getStockList().getCategory(categories.getSelectedCategory()));
     }
 
     /**
@@ -62,7 +69,7 @@ public class GuiTeleporterController extends GuiContainer {
         categories.setStockList(containerTeleporterController.getCurrentMarket().getStockList());
 
         stockItems = new GuiItemStockList(this, fontRendererObj);
-        stockItems.setStockCategory(containerTeleporterController.getCurrentMarket().getStockList().getCategory(0));
+        stockItems.setStockCategory(null);
 
         cart = new GuiCartList(this, fontRendererObj);
         cart.setMarket(containerTeleporterController.getCurrentMarket());
@@ -70,7 +77,7 @@ public class GuiTeleporterController extends GuiContainer {
         addButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(84, 162, 35, 22), new Rectangle2D.Double(207, 111, 35, 22), new Rectangle2D.Double(207, 133, 35, 22),
                 new Rectangle2D.Double(207, 155, 35, 22), new Rectangle2D.Double(207, 177, 35, 22));
 
-        exchangeButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(130, 162, 49, 22), new Rectangle2D.Double(207, 23, 49, 22), new Rectangle2D.Double(207, 45, 49, 22),
+        exchangeButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(129, 162, 49, 22), new Rectangle2D.Double(207, 23, 49, 22), new Rectangle2D.Double(207, 45, 49, 22),
                 new Rectangle2D.Double(207, 67, 49, 22), new Rectangle2D.Double(207, 89, 49, 22));
 
         quantity = new NumberOnlyTextField(fontRendererObj, 86, 148, 31, 14);
@@ -94,6 +101,13 @@ public class GuiTeleporterController extends GuiContainer {
         cart.drawList(mouseX - x - 9, mouseY - y - 25);
 
         if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
+            addButton.setEnabled(selectedItem != null);
+            quantity.setEnabled(selectedItem != null);
+
+            if (quantity.isFocused() && selectedItem == null)
+                quantity.setFocused(false);
+            quantity.setCanLoseFocus(selectedItem != null);
+
             addButton.drawButton(mouseX - x - 9, mouseY - y - 25);
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             drawTexturedModalRect(84, 145, 213, 9, 35, 14);
@@ -101,8 +115,9 @@ public class GuiTeleporterController extends GuiContainer {
             quantity.drawTextBox();
         }
 
+        exchangeButton.setEnabled(containerTeleporterController.getCurrentMarket().getCartSize() != 0);
         exchangeButton.drawButton(mouseX - x - 9, mouseY - y - 25);
-        drawCenteredString(fontRendererObj, StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getMarketTitle()), 150, 169, 0xFFFFFF);
+        drawCenteredString(fontRendererObj, StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getMarketTitle()), 152, 169, 0xFFFFFF);
 
         drawTabLabels();
 
@@ -140,7 +155,7 @@ public class GuiTeleporterController extends GuiContainer {
     protected void keyTyped(char par1, int par2)
     {
         boolean doDefaultKeyBehavior = true;
-        if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
+        if (containerTeleporterController.getCurrentMarket().allowAddFromStock() && selectedItem != null) {
             doDefaultKeyBehavior = !quantity.textboxKeyTyped(par1, par2);
         }
 
@@ -174,7 +189,7 @@ public class GuiTeleporterController extends GuiContainer {
                 if (selectedMarket != containerTeleporterController.getMarketIndex()) {
                     containerTeleporterController.setMarketIndex(selectedMarket);
                     categories.setStockList(containerTeleporterController.getCurrentMarket().getStockList());
-                    stockItems.setStockCategory(containerTeleporterController.getCurrentMarket().getStockList().getCategory(0));
+                    stockItems.setStockCategory(null);
                     cart.setMarket(containerTeleporterController.getCurrentMarket());
 
                     if (!containerTeleporterController.getCurrentMarket().allowAddFromStock())

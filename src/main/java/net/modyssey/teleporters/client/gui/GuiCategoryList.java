@@ -17,6 +17,7 @@ public class GuiCategoryList extends ScrollingList {
     private GuiTeleporterController parent;
     private RenderItem itemRenderer = new RenderItem();
     private FontRenderer fontRenderer;
+    private int selectedCategory = -1;
 
     public GuiCategoryList(GuiTeleporterController parent, FontRenderer fontRenderer) {
         super(new Rectangle2D.Double(-6,28,55,110), 20);
@@ -27,6 +28,16 @@ public class GuiCategoryList extends ScrollingList {
 
     public void setStockList(StockList stockList) {
         this.stockList = stockList;
+    }
+
+    public int getSelectedCategory() {
+        return selectedCategory;
+    }
+
+    @Override
+    protected void itemMouseClick(int item) {
+        selectedCategory = item;
+        parent.updateCategory();
     }
 
     @Override
