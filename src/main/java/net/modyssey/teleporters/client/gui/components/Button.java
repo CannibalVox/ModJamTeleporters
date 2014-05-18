@@ -1,7 +1,10 @@
 package net.modyssey.teleporters.client.gui.components;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.geom.Rectangle2D;
 
@@ -11,6 +14,7 @@ public class Button extends Gui {
     private Rectangle2D clickedUVBounds;
     private Rectangle2D disabledUVBounds;
     private Rectangle2D hoverUVBounds;
+    private ResourceLocation buttonTexture;
 
     private boolean isMouseDown = false;
     private boolean isClicked = false;
@@ -19,7 +23,8 @@ public class Button extends Gui {
 
     private boolean hasClickEvent = false;
 
-    public Button(Rectangle2D physicalBounds, Rectangle2D normalUVBounds, Rectangle2D clickedUVBounds, Rectangle2D disabledUVBounds, Rectangle2D hoverUVBounds) {
+    public Button(ResourceLocation buttonTexture, Rectangle2D physicalBounds, Rectangle2D normalUVBounds, Rectangle2D clickedUVBounds, Rectangle2D disabledUVBounds, Rectangle2D hoverUVBounds) {
+        this.buttonTexture = buttonTexture;
         this.physicalBounds = physicalBounds;
         this.normalUVBounds = normalUVBounds;
         this.clickedUVBounds = clickedUVBounds;
@@ -85,6 +90,8 @@ public class Button extends Gui {
         int u = (int)uvBounds.getX();
         int v = (int)uvBounds.getY();
 
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        Minecraft.getMinecraft().renderEngine.bindTexture(buttonTexture);
         drawTexturedModalRect(x, y, u, v, width, height);
     }
 }

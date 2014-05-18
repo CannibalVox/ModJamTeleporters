@@ -59,6 +59,10 @@ public class ContainerTeleporterController extends Container {
         }
     }
 
+    public int getCartTotal() {
+        return 0;
+    }
+
     @Override
     public void addCraftingToCrafters(ICrafting par1ICrafting) {
         if (!controller.getWorldObj().isRemote && par1ICrafting instanceof EntityPlayerMP)

@@ -66,10 +66,10 @@ public class GuiTeleporterController extends GuiContainer {
         cart = new GuiCartList(this);
         cart.setMarket(containerTeleporterController.getCurrentMarket());
 
-        addButton = new Button(new Rectangle2D.Double(91, 162, 35, 22), new Rectangle2D.Double(195, 168, 35, 22), new Rectangle2D.Double(195, 190, 35, 22),
+        addButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(91, 162, 35, 22), new Rectangle2D.Double(195, 168, 35, 22), new Rectangle2D.Double(195, 190, 35, 22),
                 new Rectangle2D.Double(195, 212, 35, 22), new Rectangle2D.Double(195, 234, 35, 22));
 
-        exchangeButton = new Button(new Rectangle2D.Double(130, 162, 49, 22), new Rectangle2D.Double(195, 80, 49, 22), new Rectangle2D.Double(195, 102, 49, 22),
+        exchangeButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(130, 162, 49, 22), new Rectangle2D.Double(195, 80, 49, 22), new Rectangle2D.Double(195, 102, 49, 22),
                 new Rectangle2D.Double(195, 124, 49, 22), new Rectangle2D.Double(195, 146, 49, 2));
     }
 
@@ -87,15 +87,20 @@ public class GuiTeleporterController extends GuiContainer {
 
         if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
             addButton.drawButton(mouseX - x - 9, mouseY - y - 25);
-            fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.add"), 105, 193, 0xFFFFFF, true);
+            drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.modysseyteleporters.add"), 109, 169, 0xFFFFFF);
         }
 
         exchangeButton.drawButton(mouseX - x - 9, mouseY - y - 25);
+        drawCenteredString(fontRendererObj, StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getMarketTitle()), 155, 169, 0xFFFFFF);
 
         drawTabLabels();
 
         fontRendererObj.drawString(StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getStockTitle()), 2, 17, 0x404040, false);
         fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.cart"), 133, 17, 0x404040, false);
+
+        int total = containerTeleporterController.getCartTotal();
+        String totalLine = StatCollector.translateToLocal("gui.modysseyteleporters.total") + ": $" + Integer.toString(total);
+        fontRendererObj.drawString(totalLine, 155 - fontRendererObj.getStringWidth(totalLine) / 2, 148, 0x404040, false);
 
         int credits = controller.getCredits();
         String creditLine = StatCollector.translateToLocal("gui.modysseyteleporters.credits") + ": $" + Integer.toString(credits);
