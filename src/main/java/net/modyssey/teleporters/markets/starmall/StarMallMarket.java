@@ -59,25 +59,24 @@ public class StarMallMarket implements IMarket {
     }
 
     @Override
-    public void addFromStock(ItemStack item) {
-        for (int i = 0; i < cart.size(); i++) {
-            ItemStack cartItem = cart.get(i);
-            if (PadData.canItemstacksStack(item, cartItem)) {
-                cartItem.stackSize += item.stackSize;
-                return;
-            }
-        }
-
-        cart.add(item);
-    }
-
-    @Override
     public void updateStock(StockList stock) {
         stockList.clear();
 
         for (int i = 0; i < stock.getCategoryCount(); i++) {
             stockList.addCategory(stock.getCategory(i));
         }
+    }
+
+    @Override
+    public boolean canAddToCart(ItemStack itemToAdd) {
+        for (int i = 0; i < stockList.getCategoryCount(); i++) {
+            for (int j = 0; j < stockList.getCategory(i).getItemCount(); j ++) {
+                if (PadData.canItemstacksStack(stockList.getCategory(i).get(j).getItem(), itemToAdd))
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
