@@ -24,10 +24,12 @@ import net.modyssey.teleporters.parser.MarketDataParser;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterPad;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 @Mod(modid = "modysseyteleporters", version = ModysseyTeleporters.VERSION)
@@ -55,7 +57,16 @@ public class ModysseyTeleporters {
         MarketDataParser parser = new MarketDataParser();
         File configFile = event.getSuggestedConfigurationFile();
 
-        ResourceLoader.class.getResource(getResourcePath("/" + iconName))
+        if (!configFile.exists()) {
+            InputStream stream = ModysseyTeleporters.class.getResourceAsStream("/assets/modysseyteleporters/config/defaultConfig.json");
+
+            try {
+                OutputStream out = FileUtils.openOutputStream(configFile);
+                IOUtils.copy(stream, out);
+            } catch (IOException ex) {
+                throw new RuntimeException("Attempting to write out the default didn't work for some weird reason.");
+            }
+        }
 
         try {
             InputStream stream = FileUtils.openInputStream(configFile);
