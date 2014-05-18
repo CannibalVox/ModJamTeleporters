@@ -65,7 +65,8 @@ public class GuiTeleporterController extends GuiContainer {
         cart = new GuiCartList(this);
         cart.setMarket(containerTeleporterController.getCurrentMarket());
 
-        addButton = new Button(new Rectangle2D.Double(99, 158, 35, ))
+        addButton = new Button(new Rectangle2D.Double(91, 162, 35, 22), new Rectangle2D.Double(195, 168, 35, 22), new Rectangle2D.Double(195, 190, 35, 22),
+                new Rectangle2D.Double(195, 212, 35, 22), new Rectangle2D.Double(195, 234, 35, 22));
     }
 
     @Override
@@ -79,6 +80,10 @@ public class GuiTeleporterController extends GuiContainer {
         categories.drawList(mouseX - x, mouseY - y);
         stockItems.drawList(mouseX - x, mouseY - y);
         cart.drawList(mouseX - x, mouseY - y);
+
+        if (containerTeleporterController.getCurrentMarket().allowAddFromStock())
+            addButton.drawButton(mouseX, mouseY);
+
         drawTabLabels();
 
         fontRendererObj.drawString(StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getStockTitle()), 2, 17, 0x404040, false);
