@@ -60,7 +60,7 @@ public class ContainerTeleporterController extends Container {
     }
 
     public int getCartTotal() {
-        return 0;
+        return 999999;
     }
 
     @Override

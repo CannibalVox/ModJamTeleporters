@@ -45,7 +45,7 @@ public class GuiCategoryList extends ScrollingList {
 
     @Override
     protected Rectangle2D getScrollTrackBounds() {
-        return new Rectangle2D.Double(56, 28, 6, 111);
+        return new Rectangle2D.Double(55, 28, 6, 111);
     }
 
     @Override

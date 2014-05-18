@@ -98,9 +98,12 @@ public class GuiTeleporterController extends GuiContainer {
         fontRendererObj.drawString(StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getStockTitle()), 2, 17, 0x404040, false);
         fontRendererObj.drawString(StatCollector.translateToLocal("gui.modysseyteleporters.cart"), 133, 17, 0x404040, false);
 
+        String totalField = StatCollector.translateToLocal("gui.modysseyteleporters.total") + ":";
+        fontRendererObj.drawString(totalField, 132, 142, 0x404040, false);
+
         int total = containerTeleporterController.getCartTotal();
-        String totalLine = StatCollector.translateToLocal("gui.modysseyteleporters.total") + ": $" + Integer.toString(total);
-        fontRendererObj.drawString(totalLine, 155 - fontRendererObj.getStringWidth(totalLine) / 2, 148, 0x404040, false);
+        String totalLine = "$" + Integer.toString(total);
+        fontRendererObj.drawString(totalLine, 155 - fontRendererObj.getStringWidth(totalLine) / 2, 152, 0x404040, false);
 
         int credits = controller.getCredits();
         String creditLine = StatCollector.translateToLocal("gui.modysseyteleporters.credits") + ": $" + Integer.toString(credits);
