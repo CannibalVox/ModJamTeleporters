@@ -68,8 +68,8 @@ public class ModysseyTeleporters {
         }
 
         //Init blocks
-        teleporterPad = new BlockTeleporterPad().setBlockName("modysseyteleporter.pad").setHardness(5.0f).setResistance(10.0f).setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabTransport);
-        teleporterController = new BlockTeleporterController().setBlockName("modysseyteleporter.controller").setHardness(5.0f).setResistance(10.0f).setBlockTextureName("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_single").setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabAllSearch.tabTransport);
+        teleporterPad = new BlockTeleporterPad().setBlockName("modysseyteleporter.pad").setHardness(5.0f).setResistance(10.0f).setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabRedstone);
+        teleporterController = new BlockTeleporterController().setBlockName("modysseyteleporter.controller").setHardness(5.0f).setResistance(10.0f).setBlockTextureName("modysseyteleporters:teleporter_pad_side/teleporter_pad_side_single").setStepSound(Block.soundTypeMetal).setCreativeTab(CreativeTabs.tabRedstone);
 
         //Init items
         teleportCircuit = new Item().setUnlocalizedName("modysseyteleporter.circuit").setTextureName("modysseyteleporters:circuitboard").setCreativeTab(CreativeTabs.tabMaterials);

@@ -14,6 +14,7 @@ import net.modyssey.teleporters.markets.stock.StockItem;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.network.ModysseyNetwork;
 import net.modyssey.teleporters.network.RequestCartAddPacket;
+import net.modyssey.teleporters.network.RequestMarketExchangePacket;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
 import net.modyssey.teleporters.tileentities.container.ContainerTeleporterController;
 import org.lwjgl.opengl.GL11;
@@ -152,6 +153,11 @@ public class GuiTeleporterController extends GuiContainer {
         String creditLine = StatCollector.translateToLocal("gui.modysseyteleporters.credits") + ": $" + Integer.toString(credits);
 
         fontRendererObj.drawString(creditLine, 112, 3, 0xFFFFFF, true);
+
+        if (exchangeButton.pollClickEvent()) {
+            RequestMarketExchangePacket packet = new RequestMarketExchangePacket(containerTeleporterController.windowId, containerTeleporterController.getMarketIndex());
+            ModysseyNetwork.sendToServer(packet);
+        }
 
         if (selectedItem != null) {
             drawInfoPane(selectedItem);
