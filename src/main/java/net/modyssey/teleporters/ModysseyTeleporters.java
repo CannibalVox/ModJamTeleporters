@@ -55,6 +55,8 @@ public class ModysseyTeleporters {
         MarketDataParser parser = new MarketDataParser();
         File configFile = event.getSuggestedConfigurationFile();
 
+        ResourceLoader.class.getResource(getResourcePath("/" + iconName))
+
         try {
             InputStream stream = FileUtils.openInputStream(configFile);
             List<StockList> stockLists = parser.parseMarketData(stream);

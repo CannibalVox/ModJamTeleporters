@@ -349,8 +349,8 @@ public class GuiTeleporterController extends GuiContainer {
         mc.renderEngine.bindTexture(containerTeleporterController.getCurrentMarket().getMarketLogo());
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV(x, y + 35, (double)this.zLevel, 0, 1);
-        tessellator.addVertexWithUV(x + 109, y + 35, (double)this.zLevel, 1, 1);
-        tessellator.addVertexWithUV(x + 109, y, (double)this.zLevel, 1, 0);
+        tessellator.addVertexWithUV(x + 121, y + 35, (double)this.zLevel, 1, 1);
+        tessellator.addVertexWithUV(x + 121, y, (double)this.zLevel, 1, 0);
         tessellator.addVertexWithUV(x, y, (double)this.zLevel, 0, 0);
         tessellator.draw();
     }
