@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.modyssey.teleporters.client.gui.components.Button;
+import net.modyssey.teleporters.client.gui.components.NumberOnlyTextField;
 import net.modyssey.teleporters.markets.IMarketFactory;
 import net.modyssey.teleporters.markets.stock.StockList;
 import net.modyssey.teleporters.tileentities.TileEntityTeleporterController;
@@ -72,7 +73,7 @@ public class GuiTeleporterController extends GuiContainer {
         exchangeButton = new Button(new ResourceLocation("modysseyteleporters:textures/gui/station.png"), new Rectangle2D.Double(130, 162, 49, 22), new Rectangle2D.Double(195, 80, 49, 22), new Rectangle2D.Double(195, 102, 49, 22),
                 new Rectangle2D.Double(195, 124, 49, 22), new Rectangle2D.Double(195, 146, 49, 2));
 
-        quantity = new GuiTextField(fontRendererObj, 93, 148, 31, 14);
+        quantity = new NumberOnlyTextField(fontRendererObj, 93, 148, 31, 14);
         quantity.setMaxStringLength(3);
         quantity.setEnableBackgroundDrawing(false);
         quantity.setFocused(false);
@@ -137,11 +138,13 @@ public class GuiTeleporterController extends GuiContainer {
      */
     protected void keyTyped(char par1, int par2)
     {
-        super.keyTyped(par1, par2);
-
+        boolean doDefaultKeyBehavior = true;
         if (containerTeleporterController.getCurrentMarket().allowAddFromStock()) {
-            quantity.textboxKeyTyped(par1, par2);
+            doDefaultKeyBehavior = !quantity.textboxKeyTyped(par1, par2);
         }
+
+        if (doDefaultKeyBehavior)
+            super.keyTyped(par1, par2);
     }
 
     @Override
