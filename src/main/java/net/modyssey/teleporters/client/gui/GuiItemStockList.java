@@ -64,7 +64,9 @@ public class GuiItemStockList extends ScrollingList {
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         itemRenderer.zLevel = this.zLevel + 1;
+        GL11.glEnable(GL11.GL_LIGHTING);
         itemRenderer.renderItemIntoGUI(fontRenderer, Minecraft.getMinecraft().getTextureManager(), stockCategory.getIconItem(), rectX, rectY, true);
+        GL11.glDisable(GL11.GL_LIGHTING);
 
         String displayText = stockCategory.getIconItem().getDisplayName();
         int displayTextLen = fontRenderer.getStringWidth(displayText);

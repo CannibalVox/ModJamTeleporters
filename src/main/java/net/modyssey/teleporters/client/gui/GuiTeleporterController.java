@@ -101,7 +101,7 @@ public class GuiTeleporterController extends GuiContainer {
             quantity.drawTextBox();
         }
 
-        //exchangeButton.drawButton(mouseX - x - 9, mouseY - y - 25);
+        exchangeButton.drawButton(mouseX - x - 9, mouseY - y - 25);
         drawCenteredString(fontRendererObj, StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getMarketTitle()), 150, 169, 0xFFFFFF);
 
         drawTabLabels();

@@ -67,7 +67,9 @@ public class GuiCartList extends ScrollingList {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         itemRenderer.zLevel = this.zLevel + 1;
+        GL11.glEnable(GL11.GL_LIGHTING);
         itemRenderer.renderItemIntoGUI(fontRenderer, Minecraft.getMinecraft().getTextureManager(), market.getCartContent(i), rectX, rectY, true);
+        GL11.glDisable(GL11.GL_LIGHTING);
 
         fontRenderer.drawString("x" + Integer.toString(market.getCartContent(i).stackSize), rectX + 18, rectY + 6, 0xFFFFFF, false);
         GL11.glDisable(GL11.GL_DEPTH_TEST);

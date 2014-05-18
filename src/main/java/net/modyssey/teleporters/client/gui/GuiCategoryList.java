@@ -67,8 +67,10 @@ public class GuiCategoryList extends ScrollingList {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
+        GL11.glEnable(GL11.GL_LIGHTING);
         itemRenderer.zLevel = this.zLevel + 1;
         itemRenderer.renderItemIntoGUI(fontRenderer, Minecraft.getMinecraft().getTextureManager(), stockList.getCategory(i).getIconItem(), rectX, rectY, true);
+        GL11.glDisable(GL11.GL_LIGHTING);
 
         fontRenderer.drawString(stockList.getCategory(i).getCategoryName(), rectX + 18, rectY + 6, 0xFFFFFF, false);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
