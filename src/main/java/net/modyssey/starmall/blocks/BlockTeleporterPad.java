@@ -43,7 +43,7 @@ public class BlockTeleporterPad extends BlockContainer {
 
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
-        if (world.getBlockMetadata(x, y, z) == 0)
+        if ((world.getBlockMetadata(x, y, z) & 8) == 0)
             return 0;
         else
             return 15;
@@ -95,7 +95,7 @@ public class BlockTeleporterPad extends BlockContainer {
             if (block == this) {
                 int metadata = world.getBlockMetadata(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
-                if (metadata != 0 && metadata != ForgeDirection.OPPOSITES[dir.ordinal()]) {
+                if (metadata != 0 && (metadata & 7) != ForgeDirection.OPPOSITES[dir.ordinal()]) {
                     TileEntity padEntity = world.getTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
                     if (padEntity != null && padEntity instanceof  TileEntityTeleporterPad) {
                         int djikstra = ((TileEntityTeleporterPad)padEntity).getDjikstraNumber();
@@ -128,7 +128,7 @@ public class BlockTeleporterPad extends BlockContainer {
 
         if (pad.registerStation(x+dir.offsetX, y + dir.offsetY + 1, z + dir.offsetZ)) {
             if (oldMetadata != dir.ordinal())
-                world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+                world.setBlockMetadataWithNotify(x, y, z, (world.getBlockMetadata(x, y, z) & 8) | dir.ordinal(), 3);
             else if (forceBlockUpdate)
                 world.notifyBlockChange(x, y, z, this);
 
@@ -148,7 +148,7 @@ public class BlockTeleporterPad extends BlockContainer {
 
         if (pad.registerSameAs(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
             if (oldMetadata != dir.ordinal())
-                world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 3);
+                world.setBlockMetadataWithNotify(x, y, z, (world.getBlockMetadata(x, y, z) & 8) | dir.ordinal(), 3);
             else if (forceBlockUpdate)
                 world.notifyBlockChange(x, y, z, this);
 
@@ -194,7 +194,7 @@ public class BlockTeleporterPad extends BlockContainer {
 
         if (dir == ForgeDirection.UP) {
             int topIconIndex = calcEightWayCtm(world, x, y, z, dir);
-            if (world.getBlockMetadata(x, y, z) == 0)
+            if ((world.getBlockMetadata(x, y, z) & 8) == 0)
                 return topIconsInactive[topIconIndex];
             else
                 return topIconsActive[topIconIndex];

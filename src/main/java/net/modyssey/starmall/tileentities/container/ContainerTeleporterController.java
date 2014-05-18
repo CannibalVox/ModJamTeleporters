@@ -184,7 +184,7 @@ public class ContainerTeleporterController extends Container {
 
         Market market = markets[marketIndex];
 
-        if (controller.getPadCount() == 0)
+        if (controller.getPadCount() < 9)
             return;
 
         //For markets that pull their cart from the pad, we should refresh the pad before selling or whatever

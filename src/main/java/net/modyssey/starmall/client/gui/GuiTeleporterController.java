@@ -147,7 +147,7 @@ public class GuiTeleporterController extends GuiContainer {
 
         int total = containerTeleporterController.getCurrentMarket().getCartTotal();
 
-        exchangeButton.setEnabled(controller.getPadCount() > 0 && containerTeleporterController.getCurrentMarket().getCartSize() != 0 && (!containerTeleporterController.getCurrentMarket().requiresBalanceToExchange() || total <= controller.getCredits()));
+        exchangeButton.setEnabled(controller.getPadCount() >= 9 && containerTeleporterController.getCurrentMarket().getCartSize() != 0 && (!containerTeleporterController.getCurrentMarket().requiresBalanceToExchange() || total <= controller.getCredits()));
         exchangeButton.drawButton(mouseX - x - 9, mouseY - y - 25);
         drawCenteredString(fontRendererObj, StatCollector.translateToLocal(containerTeleporterController.getCurrentMarket().getMarketTitle()), 152, 169, 0xFFFFFF);
 

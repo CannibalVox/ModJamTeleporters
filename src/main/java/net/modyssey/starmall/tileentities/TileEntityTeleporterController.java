@@ -72,7 +72,22 @@ public class TileEntityTeleporterController extends TileEntity {
         deregisterPad(x, y, z);
 
         PadData location = new PadData(x, y, z);
+
+        if (padLocations.size() == 8) {
+            for (int i = 0; i < padLocations.size(); i++) {
+                PadData pad = padLocations.get(i);
+                int metadata = getWorldObj().getBlockMetadata(pad.getPadXCoord(), pad.getPadYCoord(), pad.getPadZCoord());
+                getWorldObj().setBlockMetadataWithNotify(pad.getPadXCoord(), pad.getPadYCoord(), pad.getPadZCoord(), metadata | 8, 3);
+            }
+        }
+
         padLocations.add(location);
+
+        if (padLocations.size() >= 9) {
+            int metadata = getWorldObj().getBlockMetadata(location.getPadXCoord(), location.getPadYCoord(), location.getPadZCoord());
+            getWorldObj().setBlockMetadataWithNotify(location.getPadXCoord(), location.getPadYCoord(), location.getPadZCoord(), metadata | 8, 3);
+        }
+
         getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
@@ -105,6 +120,14 @@ public class TileEntityTeleporterController extends TileEntity {
 
             if (loc.getPadXCoord() == x && loc.getPadYCoord() == y && loc.getPadZCoord() == z) {
                 padLocations.remove(i);
+            }
+        }
+
+        if (padLocations.size() < 9) {
+            for (int i = 0; i < padLocations.size(); i++) {
+                PadData loc = padLocations.get(i);
+                int metadata = getWorldObj().getBlockMetadata(loc.getPadXCoord(), loc.getPadYCoord(), loc.getPadZCoord());
+                getWorldObj().setBlockMetadataWithNotify(loc.getPadXCoord(), loc.getPadYCoord(), loc.getPadZCoord(), metadata & 7, 3);
             }
         }
 
