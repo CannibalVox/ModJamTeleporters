@@ -9,10 +9,7 @@ import net.minecraft.world.World;
 import net.modyssey.starmall.markets.Market;
 import net.modyssey.starmall.markets.IMarketFactory;
 import net.modyssey.starmall.markets.stock.StockList;
-import net.modyssey.starmall.network.ModysseyNetwork;
-import net.modyssey.starmall.network.TransmitCartRemoveItemPacket;
-import net.modyssey.starmall.network.TransmitCartUpdatePacket;
-import net.modyssey.starmall.network.TransmitFullCartPacket;
+import net.modyssey.starmall.network.*;
 import net.modyssey.starmall.tileentities.TileEntityTeleporterController;
 import net.modyssey.starmall.tileentities.io.PadData;
 
@@ -222,7 +219,7 @@ public class ContainerTeleporterController extends Container {
         controller.getWorldObj().playSoundEffect(controller.xCoord + 0.5f, controller.yCoord + 0.5f, controller.zCoord + 0.5f, "starmall:signal", 1.0f, 1.0f);
 
         SpawnTransmatParticlePacket packet = new SpawnTransmatParticlePacket(controller.xCoord, controller.yCoord, controller.zCoord);
-        ModysseyNetwork.sendToPlayer(packet, player);
+        ModysseyNetwork.sendToVicinity(packet, controller, 45);
     }
 
     private int exchangeStack(Market market, int cartIndex, boolean forceExchange) {

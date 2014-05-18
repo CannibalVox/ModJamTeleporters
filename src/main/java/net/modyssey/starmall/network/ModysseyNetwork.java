@@ -18,6 +18,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.tileentity.TileEntity;
 
 import java.util.EnumMap;
 
@@ -38,6 +39,7 @@ public class ModysseyNetwork extends FMLIndexedMessageToMessageCodec<ModysseyPac
         INSTANCE.addDiscriminator(4, RequestMarketExchangePacket.class);
         INSTANCE.addDiscriminator(5, RequestCartRemovePacket.class);
         INSTANCE.addDiscriminator(6, TransmitCartRemoveItemPacket.class);
+        INSTANCE.addDiscriminator(7, SpawnTransmatParticlePacket.class);
 
         channels.putAll(NetworkRegistry.INSTANCE.newChannel("ModysseyTeleporters", INSTANCE));
     }
@@ -79,6 +81,14 @@ public class ModysseyNetwork extends FMLIndexedMessageToMessageCodec<ModysseyPac
     public static void sendToPlayer(ModysseyPacket packet, EntityPlayer player) {
         channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
         channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
+        channels.get(Side.SERVER).writeAndFlush(packet);
+    }
+
+    public static void sendToVicinity(ModysseyPacket packet, TileEntity entity, double distance) {
+        channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
+
+        NetworkRegistry.TargetPoint vicinity = new NetworkRegistry.TargetPoint(entity.getWorldObj().provider.dimensionId, entity.xCoord + 0.5, entity.yCoord + 0.5, entity.zCoord + 0.5, distance);
+        channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(vicinity);
         channels.get(Side.SERVER).writeAndFlush(packet);
     }
 }
