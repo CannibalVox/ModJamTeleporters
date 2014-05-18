@@ -8,6 +8,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.modyssey.starmall.ModysseyStarMall;
 import net.modyssey.starmall.tileentities.io.PadData;
 
 import java.util.ArrayList;
@@ -78,6 +79,7 @@ public class TileEntityTeleporterController extends TileEntity {
                 PadData pad = padLocations.get(i);
                 int metadata = getWorldObj().getBlockMetadata(pad.getPadXCoord(), pad.getPadYCoord(), pad.getPadZCoord());
                 getWorldObj().setBlockMetadataWithNotify(pad.getPadXCoord(), pad.getPadYCoord(), pad.getPadZCoord(), metadata | 8, 3);
+                getWorldObj().notifyBlockChange(pad.getPadXCoord(), pad.getPadYCoord(), pad.getPadZCoord(), ModysseyStarMall.teleporterPad);
             }
         }
 
@@ -86,6 +88,7 @@ public class TileEntityTeleporterController extends TileEntity {
         if (padLocations.size() >= 9) {
             int metadata = getWorldObj().getBlockMetadata(location.getPadXCoord(), location.getPadYCoord(), location.getPadZCoord());
             getWorldObj().setBlockMetadataWithNotify(location.getPadXCoord(), location.getPadYCoord(), location.getPadZCoord(), metadata | 8, 3);
+            getWorldObj().notifyBlockChange(location.getPadXCoord(), location.getPadYCoord(), location.getPadZCoord(), ModysseyStarMall.teleporterPad);
         }
 
         getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -128,6 +131,7 @@ public class TileEntityTeleporterController extends TileEntity {
                 PadData loc = padLocations.get(i);
                 int metadata = getWorldObj().getBlockMetadata(loc.getPadXCoord(), loc.getPadYCoord(), loc.getPadZCoord());
                 getWorldObj().setBlockMetadataWithNotify(loc.getPadXCoord(), loc.getPadYCoord(), loc.getPadZCoord(), metadata & 7, 3);
+                getWorldObj().notifyBlockChange(loc.getPadXCoord(), loc.getPadYCoord(), loc.getPadZCoord(), ModysseyStarMall.teleporterPad);
             }
         }
 
